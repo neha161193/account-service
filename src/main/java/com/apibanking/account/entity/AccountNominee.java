@@ -10,10 +10,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Nominee {
+@Table(name="account_nominee")
+public class AccountNominee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    
@@ -21,15 +23,15 @@ public class Nominee {
     private boolean optForNominee;
     private String name;
     @NotNull
-    @OneToOne(mappedBy = "nominee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Address address;
+    @OneToOne(mappedBy = "accountNominee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AccountAddress address;
     private String residenceTelephone;
     private String relationWithApplicant;
     private LocalDate dateOfBirth;
     private String mobileNumber;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     public Long getId() {
         return id;
@@ -49,10 +51,10 @@ public class Nominee {
     public void setName(String name) {
         this.name = name;
     }
-    public Address getAddress() {
+    public AccountAddress getAddress() {
         return address;
     }
-    public void setAddress(Address address) {
+    public void setAddress(AccountAddress address) {
         this.address = address;
     }
     public String getResidenceTelephone() {
@@ -79,10 +81,11 @@ public class Nominee {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
+    public Account getAccount() {
+        return account;
     }
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
+    public void setAccount(Account account) {
+        this.account = account;
     }
+
 }

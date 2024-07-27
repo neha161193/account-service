@@ -105,17 +105,16 @@ public class Address implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
-    }
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
-    }
     public Nominee getNominee() {
         return nominee;
     }
     public void setNominee(Nominee nominee) {
         this.nominee = nominee;
     }
-
+    public SavingAccountRequest getSavingAccountRequest() {
+        return savingAccountRequest;
+    }
+    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
+        this.savingAccountRequest = savingAccountRequest;
+    }
 }

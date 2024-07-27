@@ -45,7 +45,7 @@ import jakarta.validation.constraints.NotNull;
 public class SavingAccountRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String applicationNo;
     @NotNull
     private String applicantFirstName;
@@ -103,14 +103,6 @@ public class SavingAccountRequest implements Serializable {
     private Nominee nominee;
     @NotNull
     private BigDecimal requiredAverageBalance;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getApplicationNo() {
         return applicationNo;
@@ -294,6 +286,14 @@ public class SavingAccountRequest implements Serializable {
 
     public void setStatus(AccountStatus status) {
         this.status = status;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
 }

@@ -10,6 +10,7 @@ public class UpdateAccountStatusDTO {
     @NotNull
     private AccountStatus status;
     private String applicationNo;
+    private String interestRate;
 
     public AccountType getType() {
         return type;
@@ -40,6 +41,12 @@ public class UpdateAccountStatusDTO {
     }
     public void setApplicationNo(String applicationNo) {
         this.applicationNo = applicationNo;
+    }
+    public String getInterestRate() {
+        return interestRate;
+    }
+    public void setInterestRate(String interestRate) {
+        this.interestRate = interestRate;
     }
     
 }

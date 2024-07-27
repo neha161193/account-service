@@ -1,22 +1,31 @@
 package com.apibanking.account.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 import com.apibanking.accountopening.savings.dto.AccountStatus;
 import com.apibanking.accountopening.savings.dto.AccountType;
-import com.apibanking.accountopening.savings.entity.Address;
 
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Account {
+public class Account implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotNull
     private String accountNumber;
 
@@ -29,6 +38,7 @@ public class Account {
     @NotNull
     private String aadhaarNo;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private AccountType accountType;
     @NotNull
     private BigDecimal accountBalance;
@@ -36,23 +46,29 @@ public class Account {
     @NotNull
     private String interestRate;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
     @NotNull
     private LocalDate accountOpeningDate;
     private LocalDate accountClosingDate;
     @NotNull
     private String accountHolderName;
+    @JsonbTransient
     @NotNull
-    private List<Address> accountHolderAddress;
-    @NotNull
-    private Contact accountHolderContact;
-    @NotNull
-    private Nominee nomineeDetail;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AccountAddress> address;
     @JsonbTransient
     @NotNull
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private DebitCardDetail debitCardDetail;
-
+    private AccountContact contact;
+    @JsonbTransient
+    @NotNull
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AccountNominee nomineeDetail;
+    @JsonbTransient
+    @NotNull
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private AccountDebitCardDetail debitCardDetail;
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -83,22 +99,22 @@ public class Account {
     public void setAadhaarNo(String aadhaarNo) {
         this.aadhaarNo = aadhaarNo;
     }
-    public String getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
     }
-    public void setAccountType(String accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
-    public String getAccountBalance() {
+    public BigDecimal getAccountBalance() {
         return accountBalance;
     }
-    public void setAccountBalance(String accountBalance) {
+    public void setAccountBalance(BigDecimal accountBalance) {
         this.accountBalance = accountBalance;
     }
-    public String getAccountMinimumBalance() {
+    public BigDecimal getAccountMinimumBalance() {
         return accountMinimumBalance;
     }
-    public void setAccountMinimumBalance(String accountMinimumBalance) {
+    public void setAccountMinimumBalance(BigDecimal accountMinimumBalance) {
         this.accountMinimumBalance = accountMinimumBalance;
     }
     public String getInterestRate() {
@@ -107,22 +123,22 @@ public class Account {
     public void setInterestRate(String interestRate) {
         this.interestRate = interestRate;
     }
-    public String getStatus() {
+    public AccountStatus getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(AccountStatus status) {
         this.status = status;
     }
-    public String getAccountOpeningDate() {
+    public LocalDate getAccountOpeningDate() {
         return accountOpeningDate;
     }
-    public void setAccountOpeningDate(String accountOpeningDate) {
+    public void setAccountOpeningDate(LocalDate accountOpeningDate) {
         this.accountOpeningDate = accountOpeningDate;
     }
-    public String getAccountClosingDate() {
+    public LocalDate getAccountClosingDate() {
         return accountClosingDate;
     }
-    public void setAccountClosingDate(String accountClosingDate) {
+    public void setAccountClosingDate(LocalDate accountClosingDate) {
         this.accountClosingDate = accountClosingDate;
     }
     public String getAccountHolderName() {
@@ -131,23 +147,36 @@ public class Account {
     public void setAccountHolderName(String accountHolderName) {
         this.accountHolderName = accountHolderName;
     }
-    public String getAccountHolderAddress() {
-        return accountHolderAddress;
-    }
-    public void setAccountHolderAddress(String accountHolderAddress) {
-        this.accountHolderAddress = accountHolderAddress;
-    }
-    public String getAccountHolderContact() {
-        return accountHolderContact;
-    }
-    public void setAccountHolderContact(String accountHolderContact) {
-        this.accountHolderContact = accountHolderContact;
-    }
-    public String getNomineeDetail() {
+ 
+    public AccountNominee getNomineeDetail() {
         return nomineeDetail;
     }
-    public void setNomineeDetail(String nomineeDetail) {
+    public void setNomineeDetail(AccountNominee nomineeDetail) {
         this.nomineeDetail = nomineeDetail;
+    }
+    public AccountDebitCardDetail getDebitCardDetail() {
+        return debitCardDetail;
+    }
+    public void setDebitCardDetail(AccountDebitCardDetail debitCardDetail) {
+        this.debitCardDetail = debitCardDetail;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public AccountContact getContact() {
+        return contact;
+    }
+    public void setContact(AccountContact contact) {
+        this.contact = contact;
+    }
+    public List<AccountAddress> getAddress() {
+        return address;
+    }
+    public void setAddress(List<AccountAddress> address) {
+        this.address = address;
     }
 
     

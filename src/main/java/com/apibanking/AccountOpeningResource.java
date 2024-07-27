@@ -4,7 +4,6 @@ import com.apibanking.accountopening.savings.dto.AccountOpeningStatusDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountResponseDTO;
 import com.apibanking.accountopening.savings.dto.UpdateAccountStatusDTO;
-import com.apibanking.accountopening.savings.entity.SavingAccountRequest;
 import com.apibanking.accountopening.savings.repository.SavingAccountRequestRepository;
 import com.apibanking.accountopening.service.AccountOpeningService;
 
@@ -20,6 +19,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/accounts")
 public class AccountOpeningResource {
@@ -46,7 +46,8 @@ public class AccountOpeningResource {
 
     @PATCH
     @Produces(MediaType.APPLICATION_JSON)
-    public void updateAccountRequest(@Valid UpdateAccountStatusDTO accountStatusDto) {
+    public Response updateAccountRequest(@Valid UpdateAccountStatusDTO accountStatusDto) {
          service.updateAccount(accountStatusDto);
+         return Response.status(Response.Status.ACCEPTED).build();
     }
 }

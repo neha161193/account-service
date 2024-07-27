@@ -14,11 +14,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-public class Address implements Serializable {
+@Table(name="account_address")
+public class AccountAddress implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,12 +46,12 @@ public class Address implements Serializable {
     @NotNull
     private String country;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nominee_id")
-    private Nominee nominee;
+    private AccountNominee accountNominee;
 
     public Long getId() {
         return id;
@@ -105,17 +107,18 @@ public class Address implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
+
+    public Account getAccount() {
+        return account;
     }
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
+    public void setAccount(Account account) {
+        this.account = account;
     }
-    public Nominee getNominee() {
-        return nominee;
+    public AccountNominee getAccountNominee() {
+        return accountNominee;
     }
-    public void setNominee(Nominee nominee) {
-        this.nominee = nominee;
+    public void setAccountNominee(AccountNominee accountNominee) {
+        this.accountNominee = accountNominee;
     }
 
 }

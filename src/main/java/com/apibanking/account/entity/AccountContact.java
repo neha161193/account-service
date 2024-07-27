@@ -9,12 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-public class Contact implements Serializable {
+@Table(name="account_contact")
+public class AccountContact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;   
@@ -34,8 +36,8 @@ public class Contact implements Serializable {
     private String mobileNumberServiceProvider;
     private boolean instaAlert;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     public Long getId() {
         return id;
@@ -93,11 +95,13 @@ public class Contact implements Serializable {
         this.instaAlert = instaAlert;
     }
 
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
+    public void setAccount(Account account) {
+        this.account = account;
     }
+
+    
 }
