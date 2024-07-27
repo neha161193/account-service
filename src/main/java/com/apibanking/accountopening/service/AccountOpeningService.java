@@ -66,22 +66,27 @@ public class AccountOpeningService {
             Account account = modelMapper.map(savingAccount, Account.class);
             AccountContact accountContact = modelMapper.map(savingAccount.getContact(), AccountContact.class);
             accountContact.setId(null);
+            accountContact.setAccount(account);
             account.setContact(accountContact);
             AccountNominee accountNominee = modelMapper.map(savingAccount.getNominee(), AccountNominee.class);
             accountNominee.setId(null);
             accountNominee.getAddress().setId(null);
+            accountNominee.setAccount(account);
+            accountNominee.getAddress().setAccountNominee(accountNominee);
             account.setNomineeDetail(accountNominee);
             List<AccountAddress> accountAddresses = modelMapper.map(savingAccount.getAddress(),
                     new TypeToken<List<AccountAddress>>() {
                     }.getType());
                     for (AccountAddress accountAddress :accountAddresses){
                         accountAddress.setId(null);
+                        accountAddress.setAccount(account);
                     }
             account.setAddress(accountAddresses);
             account.setId(null);
 
             AccountDebitCardDetail accountDebitCardDetail = modelMapper.map(savingAccount.getDebitCardDetail(), AccountDebitCardDetail.class);
             accountDebitCardDetail.setId(null);
+            accountDebitCardDetail.setAccount(account);
             account.setDebitCardDetail(accountDebitCardDetail);
             account.setAccountOpeningDate(LocalDate.now());
             account.setAccountHolderName(savingAccount.getApplicantFirstName() + " " + savingAccount.getApplicantLastName());
