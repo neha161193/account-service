@@ -25,7 +25,7 @@ import com.apibanking.accountopening.savings.dto.SavingAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountResponseDTO;
 import com.apibanking.accountopening.savings.dto.UpdateAccountStatusDTO;
 import com.apibanking.accountopening.savings.entity.Address;
-import com.apibanking.accountopening.savings.entity.SavingAccountRequest;
+import com.apibanking.accountopening.savings.entity.AccountOpeningRequest;
 import com.apibanking.accountopening.savings.repository.SavingAccountRequestRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +48,7 @@ public class AccountOpeningService {
 
     @Transactional
     public AccountOpeningStatusDTO getAccount(String applicationNo){
-        SavingAccountRequest account =  repository.findByApplicationNo(applicationNo);
+        AccountOpeningRequest account =  repository.findByApplicationNo(applicationNo);
         AccountOpeningStatusDTO status = modelMapper.map(account, AccountOpeningStatusDTO.class);
         status.setType(account.getAccountType());
         return status;
@@ -56,7 +56,7 @@ public class AccountOpeningService {
 
     @Transactional
     public void updateAccount(UpdateAccountStatusDTO updateAccountStatusDto){
-        SavingAccountRequest savingAccount =  repository.findByApplicationNo(updateAccountStatusDto.getApplicationNo());
+        AccountOpeningRequest savingAccount =  repository.findByApplicationNo(updateAccountStatusDto.getApplicationNo());
         if (savingAccount != null) {
             savingAccount.setAccountNo(updateAccountStatusDto.getAccountNo());
             savingAccount.setCustomerId(updateAccountStatusDto.getCustomerId());
@@ -100,29 +100,31 @@ public class AccountOpeningService {
 
     @Transactional
     public SavingAccountResponseDTO persist(SavingAccountRequestDTO accountDto) throws JsonProcessingException{
-        SavingAccountRequest accountRequest = modelMapper.map(accountDto, SavingAccountRequest.class);
+        List<Account> account = accountRepository.findByPanNoAndAadhaarNo(accountDto.getPanNo(), accountDto.getAadhaarNo());
+        //TODO: handle exception
+        AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
 
         List<Address> addressList = new ArrayList<>();
         for (com.apibanking.accountopening.savings.dto.Address address : accountDto.getAddress()) {
             Address addressEntity = modelMapper.map(address, Address.class);
-            addressEntity.setSavingAccountRequest(accountRequest);
+            addressEntity.setAccountOpeningRequest(accountRequest);
             addressList.add(addressEntity);
         }
 
         Contact contact = accountDto.getContact();
         com.apibanking.accountopening.savings.entity.Contact contactEntity = modelMapper.map(contact,
                 com.apibanking.accountopening.savings.entity.Contact.class);
-                contactEntity.setSavingAccountRequest(accountRequest);
+                contactEntity.setAccountOpeningRequest(accountRequest);
 
         DebitCardDetail debitCardDto = accountDto.getDebitCardDetail();
         com.apibanking.accountopening.savings.entity.DebitCardDetail debitCardDetailEntity = modelMapper.map(debitCardDto,
                 com.apibanking.accountopening.savings.entity.DebitCardDetail.class);
-        debitCardDetailEntity.setSavingAccountRequest(accountRequest);
+        debitCardDetailEntity.setAccountOpeningRequest(accountRequest);
 
         Nominee nomineeDto = accountDto.getNominee();
         com.apibanking.accountopening.savings.entity.Nominee nomineeEntity = modelMapper.map(nomineeDto,
                 com.apibanking.accountopening.savings.entity.Nominee.class);
-        nomineeEntity.setSavingAccountRequest(accountRequest);
+        nomineeEntity.setAccountOpeningRequest(accountRequest);
         nomineeEntity.getAddress().setNominee(nomineeEntity);
         addressList.add(nomineeEntity.getAddress());
         

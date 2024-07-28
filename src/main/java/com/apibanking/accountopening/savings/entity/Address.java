@@ -44,8 +44,8 @@ public class Address implements Serializable {
     @NotNull
     private String country;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
+    @JoinColumn(name = "accountOpeningRequest_id")
+    private AccountOpeningRequest accountOpeningRequest;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nominee_id")
@@ -111,10 +111,11 @@ public class Address implements Serializable {
     public void setNominee(Nominee nominee) {
         this.nominee = nominee;
     }
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
+    public AccountOpeningRequest getAccountOpeningRequest() {
+        return accountOpeningRequest;
     }
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
+    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
+        this.accountOpeningRequest = accountOpeningRequest;
     }
+
 }

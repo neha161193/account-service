@@ -28,8 +28,8 @@ public class Nominee {
     private LocalDate dateOfBirth;
     private String mobileNumber;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
+    @JoinColumn(name = "accountOpeningRequest_id")
+    private AccountOpeningRequest accountOpeningRequest;
 
     public Long getId() {
         return id;
@@ -79,10 +79,11 @@ public class Nominee {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
+    public AccountOpeningRequest getAccountOpeningRequest() {
+        return accountOpeningRequest;
     }
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
+    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
+        this.accountOpeningRequest = accountOpeningRequest;
     }
+
 }

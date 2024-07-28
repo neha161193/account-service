@@ -34,8 +34,8 @@ public class Contact implements Serializable {
     private String mobileNumberServiceProvider;
     private boolean instaAlert;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
+    @JoinColumn(name = "accountOpeningRequest_id")
+    private AccountOpeningRequest accountOpeningRequest;
 
     public Long getId() {
         return id;
@@ -93,11 +93,12 @@ public class Contact implements Serializable {
         this.instaAlert = instaAlert;
     }
 
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
+    public AccountOpeningRequest getAccountOpeningRequest() {
+        return accountOpeningRequest;
     }
 
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
+    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
+        this.accountOpeningRequest = accountOpeningRequest;
     }
+    
 }

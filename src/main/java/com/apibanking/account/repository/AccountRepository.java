@@ -9,7 +9,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class AccountRepository implements PanacheRepository<Account> {
@@ -22,6 +21,15 @@ public class AccountRepository implements PanacheRepository<Account> {
         query.setParameter("customerId", customerId);
         return query.getResultList();
     }
+
+    public List<Account> findByPanNoAndAadhaarNo(String panNo, String aadhaarNo) {
+        String jpql = "SELECT a FROM Account a WHERE a.panNo = :panNo and a.aadhaarNo = :aadhaarNo";
+        TypedQuery<Account> query = em.createQuery(jpql, Account.class);
+        query.setParameter("panNo", panNo);
+        query.setParameter("aadhaarNo", aadhaarNo);
+        return query.getResultList();
+    }
+
     public Account findByCustomerIdAndAccountNo(String customerId, String accountNo) {
         String jpql = "SELECT a FROM Account a WHERE a.customerId = :customerId and a.accountNo = :accountNo";
         TypedQuery<Account> query = em.createQuery(jpql, Account.class);

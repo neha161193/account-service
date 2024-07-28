@@ -39,10 +39,10 @@ import jakarta.validation.constraints.NotNull;
  * record into master account
  */
 @Entity
-@Table(name = "SavingAccountRequest", indexes = {
+@Table(name = "AccountOpeningRequest", indexes = {
     @Index(name = "idx_applicationNo", columnList = "applicationNo")
 })
-public class SavingAccountRequest implements Serializable {
+public class AccountOpeningRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -87,19 +87,19 @@ public class SavingAccountRequest implements Serializable {
     private OperatingType operatingInstruction;
     @JsonbTransient
     @NotNull
-    @OneToMany(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Address> address;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Contact contact;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private DebitCardDetail debitCardDetail;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Nominee nominee;
     @NotNull
     private BigDecimal requiredAverageBalance;
