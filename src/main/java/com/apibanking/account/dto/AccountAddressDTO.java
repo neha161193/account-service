@@ -1,10 +1,14 @@
-package com.apibanking.accountopening.savings.dto;
+package com.apibanking.account.dto;
+
+import java.io.Serializable;
+
+import com.apibanking.accountopening.savings.dto.AddressType;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
 
-public class Address {
+public class AccountAddressDTO implements Serializable {
+
     @NotNull
     private AddressType addressType;
     @NotNull
@@ -25,6 +29,7 @@ public class Address {
     private String state;
     @NotNull
     private String country;
+
     public AddressType getAddressType() {
         return addressType;
     }

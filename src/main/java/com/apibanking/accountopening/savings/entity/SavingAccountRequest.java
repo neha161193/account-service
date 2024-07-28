@@ -60,7 +60,7 @@ public class SavingAccountRequest implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    private String accountNumber;
+    private String accountNo;
     @NotNull
     private LocalDateTime requestTimestamp = LocalDateTime.now();
     private LocalDateTime responseTimestamp;
@@ -166,14 +166,6 @@ public class SavingAccountRequest implements Serializable {
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
     }
 
     public LocalDateTime getRequestTimestamp() {
@@ -294,6 +286,14 @@ public class SavingAccountRequest implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
     
 }

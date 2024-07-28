@@ -58,7 +58,7 @@ public class AccountOpeningService {
     public void updateAccount(UpdateAccountStatusDTO updateAccountStatusDto){
         SavingAccountRequest savingAccount =  repository.findByApplicationNo(updateAccountStatusDto.getApplicationNo());
         if (savingAccount != null) {
-            savingAccount.setAccountNumber(updateAccountStatusDto.getAccountNumber());
+            savingAccount.setAccountNo(updateAccountStatusDto.getAccountNo());
             savingAccount.setCustomerId(updateAccountStatusDto.getCustomerId());
             savingAccount.setStatus(updateAccountStatusDto.getStatus());
             repository.persist(savingAccount);
@@ -68,12 +68,14 @@ public class AccountOpeningService {
             accountContact.setId(null);
             accountContact.setAccount(account);
             account.setContact(accountContact);
+
             AccountNominee accountNominee = modelMapper.map(savingAccount.getNominee(), AccountNominee.class);
             accountNominee.setId(null);
             accountNominee.getAddress().setId(null);
             accountNominee.setAccount(account);
             accountNominee.getAddress().setAccountNominee(accountNominee);
             account.setNomineeDetail(accountNominee);
+
             List<AccountAddress> accountAddresses = modelMapper.map(savingAccount.getAddress(),
                     new TypeToken<List<AccountAddress>>() {
                     }.getType());

@@ -1,46 +1,20 @@
-package com.apibanking.account.entity;
+package com.apibanking.account.dto;
 
 import java.time.LocalDate;
 
-import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name="account_nominee")
-public class AccountNominee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;    
+public class AccountNomineeDTO {
     @NotNull
     private boolean optForNominee;
     private String name;
-    @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountNominee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private AccountAddress address;
+    private AccountAddressDTO address;
     private String residenceTelephone;
     private String relationWithApplicant;
     private LocalDate dateOfBirth;
     private String mobileNumber;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
-    private Account account;
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+   
     public boolean isOptForNominee() {
         return optForNominee;
     }
@@ -52,12 +26,6 @@ public class AccountNominee {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public AccountAddress getAddress() {
-        return address;
-    }
-    public void setAddress(AccountAddress address) {
-        this.address = address;
     }
     public String getResidenceTelephone() {
         return residenceTelephone;
@@ -83,11 +51,10 @@ public class AccountNominee {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
-    public Account getAccount() {
-        return account;
+    public AccountAddressDTO getAddress() {
+        return address;
     }
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAddress(AccountAddressDTO address) {
+        this.address = address;
     }
-
 }

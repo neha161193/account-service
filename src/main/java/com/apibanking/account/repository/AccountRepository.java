@@ -1,31 +1,32 @@
 package com.apibanking.account.repository;
 
+import java.util.List;
+
 import com.apibanking.account.entity.Account;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
-public class AccountRepository implements PanacheRepository<Account>{
+public class AccountRepository implements PanacheRepository<Account> {
+    @PersistenceContext
+    EntityManager em;
 
-
-    public Account findByApplicationNo(String applicationNo) {
-        return find("applicationNo", applicationNo).firstResult();
+    public List<Account> findByCustomerId(String customerId) {
+        String jpql = "SELECT a FROM Account a WHERE a.customerId = :customerId";
+        TypedQuery<Account> query = em.createQuery(jpql, Account.class);
+        query.setParameter("customerId", customerId);
+        return query.getResultList();
     }
-
-    public Account findByCustomerId(String customerId) {
-        return find("customerId", customerId).firstResult();
-    }
-
-    public Account findByPanNo(String panNo) {
-        return find("panNo", panNo).firstResult();
-    }
-
-    public Account findByAadhaarNo(String aadhaarNo) {
-        return find("aadhaarNo", aadhaarNo).firstResult();
-    }
-
-    public Account findByPanNoAndAadhaarNo(String panNo, String aadhaarNo) {
-        return find("panNo", panNo,"aadhaarNo", aadhaarNo).firstResult();
+    public Account findByCustomerIdAndAccountNo(String customerId, String accountNo) {
+        String jpql = "SELECT a FROM Account a WHERE a.customerId = :customerId and a.accountNo = :accountNo";
+        TypedQuery<Account> query = em.createQuery(jpql, Account.class);
+        query.setParameter("customerId", customerId);
+        query.setParameter("accountNo", accountNo);
+        return query.getSingleResult();
     }
 }

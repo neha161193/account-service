@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Pattern;
 public class AuthorizedSignatoryDetail {
     private Applicant name;
     private Address address;
-        @NotNull
+    @NotNull
     @NotBlank
     private String nationality;
 

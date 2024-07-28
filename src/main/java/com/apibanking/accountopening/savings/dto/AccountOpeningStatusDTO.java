@@ -6,7 +6,7 @@ public class AccountOpeningStatusDTO {
     @NotNull
     private AccountType type;
     private String customerId;
-    private String accountNumber;
+    private String accountNo;
     @NotNull
     private AccountStatus status;
 
@@ -22,16 +22,17 @@ public class AccountOpeningStatusDTO {
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
     public AccountStatus getStatus() {
         return status;
     }
     public void setStatus(AccountStatus status) {
         this.status = status;
     }
+    public String getAccountNo() {
+        return accountNo;
+    }
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
+    }
+    
 }

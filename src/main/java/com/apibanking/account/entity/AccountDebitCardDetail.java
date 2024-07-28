@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="account_debitcard")
+@Table(name="account_debitcarddetail")
 public class AccountDebitCardDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
