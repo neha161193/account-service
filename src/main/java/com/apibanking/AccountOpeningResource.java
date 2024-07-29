@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.apibanking.account.dto.AccountDTO;
 import com.apibanking.account.entity.Account;
+import com.apibanking.accountopening.current.dto.CurrentAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.AccountOpeningStatusDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountResponseDTO;
@@ -41,9 +42,19 @@ public class AccountOpeningResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public SavingAccountResponseDTO openAccountRequest(@Valid SavingAccountRequestDTO accountDto)
+    public SavingAccountResponseDTO openSavingAccountRequest(@Valid SavingAccountRequestDTO accountDto)
             throws JsonProcessingException {
-        return service.persist(accountDto);
+        return service.openSavingAccount(accountDto);
+    }
+
+
+    @POST
+    @Path("/current")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public SavingAccountResponseDTO openCurrentAccountRequest(@Valid CurrentAccountRequestDTO accountDto)
+            throws JsonProcessingException {
+        return service.openCurrentAccount(accountDto);
     }
 
     @GET

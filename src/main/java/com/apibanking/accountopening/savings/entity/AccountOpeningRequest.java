@@ -54,7 +54,6 @@ public class AccountOpeningRequest implements Serializable {
     private String applicantLastName;
     @NotNull
     private String panNo;
-    @NotNull
     private String aadhaarNo;
     private String customerId;
     @NotNull
@@ -77,30 +76,31 @@ public class AccountOpeningRequest implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
-    @NotNull
     @Enumerated(EnumType.STRING)
     private GenderType gender;
-    @NotNull
     private String motherMaidenName;
     @NotNull
     @Enumerated(EnumType.STRING)
     private OperatingType operatingInstruction;
     @JsonbTransient
     @NotNull
-    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Address> address;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Contact contact;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private DebitCardDetail debitCardDetail;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Nominee nominee;
+    @JsonbTransient
+    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
+    private List<AuthorizedSignatoryDetail> accountAuthorizedSignatory;
     @NotNull
     private BigDecimal requiredAverageBalance;
 
@@ -295,5 +295,15 @@ public class AccountOpeningRequest implements Serializable {
     public void setAccountNo(String accountNo) {
         this.accountNo = accountNo;
     }
+
+    public List<AuthorizedSignatoryDetail> getAccountAuthorizedSignatory() {
+        return accountAuthorizedSignatory;
+    }
+
+    public void setAccountAuthorizedSignatory(List<AuthorizedSignatoryDetail> accountAuthorizedSignatory) {
+        this.accountAuthorizedSignatory = accountAuthorizedSignatory;
+    }
+
+
     
 }

@@ -1,18 +1,21 @@
-package com.apibanking.accountopening.current.dto;
+package com.apibanking.account.dto;
 
 import java.time.LocalDate;
 
-import com.apibanking.accountopening.savings.dto.Address;
-import com.apibanking.accountopening.savings.dto.Applicant;
 import com.apibanking.accountopening.savings.dto.GenderType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public class AuthorizedSignatoryDetail {
-    private Applicant applicant;
-    private Address address;
+public class AccountAuthorizedSignatoryDTO {
+    @NotNull
+    private String applicantFirstName;
+    private String applicantMiddleName;
+    @NotNull
+    private String applicantLastName;
+    @NotNull
+    private AccountAddressDTO address;
     @NotNull
     @NotBlank
     private String nationality;
@@ -21,6 +24,7 @@ public class AuthorizedSignatoryDetail {
     public String panNo;
     @NotNull
     private GenderType gender;
+    @NotNull
     private String customerId;
     @NotNull
     private LocalDate dateOfBirth;
@@ -28,12 +32,28 @@ public class AuthorizedSignatoryDetail {
     private String email;
     private boolean instaAlert;
 
-    public Address getAddress() {
-        return address;
+    public String getApplicantFirstName() {
+        return applicantFirstName;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setApplicantFirstName(String applicantFirstName) {
+        this.applicantFirstName = applicantFirstName;
+    }
+
+    public String getApplicantMiddleName() {
+        return applicantMiddleName;
+    }
+
+    public void setApplicantMiddleName(String applicantMiddleName) {
+        this.applicantMiddleName = applicantMiddleName;
+    }
+
+    public String getApplicantLastName() {
+        return applicantLastName;
+    }
+
+    public void setApplicantLastName(String applicantLastName) {
+        this.applicantLastName = applicantLastName;
     }
 
     public String getNationality() {
@@ -100,12 +120,11 @@ public class AuthorizedSignatoryDetail {
         this.email = email;
     }
 
-    public Applicant getApplicant() {
-        return applicant;
+    public AccountAddressDTO getAddress() {
+        return address;
     }
 
-    public void setApplicant(Applicant applicant) {
-        this.applicant = applicant;
+    public void setAddress(AccountAddressDTO address) {
+        this.address = address;
     }
-
 }

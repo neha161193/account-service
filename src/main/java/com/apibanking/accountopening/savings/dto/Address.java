@@ -2,7 +2,6 @@ package com.apibanking.accountopening.savings.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
 
 public class Address {
     @NotNull
@@ -25,6 +24,7 @@ public class Address {
     private String state;
     @NotNull
     private String country;
+    
     public AddressType getAddressType() {
         return addressType;
     }

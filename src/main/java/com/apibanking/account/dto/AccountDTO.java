@@ -8,8 +8,6 @@ import java.util.List;
 import com.apibanking.accountopening.savings.dto.AccountStatus;
 import com.apibanking.accountopening.savings.dto.AccountType;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 
 public class AccountDTO implements Serializable {
@@ -21,15 +19,12 @@ public class AccountDTO implements Serializable {
     private String customerId;
     @NotNull
     private String panNo;
-    @NotNull
     private String aadhaarNo;
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    private AccountType type;
     private BigDecimal accountBalance;
     private BigDecimal accountMinimumBalance;
     private String interestRate;
-    @Enumerated(EnumType.STRING)
     private AccountStatus status;
     private LocalDate accountOpeningDate;
     private LocalDate accountClosingDate;
@@ -39,7 +34,8 @@ public class AccountDTO implements Serializable {
     private AccountContactDTO contact;
     private AccountNomineeDTO nomineeDetail;
     private AccountDebitCardDetailDTO debitCardDetail;
-  
+    private List<AccountAuthorizedSignatoryDTO> accountAuthorizedSignatory;
+
     public List<AccountAddressDTO> getAddress() {
         return address;
     }
@@ -87,12 +83,6 @@ public class AccountDTO implements Serializable {
     }
     public void setAadhaarNo(String aadhaarNo) {
         this.aadhaarNo = aadhaarNo;
-    }
-    public AccountType getAccountType() {
-        return accountType;
-    }
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
     }
     public BigDecimal getAccountBalance() {
         return accountBalance;
@@ -143,5 +133,17 @@ public class AccountDTO implements Serializable {
     public void setAccountNo(String accountNo) {
         this.accountNo = accountNo;
     }
-
+    public List<AccountAuthorizedSignatoryDTO> getAccountAuthorizedSignatory() {
+        return accountAuthorizedSignatory;
+    }
+    public void setAccountAuthorizedSignatory(List<AccountAuthorizedSignatoryDTO> accountAuthorizedSignatory) {
+        this.accountAuthorizedSignatory = accountAuthorizedSignatory;
+    }
+    public AccountType getType() {
+        return type;
+    }
+    public void setType(AccountType type) {
+        this.type = type;
+    }
+    
 }

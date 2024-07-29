@@ -37,7 +37,6 @@ public class Account implements Serializable {
     private String customerId;
     @NotNull
     private String panNo;
-    @NotNull
     private String aadhaarNo;
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -59,6 +58,12 @@ public class Account implements Serializable {
     @NotNull
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AccountAddress> address  = new ArrayList<AccountAddress>();
+
+    @JsonbTransient
+    @NotNull
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AccountAuthorizedSignatory> accountAuthorizedSignatory  = new ArrayList<AccountAuthorizedSignatory>();
+
     @JsonbTransient
     @NotNull
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -191,4 +196,11 @@ public class Account implements Serializable {
         this.address.remove(address);
         address.setAccount(null);
     }
+    public List<AccountAuthorizedSignatory> getAccountAuthorizedSignatory() {
+        return accountAuthorizedSignatory;
+    }
+    public void setAccountAuthorizedSignatory(List<AccountAuthorizedSignatory> accountAuthorizedSignatory) {
+        this.accountAuthorizedSignatory = accountAuthorizedSignatory;
+    }
+
 }

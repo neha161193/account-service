@@ -11,10 +11,12 @@ import org.modelmapper.TypeToken;
 
 import com.apibanking.account.entity.Account;
 import com.apibanking.account.entity.AccountAddress;
+import com.apibanking.account.entity.AccountAuthorizedSignatory;
 import com.apibanking.account.entity.AccountContact;
 import com.apibanking.account.entity.AccountDebitCardDetail;
 import com.apibanking.account.entity.AccountNominee;
 import com.apibanking.account.repository.AccountRepository;
+import com.apibanking.accountopening.current.dto.CurrentAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.AccountOpeningStatusDTO;
 import com.apibanking.accountopening.savings.dto.AccountStatus;
 import com.apibanking.accountopening.savings.dto.AccountType;
@@ -25,6 +27,7 @@ import com.apibanking.accountopening.savings.dto.SavingAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountResponseDTO;
 import com.apibanking.accountopening.savings.dto.UpdateAccountStatusDTO;
 import com.apibanking.accountopening.savings.entity.Address;
+import com.apibanking.accountopening.savings.entity.AuthorizedSignatoryDetail;
 import com.apibanking.accountopening.savings.entity.AccountOpeningRequest;
 import com.apibanking.accountopening.savings.repository.SavingAccountRequestRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,6 +39,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @ApplicationScoped
 public class AccountOpeningService {
@@ -86,6 +90,20 @@ public class AccountOpeningService {
             account.setAddress(accountAddresses);
             account.setId(null);
 
+            List<AccountAuthorizedSignatory> authorizedSignatoryList = modelMapper.map(savingAccount.getAccountAuthorizedSignatory(),
+            new TypeToken<List<AccountAuthorizedSignatory>>() {
+            }.getType());
+            for (AccountAuthorizedSignatory accountAuthorizedSignatory :authorizedSignatoryList){
+                accountAuthorizedSignatory.setId(null);
+                accountAuthorizedSignatory.setAccount(account);
+                AccountAddress address = accountAuthorizedSignatory.getAddress();
+                accountAuthorizedSignatory.setAddress(address);
+                address.setId(null);
+                address.setAccountAuthorizedSignatory(accountAuthorizedSignatory);
+            }
+            account.setAccountAuthorizedSignatory(authorizedSignatoryList);
+            account.setId(null);
+
             AccountDebitCardDetail accountDebitCardDetail = modelMapper.map(savingAccount.getDebitCardDetail(), AccountDebitCardDetail.class);
             accountDebitCardDetail.setId(null);
             accountDebitCardDetail.setAccount(account);
@@ -99,9 +117,9 @@ public class AccountOpeningService {
     }
 
     @Transactional
-    public SavingAccountResponseDTO persist(SavingAccountRequestDTO accountDto) throws JsonProcessingException{
-        List<Account> account = accountRepository.findByPanNoAndAadhaarNo(accountDto.getPanNo(), accountDto.getAadhaarNo());
-        //TODO: handle exception
+    public SavingAccountResponseDTO openSavingAccount(SavingAccountRequestDTO accountDto) throws JsonProcessingException{
+        // List<Account> account = accountRepository.findByPanNoAndAadhaarNo(accountDto.getPanNo(), accountDto.getAadhaarNo());
+        // //TODO: handle exception
         AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
 
         List<Address> addressList = new ArrayList<>();
@@ -142,7 +160,7 @@ public class AccountOpeningService {
         accountRequest.setNominee(nomineeEntity);
         accountRequest.setAddress(addressList);
 
-        SavingAccountResponseDTO response = buildResponse(accountDto.getCustomerId());
+        SavingAccountResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
         accountRequest.setResponsePayload(ow.writeValueAsString(response));
         accountRequest.setResponseTimestamp(LocalDateTime.now());
         accountRequest.setApplicationNo(response.getApplicationNo());
@@ -154,14 +172,81 @@ public class AccountOpeningService {
     }
 
     
-    private SavingAccountResponseDTO buildResponse(String customerId){
+    private SavingAccountResponseDTO buildResponse(String customerId, AccountType type){
         SavingAccountResponseDTO response = new SavingAccountResponseDTO();
         response.setCustomerId(customerId);
         response.setApplicationNo(String.valueOf(new Random().nextInt(100000)));
         response.setStatus(AccountStatus.UnderInvestigation);
         response.setProductCode("69869");
-        response.setType(AccountType.Savings);
+        response.setType(type);
         return response;
 
+    }
+
+    @Transactional
+    public SavingAccountResponseDTO openCurrentAccount(@Valid CurrentAccountRequestDTO accountDto) throws JsonProcessingException {
+        AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
+
+        List<Address> addressList = new ArrayList<>();
+        for (com.apibanking.accountopening.savings.dto.Address address : accountDto.getAddress()) {
+            Address addressEntity = modelMapper.map(address, Address.class);
+            addressEntity.setAccountOpeningRequest(accountRequest);
+            addressList.add(addressEntity);
+        }
+
+        List<AuthorizedSignatoryDetail> authorizedSignatoryDetailList = new ArrayList<>();
+        for (com.apibanking.accountopening.current.dto.AuthorizedSignatoryDetail authorizedSignatoryDetail : accountDto.getAuthorizedSignatoryDetail()) {
+            AuthorizedSignatoryDetail authorizedSignatoryDetailEntity = modelMapper.map(authorizedSignatoryDetail, AuthorizedSignatoryDetail.class);
+            authorizedSignatoryDetailEntity.setApplicantFirstName(authorizedSignatoryDetail.getApplicant().getFirstName());
+            authorizedSignatoryDetailEntity.setApplicantLastName(authorizedSignatoryDetail.getApplicant().getLastName());
+            authorizedSignatoryDetailEntity.setApplicantMiddleName(authorizedSignatoryDetail.getApplicant().getMiddleName());
+            authorizedSignatoryDetailEntity.setAccountOpeningRequest(accountRequest);
+            authorizedSignatoryDetailEntity.getAddress().setAuthorizedSignatoryDetail(authorizedSignatoryDetailEntity);
+            authorizedSignatoryDetailList.add(authorizedSignatoryDetailEntity);
+        }
+
+        com.apibanking.accountopening.current.dto.Contact contact = accountDto.getContact();
+        com.apibanking.accountopening.savings.entity.Contact contactEntity = modelMapper.map(contact,
+                com.apibanking.accountopening.savings.entity.Contact.class);
+        contactEntity.setOfficeTelephone(contact.getTelephoneNumber1());
+        contactEntity.setResidenceTelephone(contact.getTelephoneNumber2());
+        contactEntity.setAccountOpeningRequest(accountRequest);
+
+        DebitCardDetail debitCardDto = accountDto.getDebitCardDetail();
+        com.apibanking.accountopening.savings.entity.DebitCardDetail debitCardDetailEntity = modelMapper.map(debitCardDto,
+                com.apibanking.accountopening.savings.entity.DebitCardDetail.class);
+        debitCardDetailEntity.setAccountOpeningRequest(accountRequest);
+
+        Nominee nomineeDto = accountDto.getNominee();
+        com.apibanking.accountopening.savings.entity.Nominee nomineeEntity = modelMapper.map(nomineeDto,
+                com.apibanking.accountopening.savings.entity.Nominee.class);
+        nomineeEntity.setAccountOpeningRequest(accountRequest);
+        nomineeEntity.getAddress().setNominee(nomineeEntity);
+        addressList.add(nomineeEntity.getAddress());
+        
+        ObjectMapper om = new ObjectMapper();
+        om = JsonMapper.builder()
+                .addModule(new JavaTimeModule())
+                .build();
+        ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
+        accountRequest.setAccountType(accountDto.getType());
+        accountRequest.setApplicantFirstName(accountDto.getApplicant().getFirstName());
+        accountRequest.setApplicantLastName(accountDto.getApplicant().getLastName());
+        accountRequest.setRequestPayload(ow.writeValueAsString(accountDto));
+        accountRequest.setContact(contactEntity);
+        accountRequest.setDebitCardDetail(debitCardDetailEntity);
+        accountRequest.setNominee(nomineeEntity);
+        accountRequest.setAddress(addressList);
+        accountRequest.setAccountAuthorizedSignatory(authorizedSignatoryDetailList);
+
+        SavingAccountResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
+        accountRequest.setResponsePayload(ow.writeValueAsString(response));
+        accountRequest.setResponseTimestamp(LocalDateTime.now());
+        accountRequest.setApplicationNo(response.getApplicationNo());
+        accountRequest.setCustomerId(response.getCustomerId());
+        accountRequest.setStatus(response.getStatus());
+        accountRequest.setId(null);
+        repository.persist(accountRequest);
+        return response;
     }
 }

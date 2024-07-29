@@ -6,12 +6,9 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 
-import com.apibanking.account.dto.AccountAddressDTO;
 import com.apibanking.account.dto.AccountDTO;
 import com.apibanking.account.entity.Account;
 import com.apibanking.account.entity.AccountAddress;
-import com.apibanking.account.entity.AccountContact;
-import com.apibanking.account.entity.AccountNominee;
 import com.apibanking.account.repository.AccountAddressRepository;
 import com.apibanking.account.repository.AccountContactRepository;
 import com.apibanking.account.repository.AccountNomineeRepository;
@@ -99,4 +96,4 @@ public class AccountService {
         }
         return accountDTO;
     }
-}
+ }

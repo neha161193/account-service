@@ -48,6 +48,10 @@ public class Address implements Serializable {
     private AccountOpeningRequest accountOpeningRequest;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authorizedSignatoryDetail_id")
+    private AuthorizedSignatoryDetail authorizedSignatoryDetail;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nominee_id")
     private Nominee nominee;
 
@@ -116,6 +120,12 @@ public class Address implements Serializable {
     }
     public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
         this.accountOpeningRequest = accountOpeningRequest;
+    }
+    public AuthorizedSignatoryDetail getAuthorizedSignatoryDetail() {
+        return authorizedSignatoryDetail;
+    }
+    public void setAuthorizedSignatoryDetail(AuthorizedSignatoryDetail authorizedSignatoryDetail) {
+        this.authorizedSignatoryDetail = authorizedSignatoryDetail;
     }
 
 }

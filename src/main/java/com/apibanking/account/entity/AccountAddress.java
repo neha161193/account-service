@@ -52,7 +52,10 @@ public class AccountAddress implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nominee_id")
     private AccountNominee accountNominee;
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accountAuthorizedSignatory_id")
+    private AccountAuthorizedSignatory accountAuthorizedSignatory;
+    
     public Long getId() {
         return id;
     }
@@ -119,6 +122,12 @@ public class AccountAddress implements Serializable {
     }
     public void setAccountNominee(AccountNominee accountNominee) {
         this.accountNominee = accountNominee;
+    }
+    public AccountAuthorizedSignatory getAccountAuthorizedSignatory() {
+        return accountAuthorizedSignatory;
+    }
+    public void setAccountAuthorizedSignatory(AccountAuthorizedSignatory accountAuthorizedSignatory) {
+        this.accountAuthorizedSignatory = accountAuthorizedSignatory;
     }
 
 }
