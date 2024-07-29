@@ -2,7 +2,7 @@ package com.apibanking.accountopening.savings.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public class SavingAccountResponseDTO {
+public class AccountOpeningResponseDTO {
     private String customerId;
     @NotNull
     private String applicationNo;

@@ -7,9 +7,9 @@ import com.apibanking.account.entity.Account;
 import com.apibanking.accountopening.current.dto.CurrentAccountRequestDTO;
 import com.apibanking.accountopening.fixeddeposit.dto.FixedDepositAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.AccountOpeningStatusDTO;
-import com.apibanking.accountopening.savings.dto.SavingAccountRequestDTO;
-import com.apibanking.accountopening.savings.dto.SavingAccountResponseDTO;
-import com.apibanking.accountopening.savings.dto.UpdateAccountStatusDTO;
+import com.apibanking.accountopening.savings.dto.AccountOpeningRequestDTO;
+import com.apibanking.accountopening.savings.dto.AccountOpeningResponseDTO;
+import com.apibanking.accountopening.savings.dto.UpdateAccountOpeningStatusDTO;
 import com.apibanking.accountopening.savings.repository.SavingAccountRequestRepository;
 import com.apibanking.accountopening.service.AccountOpeningService;
 import com.apibanking.accountopening.service.AccountService;
@@ -43,7 +43,7 @@ public class AccountOpeningResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public SavingAccountResponseDTO openSavingAccountRequest(@Valid SavingAccountRequestDTO accountDto)
+    public AccountOpeningResponseDTO openSavingAccountRequest(@Valid AccountOpeningRequestDTO accountDto)
             throws JsonProcessingException {
         return service.openSavingAccount(accountDto);
     }
@@ -53,7 +53,7 @@ public class AccountOpeningResource {
     @Path("/current")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public SavingAccountResponseDTO openCurrentAccountRequest(@Valid CurrentAccountRequestDTO accountDto)
+    public AccountOpeningResponseDTO openCurrentAccountRequest(@Valid CurrentAccountRequestDTO accountDto)
             throws JsonProcessingException {
         return service.openCurrentAccount(accountDto);
     }
@@ -62,7 +62,7 @@ public class AccountOpeningResource {
     @Path("/fd")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public SavingAccountResponseDTO openFixedDepositAccountRequest(@Valid FixedDepositAccountRequestDTO accountDto)
+    public AccountOpeningResponseDTO openFixedDepositAccountRequest(@Valid FixedDepositAccountRequestDTO accountDto)
             throws JsonProcessingException {
         return service.openFixedDepositAccount(accountDto);
     }
@@ -76,7 +76,7 @@ public class AccountOpeningResource {
 
     @PATCH
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateAccountRequest(@Valid UpdateAccountStatusDTO accountStatusDto) {
+    public Response updateAccountRequest(@Valid UpdateAccountOpeningStatusDTO accountStatusDto) {
          service.updateAccount(accountStatusDto);
          return Response.status(Response.Status.ACCEPTED).build();
     }

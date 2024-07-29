@@ -24,9 +24,9 @@ import com.apibanking.accountopening.savings.dto.AccountType;
 import com.apibanking.accountopening.savings.dto.Contact;
 import com.apibanking.accountopening.savings.dto.DebitCardDetail;
 import com.apibanking.accountopening.savings.dto.Nominee;
-import com.apibanking.accountopening.savings.dto.SavingAccountRequestDTO;
-import com.apibanking.accountopening.savings.dto.SavingAccountResponseDTO;
-import com.apibanking.accountopening.savings.dto.UpdateAccountStatusDTO;
+import com.apibanking.accountopening.savings.dto.AccountOpeningRequestDTO;
+import com.apibanking.accountopening.savings.dto.AccountOpeningResponseDTO;
+import com.apibanking.accountopening.savings.dto.UpdateAccountOpeningStatusDTO;
 import com.apibanking.accountopening.savings.entity.Address;
 import com.apibanking.accountopening.savings.entity.AuthorizedSignatoryDetail;
 import com.apibanking.accountopening.savings.entity.AccountOpeningRequest;
@@ -59,7 +59,7 @@ public class AccountOpeningService {
     }
 
     @Transactional
-    public void updateAccount(UpdateAccountStatusDTO updateAccountStatusDto) {
+    public void updateAccount(UpdateAccountOpeningStatusDTO updateAccountStatusDto) {
         AccountOpeningRequest savingAccount = repository.findByApplicationNo(updateAccountStatusDto.getApplicationNo());
         if (savingAccount != null) {
             savingAccount.setAccountNo(updateAccountStatusDto.getAccountNo());
@@ -122,7 +122,7 @@ public class AccountOpeningService {
     }
 
     @Transactional
-    public SavingAccountResponseDTO openSavingAccount(SavingAccountRequestDTO accountDto)
+    public AccountOpeningResponseDTO openSavingAccount(AccountOpeningRequestDTO accountDto)
             throws JsonProcessingException {
         // List<Account> account =
         // accountRepository.findByPanNoAndAadhaarNo(accountDto.getPanNo(),
@@ -168,7 +168,7 @@ public class AccountOpeningService {
         accountRequest.setNominee(nomineeEntity);
         accountRequest.setAddress(addressList);
 
-        SavingAccountResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
+        AccountOpeningResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
         accountRequest.setResponsePayload(ow.writeValueAsString(response));
         accountRequest.setResponseTimestamp(LocalDateTime.now());
         accountRequest.setApplicationNo(response.getApplicationNo());
@@ -179,8 +179,8 @@ public class AccountOpeningService {
         return response;
     }
 
-    private SavingAccountResponseDTO buildResponse(String customerId, AccountType type) {
-        SavingAccountResponseDTO response = new SavingAccountResponseDTO();
+    private AccountOpeningResponseDTO buildResponse(String customerId, AccountType type) {
+        AccountOpeningResponseDTO response = new AccountOpeningResponseDTO();
         response.setCustomerId(customerId);
         response.setApplicationNo(String.valueOf(new Random().nextInt(100000)));
         response.setStatus(AccountStatus.UnderInvestigation);
@@ -191,7 +191,7 @@ public class AccountOpeningService {
     }
 
     @Transactional
-    public SavingAccountResponseDTO openCurrentAccount(@Valid CurrentAccountRequestDTO accountDto)
+    public AccountOpeningResponseDTO openCurrentAccount(@Valid CurrentAccountRequestDTO accountDto)
             throws JsonProcessingException {
         AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
 
@@ -252,7 +252,7 @@ public class AccountOpeningService {
         accountRequest.setAddress(addressList);
         accountRequest.setAccountAuthorizedSignatory(authorizedSignatoryDetailList);
 
-        SavingAccountResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
+        AccountOpeningResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
         accountRequest.setResponsePayload(ow.writeValueAsString(response));
         accountRequest.setResponseTimestamp(LocalDateTime.now());
         accountRequest.setApplicationNo(response.getApplicationNo());
@@ -264,7 +264,7 @@ public class AccountOpeningService {
     }
 
     @Transactional
-    public SavingAccountResponseDTO openFixedDepositAccount(@Valid FixedDepositAccountRequestDTO accountDto)
+    public AccountOpeningResponseDTO openFixedDepositAccount(@Valid FixedDepositAccountRequestDTO accountDto)
             throws JsonProcessingException {
         Account account = accountRepository.findByCustomerIdAndAccountNo(accountDto.getCustomerId(),
                 accountDto.getInstruction().getDebitAccountNumber());
@@ -282,7 +282,7 @@ public class AccountOpeningService {
             accountRequest.setApplicantLastName(accountDto.getApplicant().getLastName());
             accountRequest.setRequestPayload(ow.writeValueAsString(accountDto));
 
-            SavingAccountResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
+            AccountOpeningResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
             accountRequest.setResponsePayload(ow.writeValueAsString(response));
             accountRequest.setResponseTimestamp(LocalDateTime.now());
             accountRequest.setApplicationNo(response.getApplicationNo());

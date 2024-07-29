@@ -2,7 +2,7 @@ package com.apibanking.accountopening.savings.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public class UpdateAccountStatusDTO {
+public class UpdateAccountOpeningStatusDTO {
     @NotNull
     private AccountType type;
     private String customerId;
