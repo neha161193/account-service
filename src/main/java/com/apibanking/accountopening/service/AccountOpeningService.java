@@ -195,7 +195,7 @@ public class AccountOpeningService {
         }
 
         List<AuthorizedSignatoryDetail> authorizedSignatoryDetailList = new ArrayList<>();
-        for (com.apibanking.accountopening.current.dto.AuthorizedSignatoryDetail authorizedSignatoryDetail : accountDto.getAuthorizedSignatoryDetail()) {
+        for (com.apibanking.accountopening.current.dto.AuthorizedSignatoryDetail authorizedSignatoryDetail : accountDto.getAccountAuthorizedSignatory()) {
             AuthorizedSignatoryDetail authorizedSignatoryDetailEntity = modelMapper.map(authorizedSignatoryDetail, AuthorizedSignatoryDetail.class);
             authorizedSignatoryDetailEntity.setApplicantFirstName(authorizedSignatoryDetail.getApplicant().getFirstName());
             authorizedSignatoryDetailEntity.setApplicantLastName(authorizedSignatoryDetail.getApplicant().getLastName());

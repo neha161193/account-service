@@ -47,7 +47,7 @@ public class CurrentAccountRequestDTO {
     private PaymentDetail paymentDetail;
     @NotNull
     @Valid
-    private List<AuthorizedSignatoryDetail> authorizedSignatoryDetail  = new ArrayList<>();
+    private List<AuthorizedSignatoryDetail> accountAuthorizedSignatory  = new ArrayList<>();
     @NotNull
     @Valid
     private DebitCardDetail debitCardDetail;
@@ -136,18 +136,17 @@ public class CurrentAccountRequestDTO {
     public void setApplicant(Applicant applicant) {
         this.applicant = applicant;
     }
-    public List<AuthorizedSignatoryDetail> getAuthorizedSignatoryDetail() {
-        return authorizedSignatoryDetail;
-    }
-    public void setAuthorizedSignatoryDetail(List<AuthorizedSignatoryDetail> authorizedSignatoryDetail) {
-        this.authorizedSignatoryDetail = authorizedSignatoryDetail;
-    }
     public DebitCardDetail getDebitCardDetail() {
         return debitCardDetail;
     }
     public void setDebitCardDetail(DebitCardDetail debitCardDetail) {
         this.debitCardDetail = debitCardDetail;
     }
-    
+    public List<AuthorizedSignatoryDetail> getAccountAuthorizedSignatory() {
+        return accountAuthorizedSignatory;
+    }
+    public void setAccountAuthorizedSignatory(List<AuthorizedSignatoryDetail> accountAuthorizedSignatory) {
+        this.accountAuthorizedSignatory = accountAuthorizedSignatory;
+    } 
     
 }
