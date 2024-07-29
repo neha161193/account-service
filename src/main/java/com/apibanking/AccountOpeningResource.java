@@ -47,8 +47,6 @@ public class AccountOpeningResource {
             throws JsonProcessingException {
         return service.openSavingAccount(accountDto);
     }
-
-
     @POST
     @Path("/current")
     @Consumes(MediaType.APPLICATION_JSON)

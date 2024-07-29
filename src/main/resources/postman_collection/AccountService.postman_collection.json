@@ -644,6 +644,40 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "payments",
+			"item": [
+				{
+					"name": "payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fromAccount\": {\n        \"accountHolderName\": \"Neha Upadhyay\",\n        \"accountNo\": \"19269812698128912\",\n        \"bankName\": \"Yes Bank\",\n        \"bankBranch\": \"Mumbai\",\n        \"ifscCode\": \"YESB0000659\"\n    },\n    \"toAccount\": {\n        \"accountNo\": \"1234678945678909\",\n        \"customerId\": \"123123\"\n    },\n    \"amount\": 1000,\n    \"remarks\": \"Min balance maintain\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
