@@ -40,7 +40,7 @@ public class Account implements Serializable {
     private String aadhaarNo;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    private AccountType type;
     @NotNull
     private BigDecimal accountBalance;
     private BigDecimal accountMinimumBalance;
@@ -100,12 +100,6 @@ public class Account implements Serializable {
     }
     public void setAadhaarNo(String aadhaarNo) {
         this.aadhaarNo = aadhaarNo;
-    }
-    public AccountType getAccountType() {
-        return accountType;
-    }
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
     }
     public BigDecimal getAccountBalance() {
         return accountBalance;
@@ -201,6 +195,12 @@ public class Account implements Serializable {
     }
     public void setAccountAuthorizedSignatory(List<AccountAuthorizedSignatory> accountAuthorizedSignatory) {
         this.accountAuthorizedSignatory = accountAuthorizedSignatory;
+    }
+    public AccountType getType() {
+        return type;
+    }
+    public void setType(AccountType type) {
+        this.type = type;
     }
 
 }

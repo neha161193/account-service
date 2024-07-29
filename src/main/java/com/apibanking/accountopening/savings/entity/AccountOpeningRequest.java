@@ -58,7 +58,7 @@ public class AccountOpeningRequest implements Serializable {
     private String customerId;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    private AccountType type;
     private String accountNo;
     @NotNull
     private LocalDateTime requestTimestamp = LocalDateTime.now();
@@ -158,14 +158,6 @@ public class AccountOpeningRequest implements Serializable {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
-    }
-
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
     }
 
     public LocalDateTime getRequestTimestamp() {
@@ -304,6 +296,11 @@ public class AccountOpeningRequest implements Serializable {
         this.accountAuthorizedSignatory = accountAuthorizedSignatory;
     }
 
+    public AccountType getType() {
+        return type;
+    }
 
-    
+    public void setType(AccountType type) {
+        this.type = type;
+    }
 }

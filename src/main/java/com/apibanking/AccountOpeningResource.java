@@ -5,6 +5,7 @@ import java.util.List;
 import com.apibanking.account.dto.AccountDTO;
 import com.apibanking.account.entity.Account;
 import com.apibanking.accountopening.current.dto.CurrentAccountRequestDTO;
+import com.apibanking.accountopening.fixeddeposit.dto.FixedDepositAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.AccountOpeningStatusDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.SavingAccountResponseDTO;
@@ -55,6 +56,15 @@ public class AccountOpeningResource {
     public SavingAccountResponseDTO openCurrentAccountRequest(@Valid CurrentAccountRequestDTO accountDto)
             throws JsonProcessingException {
         return service.openCurrentAccount(accountDto);
+    }
+
+    @POST
+    @Path("/fd")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public SavingAccountResponseDTO openFixedDepositAccountRequest(@Valid FixedDepositAccountRequestDTO accountDto)
+            throws JsonProcessingException {
+        return service.openFixedDepositAccount(accountDto);
     }
 
     @GET

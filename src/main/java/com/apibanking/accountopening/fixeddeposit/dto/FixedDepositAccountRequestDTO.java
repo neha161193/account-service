@@ -9,7 +9,7 @@ import com.apibanking.accountopening.savings.dto.PaymentDetail;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-public class FixedAccountRequestDTO {
+public class FixedDepositAccountRequestDTO {
     @NotNull
     private AccountType type;
     @NotNull
@@ -30,6 +30,12 @@ public class FixedAccountRequestDTO {
     @Valid
     private Instruction instruction;
 
+    public Instruction getInstruction() {
+        return instruction;
+    }
+    public void setInstruction(Instruction instruction) {
+        this.instruction = instruction;
+    }
     public AccountType getType() {
         return type;
     }

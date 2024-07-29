@@ -45,7 +45,7 @@ public class AccountService {
                 }.getType());
         return accountDTOList;
     }
-
+    
     @Transactional
     public AccountDTO updateAccount(AccountDTO accountDTO) {
         Account account = accountRepository.findByCustomerIdAndAccountNo(accountDTO.getCustomerId(),
