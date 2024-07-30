@@ -31,6 +31,7 @@ import com.apibanking.accountopening.savings.entity.Address;
 import com.apibanking.accountopening.savings.entity.AuthorizedSignatoryDetail;
 import com.apibanking.accountopening.savings.entity.AccountOpeningRequest;
 import com.apibanking.accountopening.savings.repository.SavingAccountRequestRepository;
+import com.apibanking.exception.BusinessErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -123,60 +124,67 @@ public class AccountOpeningService {
 
     @Transactional
     public AccountOpeningResponseDTO openSavingAccount(AccountOpeningRequestDTO accountDto)
-            throws JsonProcessingException {
-        // List<Account> account =
-        // accountRepository.findByPanNoAndAadhaarNo(accountDto.getPanNo(),
-        // accountDto.getAadhaarNo());
-        // //TODO: handle exception
-        AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
+                    throws JsonProcessingException {
 
-        List<Address> addressList = new ArrayList<>();
-        for (com.apibanking.accountopening.savings.dto.Address address : accountDto.getAddress()) {
-            Address addressEntity = modelMapper.map(address, Address.class);
-            addressEntity.setAccountOpeningRequest(accountRequest);
-            addressList.add(addressEntity);
-        }
+            AccountOpeningRequest accountOpeningRequestExist = repository.findByPanNo(
+                            accountDto.getPanNo());
+            if (accountOpeningRequestExist != null) {
+                    throw new BusinessErrorException("This Account Opening Request already exist with status "
+                                    + accountOpeningRequestExist.getStatus() + " for account type "
+                                    + accountOpeningRequestExist.getType());
+            }
 
-        Contact contact = accountDto.getContact();
-        com.apibanking.accountopening.savings.entity.Contact contactEntity = modelMapper.map(contact,
-                com.apibanking.accountopening.savings.entity.Contact.class);
-        contactEntity.setAccountOpeningRequest(accountRequest);
+            AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
 
-        DebitCardDetail debitCardDto = accountDto.getDebitCardDetail();
-        com.apibanking.accountopening.savings.entity.DebitCardDetail debitCardDetailEntity = modelMapper.map(
-                debitCardDto,
-                com.apibanking.accountopening.savings.entity.DebitCardDetail.class);
-        debitCardDetailEntity.setAccountOpeningRequest(accountRequest);
+            List<Address> addressList = new ArrayList<>();
+            for (com.apibanking.accountopening.savings.dto.Address address : accountDto.getAddress()) {
+                    Address addressEntity = modelMapper.map(address, Address.class);
+                    addressEntity.setAccountOpeningRequest(accountRequest);
+                    addressList.add(addressEntity);
+            }
 
-        Nominee nomineeDto = accountDto.getNominee();
-        com.apibanking.accountopening.savings.entity.Nominee nomineeEntity = modelMapper.map(nomineeDto,
-                com.apibanking.accountopening.savings.entity.Nominee.class);
-        nomineeEntity.setAccountOpeningRequest(accountRequest);
-        nomineeEntity.getAddress().setNominee(nomineeEntity);
-        addressList.add(nomineeEntity.getAddress());
+            Contact contact = accountDto.getContact();
+            com.apibanking.accountopening.savings.entity.Contact contactEntity = modelMapper.map(contact,
+                            com.apibanking.accountopening.savings.entity.Contact.class);
+            contactEntity.setAccountOpeningRequest(accountRequest);
 
-        ObjectMapper om = new ObjectMapper();
-        om = JsonMapper.builder()
-                .addModule(new JavaTimeModule())
-                .build();
-        ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
-        accountRequest.setApplicantFirstName(accountDto.getApplicant().getFirstName());
-        accountRequest.setApplicantLastName(accountDto.getApplicant().getLastName());
-        accountRequest.setRequestPayload(ow.writeValueAsString(accountDto));
-        accountRequest.setContact(contactEntity);
-        accountRequest.setDebitCardDetail(debitCardDetailEntity);
-        accountRequest.setNominee(nomineeEntity);
-        accountRequest.setAddress(addressList);
+            DebitCardDetail debitCardDto = accountDto.getDebitCardDetail();
+            com.apibanking.accountopening.savings.entity.DebitCardDetail debitCardDetailEntity = modelMapper
+                            .map(
+                                            debitCardDto,
+                                            com.apibanking.accountopening.savings.entity.DebitCardDetail.class);
+            debitCardDetailEntity.setAccountOpeningRequest(accountRequest);
 
-        AccountOpeningResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
-        accountRequest.setResponsePayload(ow.writeValueAsString(response));
-        accountRequest.setResponseTimestamp(LocalDateTime.now());
-        accountRequest.setApplicationNo(response.getApplicationNo());
-        accountRequest.setCustomerId(response.getCustomerId());
-        accountRequest.setStatus(response.getStatus());
-        accountRequest.setId(null);
-        repository.persist(accountRequest);
-        return response;
+            Nominee nomineeDto = accountDto.getNominee();
+            com.apibanking.accountopening.savings.entity.Nominee nomineeEntity = modelMapper.map(nomineeDto,
+                            com.apibanking.accountopening.savings.entity.Nominee.class);
+            nomineeEntity.setAccountOpeningRequest(accountRequest);
+            nomineeEntity.getAddress().setNominee(nomineeEntity);
+            addressList.add(nomineeEntity.getAddress());
+
+            ObjectMapper om = new ObjectMapper();
+            om = JsonMapper.builder()
+                            .addModule(new JavaTimeModule())
+                            .build();
+            ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
+            accountRequest.setApplicantFirstName(accountDto.getApplicant().getFirstName());
+            accountRequest.setApplicantLastName(accountDto.getApplicant().getLastName());
+            accountRequest.setRequestPayload(ow.writeValueAsString(accountDto));
+            accountRequest.setContact(contactEntity);
+            accountRequest.setDebitCardDetail(debitCardDetailEntity);
+            accountRequest.setNominee(nomineeEntity);
+            accountRequest.setAddress(addressList);
+
+            AccountOpeningResponseDTO response = buildResponse(accountDto.getCustomerId(),
+                            accountDto.getType());
+            accountRequest.setResponsePayload(ow.writeValueAsString(response));
+            accountRequest.setResponseTimestamp(LocalDateTime.now());
+            accountRequest.setApplicationNo(response.getApplicationNo());
+            accountRequest.setCustomerId(response.getCustomerId());
+            accountRequest.setStatus(response.getStatus());
+            accountRequest.setId(null);
+            repository.persist(accountRequest);
+            return response;
     }
 
     private AccountOpeningResponseDTO buildResponse(String customerId, AccountType type) {
@@ -192,75 +200,85 @@ public class AccountOpeningService {
 
     @Transactional
     public AccountOpeningResponseDTO openCurrentAccount(@Valid CurrentAccountRequestDTO accountDto)
-            throws JsonProcessingException {
-        AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
+                    throws JsonProcessingException {
 
-        List<Address> addressList = new ArrayList<>();
-        for (com.apibanking.accountopening.savings.dto.Address address : accountDto.getAddress()) {
-            Address addressEntity = modelMapper.map(address, Address.class);
-            addressEntity.setAccountOpeningRequest(accountRequest);
-            addressList.add(addressEntity);
-        }
+            AccountOpeningRequest accountOpeningRequestExist = repository.findByPanNo(
+                            accountDto.getPanNo());
+            if (accountOpeningRequestExist != null) {
+                    throw new BusinessErrorException("This Account Opening Request already exist with status "
+                                    + accountOpeningRequestExist.getStatus() + " for account type "
+                                    + accountOpeningRequestExist.getType());
+            }
+            AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
 
-        List<AuthorizedSignatoryDetail> authorizedSignatoryDetailList = new ArrayList<>();
-        for (com.apibanking.accountopening.current.dto.AuthorizedSignatoryDetail authorizedSignatoryDetail : accountDto
-                .getAccountAuthorizedSignatory()) {
-            AuthorizedSignatoryDetail authorizedSignatoryDetailEntity = modelMapper.map(authorizedSignatoryDetail,
-                    AuthorizedSignatoryDetail.class);
-            authorizedSignatoryDetailEntity
-                    .setApplicantFirstName(authorizedSignatoryDetail.getApplicant().getFirstName());
-            authorizedSignatoryDetailEntity
-                    .setApplicantLastName(authorizedSignatoryDetail.getApplicant().getLastName());
-            authorizedSignatoryDetailEntity
-                    .setApplicantMiddleName(authorizedSignatoryDetail.getApplicant().getMiddleName());
-            authorizedSignatoryDetailEntity.setAccountOpeningRequest(accountRequest);
-            authorizedSignatoryDetailEntity.getAddress().setAuthorizedSignatoryDetail(authorizedSignatoryDetailEntity);
-            authorizedSignatoryDetailList.add(authorizedSignatoryDetailEntity);
-        }
+            List<Address> addressList = new ArrayList<>();
+            for (com.apibanking.accountopening.savings.dto.Address address : accountDto.getAddress()) {
+                    Address addressEntity = modelMapper.map(address, Address.class);
+                    addressEntity.setAccountOpeningRequest(accountRequest);
+                    addressList.add(addressEntity);
+            }
 
-        com.apibanking.accountopening.current.dto.Contact contact = accountDto.getContact();
-        com.apibanking.accountopening.savings.entity.Contact contactEntity = modelMapper.map(contact,
-                com.apibanking.accountopening.savings.entity.Contact.class);
-        contactEntity.setOfficeTelephone(contact.getTelephoneNumber1());
-        contactEntity.setResidenceTelephone(contact.getTelephoneNumber2());
-        contactEntity.setAccountOpeningRequest(accountRequest);
+            List<AuthorizedSignatoryDetail> authorizedSignatoryDetailList = new ArrayList<>();
+            for (com.apibanking.accountopening.current.dto.AuthorizedSignatoryDetail authorizedSignatoryDetail : accountDto
+                            .getAccountAuthorizedSignatory()) {
+                    AuthorizedSignatoryDetail authorizedSignatoryDetailEntity = modelMapper.map(
+                                    authorizedSignatoryDetail,
+                                    AuthorizedSignatoryDetail.class);
+                    authorizedSignatoryDetailEntity
+                                    .setApplicantFirstName(authorizedSignatoryDetail.getApplicant().getFirstName());
+                    authorizedSignatoryDetailEntity
+                                    .setApplicantLastName(authorizedSignatoryDetail.getApplicant().getLastName());
+                    authorizedSignatoryDetailEntity
+                                    .setApplicantMiddleName(authorizedSignatoryDetail.getApplicant().getMiddleName());
+                    authorizedSignatoryDetailEntity.setAccountOpeningRequest(accountRequest);
+                    authorizedSignatoryDetailEntity.getAddress()
+                                    .setAuthorizedSignatoryDetail(authorizedSignatoryDetailEntity);
+                    authorizedSignatoryDetailList.add(authorizedSignatoryDetailEntity);
+            }
 
-        DebitCardDetail debitCardDto = accountDto.getDebitCardDetail();
-        com.apibanking.accountopening.savings.entity.DebitCardDetail debitCardDetailEntity = modelMapper.map(
-                debitCardDto,
-                com.apibanking.accountopening.savings.entity.DebitCardDetail.class);
-        debitCardDetailEntity.setAccountOpeningRequest(accountRequest);
+            com.apibanking.accountopening.current.dto.Contact contact = accountDto.getContact();
+            com.apibanking.accountopening.savings.entity.Contact contactEntity = modelMapper.map(contact,
+                            com.apibanking.accountopening.savings.entity.Contact.class);
+            contactEntity.setOfficeTelephone(contact.getTelephoneNumber1());
+            contactEntity.setResidenceTelephone(contact.getTelephoneNumber2());
+            contactEntity.setAccountOpeningRequest(accountRequest);
 
-        Nominee nomineeDto = accountDto.getNominee();
-        com.apibanking.accountopening.savings.entity.Nominee nomineeEntity = modelMapper.map(nomineeDto,
-                com.apibanking.accountopening.savings.entity.Nominee.class);
-        nomineeEntity.setAccountOpeningRequest(accountRequest);
-        nomineeEntity.getAddress().setNominee(nomineeEntity);
-        addressList.add(nomineeEntity.getAddress());
+            DebitCardDetail debitCardDto = accountDto.getDebitCardDetail();
+            com.apibanking.accountopening.savings.entity.DebitCardDetail debitCardDetailEntity = modelMapper.map(
+                            debitCardDto,
+                            com.apibanking.accountopening.savings.entity.DebitCardDetail.class);
+            debitCardDetailEntity.setAccountOpeningRequest(accountRequest);
 
-        ObjectMapper om = new ObjectMapper();
-        om = JsonMapper.builder()
-                .addModule(new JavaTimeModule())
-                .build();
-        ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
-        accountRequest.setApplicantFirstName(accountDto.getApplicant().getFirstName());
-        accountRequest.setApplicantLastName(accountDto.getApplicant().getLastName());
-        accountRequest.setRequestPayload(ow.writeValueAsString(accountDto));
-        accountRequest.setContact(contactEntity);
-        accountRequest.setDebitCardDetail(debitCardDetailEntity);
-        accountRequest.setNominee(nomineeEntity);
-        accountRequest.setAddress(addressList);
-        accountRequest.setAccountAuthorizedSignatory(authorizedSignatoryDetailList);
+            Nominee nomineeDto = accountDto.getNominee();
+            com.apibanking.accountopening.savings.entity.Nominee nomineeEntity = modelMapper.map(nomineeDto,
+                            com.apibanking.accountopening.savings.entity.Nominee.class);
+            nomineeEntity.setAccountOpeningRequest(accountRequest);
+            nomineeEntity.getAddress().setNominee(nomineeEntity);
+            addressList.add(nomineeEntity.getAddress());
 
-        AccountOpeningResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
-        accountRequest.setResponsePayload(ow.writeValueAsString(response));
-        accountRequest.setResponseTimestamp(LocalDateTime.now());
-        accountRequest.setApplicationNo(response.getApplicationNo());
-        accountRequest.setCustomerId(response.getCustomerId());
-        accountRequest.setStatus(response.getStatus());
-        accountRequest.setId(null);
-        repository.persist(accountRequest);
-        return response;
+            ObjectMapper om = new ObjectMapper();
+            om = JsonMapper.builder()
+                            .addModule(new JavaTimeModule())
+                            .build();
+            ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
+            accountRequest.setApplicantFirstName(accountDto.getApplicant().getFirstName());
+            accountRequest.setApplicantLastName(accountDto.getApplicant().getLastName());
+            accountRequest.setRequestPayload(ow.writeValueAsString(accountDto));
+            accountRequest.setContact(contactEntity);
+            accountRequest.setDebitCardDetail(debitCardDetailEntity);
+            accountRequest.setNominee(nomineeEntity);
+            accountRequest.setAddress(addressList);
+            accountRequest.setAccountAuthorizedSignatory(authorizedSignatoryDetailList);
+
+            AccountOpeningResponseDTO response = buildResponse(accountDto.getCustomerId(), accountDto.getType());
+            accountRequest.setResponsePayload(ow.writeValueAsString(response));
+            accountRequest.setResponseTimestamp(LocalDateTime.now());
+            accountRequest.setApplicationNo(response.getApplicationNo());
+            accountRequest.setCustomerId(response.getCustomerId());
+            accountRequest.setStatus(response.getStatus());
+            accountRequest.setId(null);
+            repository.persist(accountRequest);
+            return response;
     }
 
     @Transactional
