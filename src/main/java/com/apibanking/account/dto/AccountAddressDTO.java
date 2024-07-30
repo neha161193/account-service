@@ -1,29 +1,15 @@
-package com.apibanking.account.entity;
+package com.apibanking.account.dto;
 
 import java.io.Serializable;
 
 import com.apibanking.accountopening.savings.dto.AddressType;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-@Entity
-public class Address implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class AccountAddressDTO implements Serializable {
+
     @NotNull
-    @Enumerated(EnumType.STRING)
     private AddressType addressType;
     @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9\\s.,#-]*$")
@@ -43,20 +29,7 @@ public class Address implements Serializable {
     private String state;
     @NotNull
     private String country;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nominee_id")
-    private Nominee nominee;
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
     public AddressType getAddressType() {
         return addressType;
     }
@@ -104,18 +77,6 @@ public class Address implements Serializable {
     }
     public void setCountry(String country) {
         this.country = country;
-    }
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
-    }
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
-    }
-    public Nominee getNominee() {
-        return nominee;
-    }
-    public void setNominee(Nominee nominee) {
-        this.nominee = nominee;
     }
 
 }

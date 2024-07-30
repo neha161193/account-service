@@ -2,7 +2,11 @@ package com.apibanking.accountopening.savings.entity;
 
 import java.io.Serializable;
 
+import com.apibanking.accountopening.current.dto.Frequency;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +22,9 @@ public class Contact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;   
+    private boolean emailAlert;
+    @Enumerated(EnumType.STRING)
+    private Frequency emailStatementFrequency;
     @NotNull
     @NotBlank
     private String residenceTelephone;
@@ -34,8 +41,24 @@ public class Contact implements Serializable {
     private String mobileNumberServiceProvider;
     private boolean instaAlert;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "savingAccountRequest_id")
-    private SavingAccountRequest savingAccountRequest;
+    @JoinColumn(name = "accountOpeningRequest_id")
+    private AccountOpeningRequest accountOpeningRequest;
+
+    public boolean isEmailAlert() {
+        return emailAlert;
+    }
+
+    public void setEmailAlert(boolean emailAlert) {
+        this.emailAlert = emailAlert;
+    }
+
+    public Frequency getEmailStatementFrequency() {
+        return emailStatementFrequency;
+    }
+
+    public void setEmailStatementFrequency(Frequency emailStatementFrequency) {
+        this.emailStatementFrequency = emailStatementFrequency;
+    }
 
     public Long getId() {
         return id;
@@ -93,11 +116,11 @@ public class Contact implements Serializable {
         this.instaAlert = instaAlert;
     }
 
-    public SavingAccountRequest getSavingAccountRequest() {
-        return savingAccountRequest;
+    public AccountOpeningRequest getAccountOpeningRequest() {
+        return accountOpeningRequest;
     }
 
-    public void setSavingAccountRequest(SavingAccountRequest savingAccountRequest) {
-        this.savingAccountRequest = savingAccountRequest;
+    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
+        this.accountOpeningRequest = accountOpeningRequest;
     }
 }

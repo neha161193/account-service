@@ -1,12 +1,16 @@
-package com.apibanking.accountopening.savings.dto;
+package com.apibanking.account.dto;
+
+import com.apibanking.accountopening.savings.dto.CardType;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-public class DebitCardDetail {
+public class AccountDebitCardDetailDTO {
+    
     @NotNull
     private boolean optForCard;
     private CardType cardType;
+
+   
     public boolean isOptForCard() {
         return optForCard;
     }
@@ -19,4 +23,5 @@ public class DebitCardDetail {
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
+    
 }

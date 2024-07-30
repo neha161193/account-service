@@ -1,4 +1,4 @@
-package com.apibanking.accountopening.savings.entity;
+package com.apibanking.account.entity;
 
 import java.io.Serializable;
 
@@ -14,11 +14,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-public class Address implements Serializable {
+@Table(name="account_address")
+public class AccountAddress implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,17 +46,16 @@ public class Address implements Serializable {
     @NotNull
     private String country;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accountOpeningRequest_id")
-    private AccountOpeningRequest accountOpeningRequest;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "authorizedSignatoryDetail_id")
-    private AuthorizedSignatoryDetail authorizedSignatoryDetail;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nominee_id")
-    private Nominee nominee;
-
+    private AccountNominee accountNominee;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accountAuthorizedSignatory_id")
+    private AccountAuthorizedSignatory accountAuthorizedSignatory;
+    
     public Long getId() {
         return id;
     }
@@ -109,23 +110,24 @@ public class Address implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-    public Nominee getNominee() {
-        return nominee;
+
+    public Account getAccount() {
+        return account;
     }
-    public void setNominee(Nominee nominee) {
-        this.nominee = nominee;
+    public void setAccount(Account account) {
+        this.account = account;
     }
-    public AccountOpeningRequest getAccountOpeningRequest() {
-        return accountOpeningRequest;
+    public AccountNominee getAccountNominee() {
+        return accountNominee;
     }
-    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
-        this.accountOpeningRequest = accountOpeningRequest;
+    public void setAccountNominee(AccountNominee accountNominee) {
+        this.accountNominee = accountNominee;
     }
-    public AuthorizedSignatoryDetail getAuthorizedSignatoryDetail() {
-        return authorizedSignatoryDetail;
+    public AccountAuthorizedSignatory getAccountAuthorizedSignatory() {
+        return accountAuthorizedSignatory;
     }
-    public void setAuthorizedSignatoryDetail(AuthorizedSignatoryDetail authorizedSignatoryDetail) {
-        this.authorizedSignatoryDetail = authorizedSignatoryDetail;
+    public void setAccountAuthorizedSignatory(AccountAuthorizedSignatory accountAuthorizedSignatory) {
+        this.accountAuthorizedSignatory = accountAuthorizedSignatory;
     }
 
 }

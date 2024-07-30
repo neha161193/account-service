@@ -1,0 +1,683 @@
+{
+	"info": {
+		"_postman_id": "d38bc45a-4040-4497-850b-e1b63d986bc2",
+		"name": "AccountService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4832467"
+	},
+	"item": [
+		{
+			"name": "savings",
+			"item": [
+				{
+					"name": "openSavingAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"applicationNo\", jsonData.applicationNo)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"Savings\",\n    \"applicant\": {\n        \"prefix\": \"Mrs.\",\n        \"firstName\": \"Neha\",\n        \"lastName\": \"Upadhyay\"\n    },\n    \"nationality\": \"Indian\",\n    \"panNo\": \"ADNPU4311N\",\n    \"aadhaarNo\": \"123456789087\",\n    \"consentToLinkAadhaarWithAccount\": true,\n    \"dateOfBirth\": \"1993-11-16\",\n    \"gender\": \"F\",\n    \"motherMaidenName\": \"Saroj Upadhyay\",\n    \"operatingInstruction\": \"Single\",\n    \"address\": [\n        {\n            \"addressType\": \"Mailing\",\n            \"line1\": \"403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Mumbai\",\n            \"state\": \"MH\",\n            \"pinCode\": 400075,\n            \"country\": \"India\"\n        },\n        {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Delhi\",\n            \"state\": \"MH\",\n            \"pinCode\": \"110075\",\n            \"country\": \"India\"\n        }\n    ],\n    \"contact\": {\n        \"residenceTelephone\": \"7219737402\",\n        \"officeTelephone\": \"7219737402\",\n        \"email\": \"neha.upadhyay727@gmail.com\",\n        \"mobileNumber\": \"7219737402\",\n        \"mobileNumberServiceProvider\": \"Airtel\",\n        \"instaAlert\": true\n    },\n    \"customerProfile\": {\n        \"occupation\": \"Salaried\",\n        \"salaried\": {\n            \"employedWith\": \"PvtLtd\"\n        },\n        \"sourceOfFunds\": \"Salary\",\n        \"grossAnnualIncome\": 100000,\n        \"residenceType\": \"RentedOrLeased\"\n    },\n    \"introducer\": {\n        \"name\": \"Man Hattan\",\n        \"customerId\": \"123213\",\n        \"accountOpeningDate\": \"2022-01-01\"\n    },\n    \"paymentDetail\": {\n        \"paymentMode\": \"Cheque\",\n        \"amount\": 1000,\n        \"chequeNo\": \"123456\",\n        \"chequeDate\": \"2024-03-03\",\n        \"bankName\": \"State Bank Of India\",\n        \"bankBranch\": \"Mumbai\"\n    },\n    \"debitCardDetail\": {\n        \"optForCard\": true,\n        \"cardType\": \"Regular\"\n    },\n    \"requiredAverageBalance\": 1000,\n    \"nominee\": {\n        \"optForNominee\": true,\n        \"name\": \"XYZ ABC\",\n        \"address\": {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"Nominee 403\",\n            \"line2\": \"Nominee 403\",\n            \"line3\": \"Nominee 403\",\n            \"city\": \"Nominee403\",\n            \"state\": \"MH\",\n            \"pinCode\": \"400075\",\n            \"country\": \"India\"\n        },\n        \"residenceTelephone\": \"7219737402\",\n        \"relationWithApplicant\": \"mother\",\n        \"dateOfBirth\": \"1993-11-16\",\n        \"mobileNumber\": \"7219737402\"\n    },\n    \"productCode\": \"12345\",\n    \"customerId\":\"123123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkSavingAccountStatus",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/{{applicationNo}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"{{applicationNo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAccountStatus-webhook",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"Savings\",\n    \"accountNo\": \"1234678945678909\",\n    \"customerId\": \"123123\",\n    \"status\":\"Active\",\n    \"applicationNo\":\"{{applicationNo}}\",\n    \"interestRate\":\"7\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAccount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts?customerId=123123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "123123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts?customerId=123123&accountNo=1234678945678909",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "123123"
+								},
+								{
+									"key": "accountNo",
+									"value": "1234678945678909"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAccount-Savings",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"aadhaarNo\": \"123456789087\",\n    \"accountBalance\": 1000.00,\n    \"accountHolderName\": \"Neha Upadhyay\",\n    \"accountNo\": \"1234678945678909\",\n    \"accountOpeningDate\": \"2024-07-28\",\n    \"type\": \"Savings\",\n    \"address\": [\n        {\n            \"addressType\": \"Mailing\",\n            \"city\": \"Mumbai\",\n            \"country\": \"India\",\n            \"line1\": \"new 403\",\n            \"line2\": \"new 403\",\n            \"line3\": \"new 403\",\n            \"pinCode\": \"400075\",\n            \"state\": \"MH\"\n        },\n        {\n            \"addressType\": \"Permanent\",\n            \"city\": \"NewDelhi\",\n            \"country\": \"India\",\n            \"line1\": \"NewP403\",\n            \"line2\": \"NewP403\",\n            \"line3\": \"NewP403\",\n            \"pinCode\": \"110075\",\n            \"state\": \"MH\"\n        }\n    ],\n    \"applicationNo\": \"66854\",\n    \"contact\": {\n        \"email\": \"neha.upadhyay@gmail.com\",\n        \"instaAlert\": true,\n        \"mobileNumber\": \"7219737402\",\n        \"mobileNumberServiceProvider\": \"Airtel\",\n        \"officeTelephone\": \"7219737402\",\n        \"residenceTelephone\": \"7219737402\"\n    },\n    \"customerId\": \"123123\",\n    \"debitCardDetail\": {\n        \"cardType\": \"Regular\",\n        \"optForCard\": true\n    },\n    \"interestRate\": \"7\",\n    \"nomineeDetail\": {\n        \"address\": {\n            \"addressType\": \"Permanent\",\n            \"city\": \"Neha\",\n            \"country\": \"India\",\n            \"line1\": \"Nominee 403\",\n            \"line2\": \"Nominee 403\",\n            \"line3\": \"Nominee 403\",\n            \"pinCode\": \"400075\",\n            \"state\": \"MH\"\n        },\n        \"dateOfBirth\": \"1993-11-16\",\n        \"mobileNumber\": \"7219737402\",\n        \"name\": \"XYZ ABCNeha\",\n        \"optForNominee\": true,\n        \"relationWithApplicant\": \"mother\",\n        \"residenceTelephone\": \"7219737402\"\n    },\n    \"panNo\": \"ADNPU4311N\",\n    \"status\": \"Active\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "current",
+			"item": [
+				{
+					"name": "openCurrentAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"applicationNo\", jsonData.applicationNo)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"Current\",\n    \"applicant\": {\n        \"prefix\": \"Mrs.\",\n        \"firstName\": \"Neha\",\n        \"lastName\": \"Upadhyay\"\n    },\n    \"nationality\": \"Indian\",\n    \"panNo\": \"ADNPU4311N\",\n    \"dateOfBirth\": \"1993-11-16\",\n    \"operatingInstruction\": \"Single\",\n    \"address\": [\n        {\n            \"addressType\": \"Mailing\",\n            \"line1\": \"403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Mumbai\",\n            \"state\": \"MH\",\n            \"pinCode\": 400075,\n            \"country\": \"India\"\n        },\n        {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Delhi\",\n            \"state\": \"MH\",\n            \"pinCode\": \"110075\",\n            \"country\": \"India\"\n        }\n    ],\n    \"contact\": {\n        \"telephoneNumber1\": \"7219737402\",\n        \"telephoneNumber2\": \"7219737402\",\n        \"email\": \"neha.upadhyay727@gmail.com\",\n        \"mobileNumber\": \"7219737402\",\n        \"mobileNumberServiceProvider\": \"Airtel\",\n        \"instaAlert\": true\n    },\n    \"customerProfile\": {\n        \"occupation\": \"SelfEmployed\",\n        \"selfEmployed\":{\n            \"selfEmployedSinceInYears\":2,\n            \"selfEmployedSinceInMonths\":1,\n            \"businessType\":\"ServiceProvider\",\n            \"dateOfIncorporation\":\"2020-01-01\",\n            \"annualTurnOverInLacs\":189261386,\n            \"firm\":\"SoleProprietorship\"\n        },\n        \"sourceOfFunds\": \"Salary\",\n        \"grossAnnualIncome\": 100000,\n        \"residenceType\": \"RentedOrLeased\"\n    },\n    \"introducer\": {\n        \"name\": \"Man Hattan\",\n        \"customerId\": \"123213\",\n        \"accountOpeningDate\": \"2022-01-01\"\n    },\n    \"paymentDetail\": {\n        \"paymentMode\": \"Cheque\",\n        \"amount\": 1000,\n        \"chequeNo\": \"123456\",\n        \"chequeDate\": \"2024-03-03\",\n        \"bankName\": \"State Bank Of India\",\n        \"bankBranch\": \"Mumbai\"\n    },\n    \"debitCardDetail\": {\n        \"optForCard\": true,\n        \"cardType\": \"Regular\"\n    },\n    \"requiredAverageBalance\": 1000,\n    \"nominee\": {\n        \"optForNominee\": true,\n        \"name\": \"XYZ ABC\",\n        \"address\": {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"Nominee 403\",\n            \"line2\": \"Nominee 403\",\n            \"line3\": \"Nominee 403\",\n            \"city\": \"Nominee403\",\n            \"state\": \"MH\",\n            \"pinCode\": \"400075\",\n            \"country\": \"India\"\n        },\n        \"residenceTelephone\": \"7219737402\",\n        \"relationWithApplicant\": \"mother\",\n        \"dateOfBirth\": \"1993-11-16\",\n        \"mobileNumber\": \"7219737402\"\n    },\n    \"accountAuthorizedSignatory\": [\n        {\n            \"applicant\": {\n                \"prefix\": \"Mrs.\",\n                \"firstName\": \"Neha\",\n                \"lastName\": \"Upadhyay\"\n            },\n            \"address\": {\n                \"addressType\": \"Permanent\",\n                \"line1\": \"403\",\n                \"line2\": \"403\",\n                \"line3\": \"403\",\n                \"city\": \"Delhi\",\n                \"state\": \"MH\",\n                \"pinCode\": \"110075\",\n                \"country\": \"India\"\n            },\n            \"nationality\": \"Indian\",\n            \"panNo\": \"ADNPU4311N\",\n            \"dateOfBirth\": \"1993-11-16\",\n            \"gender\": \"F\",\n            \"customerId\": \"123123\",\n            \"email\": \"neha.upadhyay727@gmail.com\",\n            \"mobileNo\": \"7219737402\",\n            \"instaAlert\": true\n        }\n    ],\n    \"productCode\": \"12345\",\n    \"customerId\": \"123123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkCurrentAccountStatus",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/{{applicationNo}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"{{applicationNo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAccountStatus-webhook",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"Current\",\n    \"accountNo\": \"1234678945678908\",\n    \"customerId\": \"123123\",\n    \"status\":\"Active\",\n    \"applicationNo\":\"{{applicationNo}}\",\n    \"interestRate\":\"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAccount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts?customerId=123123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "123123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts?customerId=123123&accountNo=1234678945678908",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "123123"
+								},
+								{
+									"key": "accountNo",
+									"value": "1234678945678908"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAccount-Current",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"Current\",\n    \"accountHolderName\": \"Neha Upadhyay\",\n    \"accountNo\": \"1234678945678908\",\n    \"nationality\": \"Indian\",\n    \"panNo\": \"ADNPU4311N\",\n    \"dateOfBirth\": \"1993-11-16\",\n    \"operatingInstruction\": \"Single\",\n    \"address\": [\n        {\n            \"addressType\": \"Mailing\",\n            \"line1\": \"Current 403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Mumbai\",\n            \"state\": \"MH\",\n            \"pinCode\": 400075,\n            \"country\": \"India\"\n        },\n        {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Current Delhi\",\n            \"state\": \"MH\",\n            \"pinCode\": \"110075\",\n            \"country\": \"India\"\n        }\n    ],\n    \"contact\": {\n        \"officeTelephone\": \"721973740\",\n        \"residenceTelephone\": \"7219737402\",\n        \"email\": \"neha.upadhyay727@gmail.com\",\n        \"mobileNumber\": \"7219737402\",\n        \"mobileNumberServiceProvider\": \"Airtel\",\n        \"instaAlert\": true\n    },\n    \"customerProfile\": {\n        \"occupation\": \"SelfEmployed\",\n        \"selfEmployed\": {\n            \"selfEmployedSinceInYears\": 2,\n            \"selfEmployedSinceInMonths\": 1,\n            \"businessType\": \"ServiceProvider\",\n            \"dateOfIncorporation\": \"2020-01-01\",\n            \"annualTurnOverInLacs\": 189261386,\n            \"firm\": \"SoleProprietorship\"\n        },\n        \"sourceOfFunds\": \"Salary\",\n        \"grossAnnualIncome\": 100000,\n        \"residenceType\": \"RentedOrLeased\"\n    },\n    \"introducer\": {\n        \"name\": \"Man Hattan\",\n        \"customerId\": \"123213\",\n        \"accountOpeningDate\": \"2022-01-01\"\n    },\n    \"paymentDetail\": {\n        \"paymentMode\": \"Cheque\",\n        \"amount\": 1000,\n        \"chequeNo\": \"123456\",\n        \"chequeDate\": \"2024-03-03\",\n        \"bankName\": \"State Bank Of India\",\n        \"bankBranch\": \"Mumbai\"\n    },\n    \"debitCardDetail\": {\n        \"optForCard\": true,\n        \"cardType\": \"Regular\"\n    },\n    \"requiredAverageBalance\": 1000,\n    \"nominee\": {\n        \"optForNominee\": true,\n        \"name\": \"XYZ ABC\",\n        \"address\": {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"Nominee 403\",\n            \"line2\": \"Nominee 403\",\n            \"line3\": \"Nominee 403\",\n            \"city\": \"Nominee403\",\n            \"state\": \"MH\",\n            \"pinCode\": \"400075\",\n            \"country\": \"India\"\n        },\n        \"residenceTelephone\": \"7219737402\",\n        \"relationWithApplicant\": \"mother\",\n        \"dateOfBirth\": \"1993-11-16\",\n        \"mobileNumber\": \"7219737402\"\n    },\n    \"authorizedSignatoryDetail\": [\n        {\n            \"applicant\": {\n                \"prefix\": \"Mrs.\",\n                \"firstName\": \"NehaauthorizedSignatory\",\n                \"lastName\": \"UpadhyayauthorizedSignatory\"\n            },\n            \"address\": {\n                \"addressType\": \"Permanent\",\n                \"line1\": \"403\",\n                \"line2\": \"403\",\n                \"line3\": \"403\",\n                \"city\": \"Delhi\",\n                \"state\": \"MH\",\n                \"pinCode\": \"110075\",\n                \"country\": \"India\"\n            },\n            \"nationality\": \"Indian\",\n            \"panNo\": \"ADNPU4311N\",\n            \"dateOfBirth\": \"1993-11-16\",\n            \"gender\": \"F\",\n            \"customerId\": \"123123\",\n            \"email\": \"neha.upadhyay727@gmail.com\",\n            \"mobileNo\": \"7219737402\",\n            \"instaAlert\": true\n        }\n    ],\n    \"productCode\": \"12345\",\n    \"customerId\": \"123123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "fd",
+			"item": [
+				{
+					"name": "openFDAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"applicationNo\", jsonData.applicationNo)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"FixedDeposit\",\n    \"applicant\": {\n        \"prefix\": \"Mrs.\",\n        \"firstName\": \"Neha\",\n        \"lastName\": \"Upadhyay\"\n    },\n    \"customerId\": \"123123\",\n    \"operatingInstruction\": \"Single\",\n    \"paymentDetail\": {\n        \"paymentMode\": \"Cheque\",\n        \"amount\": 1000,\n        \"chequeNo\": \"123456\",\n        \"chequeDate\": \"2024-03-03\",\n        \"bankName\": \"State Bank Of India\",\n        \"bankBranch\": \"Mumbai\"\n    },\n    \"nominee\": {\n        \"optForNominee\": true,\n        \"name\": \"XYZ ABC\",\n        \"address\": {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"Nominee 403 Authorised\",\n            \"line2\": \"Nominee 403\",\n            \"line3\": \"Nominee 403\",\n            \"city\": \"Nominee403\",\n            \"state\": \"MH\",\n            \"pinCode\": \"400075\",\n            \"country\": \"India\"\n        },\n        \"residenceTelephone\": \"7219737402\",\n        \"relationWithApplicant\": \"mother\",\n        \"dateOfBirth\": \"1993-11-16\",\n        \"mobileNumber\": \"7219737402\"\n    },\n    \"productCode\": \"12345\",\n    \"instruction\":{\n        \"amount\":1000,\n        \"tenure\":{\n            \"months\":12,\n            \"days\":12\n        },\n        \"rateOfInterest\":\"12\",\n        \"interestPayment\":\"Maturity\",\n        \"maturityInstruction\":{\n            \"renewPrincipalAndInterest\":true\n        },\n        \"debitAccountNumber\":\"1234678945678909\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/fd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"fd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkFDAccountStatus",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/{{applicationNo}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"{{applicationNo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAccountStatus-webhook",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"Current\",\n    \"accountNo\": \"1234678945678910\",\n    \"customerId\": \"123123\",\n    \"status\":\"Active\",\n    \"applicationNo\":\"{{applicationNo}}\",\n    \"interestRate\":\"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAccount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts?customerId=123123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "123123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts?customerId=123123&accountNo=1234678945678908",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "123123"
+								},
+								{
+									"key": "accountNo",
+									"value": "1234678945678908"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateFDAccount",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"Current\",\n    \"accountNo\":\"1234678945678908\",\n    \"accountHolderName\":\"Neha Upadhyay\",\n    \"nationality\": \"Indian\",\n    \"panNo\": \"ADNPU4311N\",\n    \"dateOfBirth\": \"1993-11-16\",\n    \"operatingInstruction\": \"Single\",\n    \"address\": [\n        {\n            \"addressType\": \"Mailing\",\n            \"line1\": \"403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Mumbai\",\n            \"state\": \"MH\",\n            \"pinCode\": 400075,\n            \"country\": \"India\"\n        },\n        {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"403\",\n            \"line2\": \"403\",\n            \"line3\": \"403\",\n            \"city\": \"Delhi\",\n            \"state\": \"MH\",\n            \"pinCode\": \"110075\",\n            \"country\": \"India\"\n        }\n    ],\n    \"contact\": {\n        \"officeTelephone\": \"7219737402\",\n        \"residenceTelephone\": \"7219737402\",\n        \"email\": \"neha.upadhyay727@gmail.com\",\n        \"mobileNumber\": \"7219737402\",\n        \"mobileNumberServiceProvider\": \"Airtel\",\n        \"instaAlert\": true\n    },\n    \"customerProfile\": {\n        \"occupation\": \"SelfEmployed\",\n        \"selfEmployed\":{\n            \"selfEmployedSinceInYears\":2,\n            \"selfEmployedSinceInMonths\":1,\n            \"businessType\":\"ServiceProvider\",\n            \"dateOfIncorporation\":\"2020-01-01\",\n            \"annualTurnOverInLacs\":189261386,\n            \"firm\":\"SoleProprietorship\"\n        },\n        \"sourceOfFunds\": \"Salary\",\n        \"grossAnnualIncome\": 100000,\n        \"residenceType\": \"RentedOrLeased\"\n    },\n    \"introducer\": {\n        \"name\": \"Man Hattan\",\n        \"customerId\": \"123213\",\n        \"accountOpeningDate\": \"2022-01-01\"\n    },\n    \"paymentDetail\": {\n        \"paymentMode\": \"Cheque\",\n        \"amount\": 1000,\n        \"chequeNo\": \"123456\",\n        \"chequeDate\": \"2024-03-03\",\n        \"bankName\": \"State Bank Of India\",\n        \"bankBranch\": \"Mumbai\"\n    },\n    \"debitCardDetail\": {\n        \"optForCard\": true,\n        \"cardType\": \"Regular\"\n    },\n    \"requiredAverageBalance\": 1000,\n    \"nominee\": {\n        \"optForNominee\": true,\n        \"name\": \"XYZ ABC\",\n        \"address\": {\n            \"addressType\": \"Permanent\",\n            \"line1\": \"Nominee 403 Authorised\",\n            \"line2\": \"Nominee 403\",\n            \"line3\": \"Nominee 403\",\n            \"city\": \"Nominee403\",\n            \"state\": \"MH\",\n            \"pinCode\": \"400075\",\n            \"country\": \"India\"\n        },\n        \"residenceTelephone\": \"7219737402\",\n        \"relationWithApplicant\": \"mother\",\n        \"dateOfBirth\": \"1993-11-16\",\n        \"mobileNumber\": \"7219737402\"\n    },\n    \"accountAuthorizedSignatory\": [\n        {\n            \"applicant\": {\n                \"prefix\": \"Mrs.\",\n                \"firstName\": \"NehaAuthorised\",\n                \"lastName\": \"Upadhyay\"\n            },\n            \"address\": {\n                \"addressType\": \"Permanent\",\n                \"line1\": \"40Authorised3\",\n                \"line2\": \"403\",\n                \"line3\": \"403\",\n                \"city\": \"Delhi\",\n                \"state\": \"MH\",\n                \"pinCode\": \"110075\",\n                \"country\": \"India\"\n            },\n            \"nationality\": \"Indian\",\n            \"panNo\": \"ADNPU4311N\",\n            \"dateOfBirth\": \"1993-11-16\",\n            \"gender\": \"F\",\n            \"customerId\": \"123123\",\n            \"email\": \"neha.upadhyay727@gmail.com\",\n            \"mobileNo\": \"7219737402\",\n            \"instaAlert\": true\n        }\n    ],\n    \"productCode\": \"12345\",\n    \"customerId\": \"123123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/accounts/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payments",
+			"item": [
+				{
+					"name": "payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fromAccount\": {\n        \"accountHolderName\": \"Neha Upadhyay\",\n        \"accountNo\": \"19269812698128912\",\n        \"bankName\": \"Yes Bank\",\n        \"bankBranch\": \"Mumbai\",\n        \"ifscCode\": \"YESB0000659\"\n    },\n    \"toAccount\": {\n        \"accountNo\": \"1234678945678909\",\n        \"customerId\": \"123123\"\n    },\n    \"amount\": 1000,\n    \"remarks\": \"Min balance maintain\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

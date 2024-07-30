@@ -39,13 +39,13 @@ import jakarta.validation.constraints.NotNull;
  * record into master account
  */
 @Entity
-@Table(name = "SavingAccountRequest", indexes = {
+@Table(name = "AccountOpeningRequest", indexes = {
     @Index(name = "idx_applicationNo", columnList = "applicationNo")
 })
-public class SavingAccountRequest implements Serializable {
+public class AccountOpeningRequest implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String applicationNo;
     @NotNull
     private String applicantFirstName;
@@ -54,13 +54,12 @@ public class SavingAccountRequest implements Serializable {
     private String applicantLastName;
     @NotNull
     private String panNo;
-    @NotNull
     private String aadhaarNo;
     private String customerId;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AccountType accountType;
-    private String accountNumber;
+    private AccountType type;
+    private String accountNo;
     @NotNull
     private LocalDateTime requestTimestamp = LocalDateTime.now();
     private LocalDateTime responseTimestamp;
@@ -77,40 +76,33 @@ public class SavingAccountRequest implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
-    @NotNull
     @Enumerated(EnumType.STRING)
     private GenderType gender;
-    @NotNull
     private String motherMaidenName;
     @NotNull
     @Enumerated(EnumType.STRING)
     private OperatingType operatingInstruction;
     @JsonbTransient
     @NotNull
-    @OneToMany(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Address> address;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Contact contact;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private DebitCardDetail debitCardDetail;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "savingAccountRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Nominee nominee;
+    @JsonbTransient
+    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
+    private List<AuthorizedSignatoryDetail> accountAuthorizedSignatory;
     @NotNull
     private BigDecimal requiredAverageBalance;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getApplicationNo() {
         return applicationNo;
@@ -166,22 +158,6 @@ public class SavingAccountRequest implements Serializable {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
-    }
-
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
     }
 
     public LocalDateTime getRequestTimestamp() {
@@ -295,5 +271,36 @@ public class SavingAccountRequest implements Serializable {
     public void setStatus(AccountStatus status) {
         this.status = status;
     }
-    
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
+    }
+
+    public List<AuthorizedSignatoryDetail> getAccountAuthorizedSignatory() {
+        return accountAuthorizedSignatory;
+    }
+
+    public void setAccountAuthorizedSignatory(List<AuthorizedSignatoryDetail> accountAuthorizedSignatory) {
+        this.accountAuthorizedSignatory = accountAuthorizedSignatory;
+    }
+
+    public AccountType getType() {
+        return type;
+    }
+
+    public void setType(AccountType type) {
+        this.type = type;
+    }
 }

@@ -1,31 +1,25 @@
 package com.apibanking.account.repository;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.apibanking.account.entity.Account;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 @ApplicationScoped
-public class AccountRepository implements PanacheRepository<Account>{
+public class AccountRepository implements PanacheRepository<Account> {
+    @PersistenceContext
+    EntityManager em;
 
-
-    public Account findByApplicationNo(String applicationNo) {
-        return find("applicationNo", applicationNo).firstResult();
+    public List<Account> findByCustomerId(String customerId) {
+        return list("customerId", customerId);
     }
-
-    public Account findByCustomerId(String customerId) {
-        return find("customerId", customerId).firstResult();
-    }
-
-    public Account findByPanNo(String panNo) {
-        return find("panNo", panNo).firstResult();
-    }
-
-    public Account findByAadhaarNo(String aadhaarNo) {
-        return find("aadhaarNo", aadhaarNo).firstResult();
-    }
-
-    public Account findByPanNoAndAadhaarNo(String panNo, String aadhaarNo) {
-        return find("panNo", panNo,"aadhaarNo", aadhaarNo).firstResult();
+    public Account findByCustomerIdAndAccountNo(String customerId, String accountNo) {
+        return find("customerId = ?1 and accountNo = ?2", customerId, accountNo).singleResult();
     }
 }

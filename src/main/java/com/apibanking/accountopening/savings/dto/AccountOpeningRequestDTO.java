@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public class SavingAccountRequestDTO {
+public class AccountOpeningRequestDTO {
     @NotNull
     private AccountType type;
     @NotNull
@@ -46,7 +46,6 @@ public class SavingAccountRequestDTO {
     @NotNull
     @Valid
     private CustomerProfile customerProfile;
-    @NotNull
     @Valid
     private Introducer introducer;
     @NotNull
@@ -61,6 +60,7 @@ public class SavingAccountRequestDTO {
     @NotNull
     private BigDecimal requiredAverageBalance;
     private String productCode;
+
     public AccountType getType() {
         return type;
     }
@@ -181,6 +181,4 @@ public class SavingAccountRequestDTO {
     public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
-
-    
 }
