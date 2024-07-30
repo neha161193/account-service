@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.modelmapper.ModelMapper;
@@ -42,6 +43,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.core.Response.Status;
 
 @ApplicationScoped
 public class AccountOpeningService {
@@ -131,7 +133,7 @@ public class AccountOpeningService {
             if (accountOpeningRequestExist != null) {
                     throw new BusinessErrorException("This Account Opening Request already exist with status "
                                     + accountOpeningRequestExist.getStatus() + " for account type "
-                                    + accountOpeningRequestExist.getType());
+                                    + accountOpeningRequestExist.getType(), Status.BAD_REQUEST);
             }
 
             AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
@@ -207,7 +209,7 @@ public class AccountOpeningService {
             if (accountOpeningRequestExist != null) {
                     throw new BusinessErrorException("This Account Opening Request already exist with status "
                                     + accountOpeningRequestExist.getStatus() + " for account type "
-                                    + accountOpeningRequestExist.getType());
+                                    + accountOpeningRequestExist.getType(), Status.BAD_REQUEST);
             }
             AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
 
@@ -286,8 +288,9 @@ public class AccountOpeningService {
             throws JsonProcessingException {
         Account account = accountRepository.findByCustomerIdAndAccountNo(accountDto.getCustomerId(),
                 accountDto.getInstruction().getDebitAccountNumber());
-        if (account != null &&
-                (account.getAccountBalance().compareTo(accountDto.getInstruction().getAmount()) >= 0)
+                
+                
+        if ((account.getAccountBalance().compareTo(accountDto.getInstruction().getAmount()) >= 0)
                 ||
                 (accountDto.getPaymentDetail().getAmount().compareTo(accountDto.getInstruction().getAmount()) >= 0)) {
             AccountOpeningRequest accountRequest = modelMapper.map(accountDto, AccountOpeningRequest.class);
@@ -332,7 +335,7 @@ public class AccountOpeningService {
             accountRequest.setRequiredAverageBalance(accountDto.getInstruction().getAmount());
             accountRequest.setPanNo(account.getPanNo());
             com.apibanking.accountopening.savings.entity.DebitCardDetail debitCardDetail = modelMapper.map(
-                    account.getDebitCardDetail(),
+                account.getDebitCardDetail(),
                     com.apibanking.accountopening.savings.entity.DebitCardDetail.class);
             debitCardDetail.setId(null);
             debitCardDetail.setAccountOpeningRequest(accountRequest);

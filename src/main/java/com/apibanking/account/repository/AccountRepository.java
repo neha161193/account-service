@@ -1,6 +1,7 @@
 package com.apibanking.account.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.apibanking.account.entity.Account;
 
@@ -16,25 +17,9 @@ public class AccountRepository implements PanacheRepository<Account> {
     EntityManager em;
 
     public List<Account> findByCustomerId(String customerId) {
-        String jpql = "SELECT a FROM Account a WHERE a.customerId = :customerId";
-        TypedQuery<Account> query = em.createQuery(jpql, Account.class);
-        query.setParameter("customerId", customerId);
-        return query.getResultList();
+        return list("customerId", customerId);
     }
-
-    public List<Account> findByPanNoAndAadhaarNo(String panNo, String aadhaarNo) {
-        String jpql = "SELECT a FROM Account a WHERE a.panNo = :panNo and a.aadhaarNo = :aadhaarNo";
-        TypedQuery<Account> query = em.createQuery(jpql, Account.class);
-        query.setParameter("panNo", panNo);
-        query.setParameter("aadhaarNo", aadhaarNo);
-        return query.getResultList();
-    }
-
     public Account findByCustomerIdAndAccountNo(String customerId, String accountNo) {
-        String jpql = "SELECT a FROM Account a WHERE a.customerId = :customerId and a.accountNo = :accountNo";
-        TypedQuery<Account> query = em.createQuery(jpql, Account.class);
-        query.setParameter("customerId", customerId);
-        query.setParameter("accountNo", accountNo);
-        return query.getSingleResult();
+        return find("customerId = ?1 and accountNo = ?2", customerId, accountNo).singleResult();
     }
 }

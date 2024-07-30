@@ -13,10 +13,13 @@ import com.apibanking.account.repository.AccountAddressRepository;
 import com.apibanking.account.repository.AccountContactRepository;
 import com.apibanking.account.repository.AccountNomineeRepository;
 import com.apibanking.account.repository.AccountRepository;
+import com.apibanking.exception.BusinessErrorException;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response.Status;
 
 @ApplicationScoped
 public class AccountService {
@@ -35,8 +38,14 @@ public class AccountService {
     public List<AccountDTO> getAllAccounts(String customerId, String accountNo) {
         List<Account> accounts = new ArrayList<Account>();
         if (accountNo != null) {
-            Account account = accountRepository.findByCustomerIdAndAccountNo(customerId, accountNo);
-            accounts.add(account);
+            try{
+                Account account = accountRepository.findByCustomerIdAndAccountNo(customerId, accountNo);
+                accounts.add(account);
+            }
+            catch(NoResultException ex){
+                throw new BusinessErrorException("No Record Found for customerId " + customerId + " and accountNo " + accountNo, 
+                    Status.NOT_FOUND);
+            }
         } else {
             accounts = accountRepository.findByCustomerId(customerId);
         }

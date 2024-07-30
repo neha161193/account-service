@@ -8,7 +8,7 @@ import jakarta.ws.rs.ext.Provider;
 public class BusinessErrorExceptionMapper implements ExceptionMapper<BusinessErrorException> {
     @Override
     public Response toResponse(BusinessErrorException exception) {
-        return Response.status(Response.Status.BAD_REQUEST)
+        return Response.status(exception.getStatusCode())
                        .entity(new ErrorResponse(exception.getMessage(), exception.getDetail()))
                        .build();
     }

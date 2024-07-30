@@ -2,6 +2,7 @@ package com.apibanking;
 
 import com.apibanking.account.payment.dto.PaymentRequestDTO;
 import com.apibanking.account.payment.service.PaymentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -20,13 +21,7 @@ public class PaymentResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response processPayment(PaymentRequestDTO paymentRequest) {
-        try {
+    public Response processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
             return paymentService.processPayment(paymentRequest);
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Payment processing error: " + e.getMessage())
-                           .build();
-        }
     }
 }
