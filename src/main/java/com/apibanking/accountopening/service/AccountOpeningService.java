@@ -197,7 +197,6 @@ public class AccountOpeningService {
         response.setProductCode("69869");
         response.setType(type);
         return response;
-
     }
 
     @Transactional
