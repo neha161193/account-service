@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import org.modelmapper.ModelMapper;
@@ -17,6 +16,7 @@ import com.apibanking.account.entity.AccountContact;
 import com.apibanking.account.entity.AccountDebitCardDetail;
 import com.apibanking.account.entity.AccountNominee;
 import com.apibanking.account.repository.AccountRepository;
+import com.apibanking.account.service.AccountValidator;
 import com.apibanking.accountopening.current.dto.CurrentAccountRequestDTO;
 import com.apibanking.accountopening.fixeddeposit.dto.FixedDepositAccountRequestDTO;
 import com.apibanking.accountopening.savings.dto.AccountOpeningStatusDTO;
@@ -53,6 +53,8 @@ public class AccountOpeningService {
     AccountRepository accountRepository;
     @Inject
     ModelMapper modelMapper;
+    @Inject
+    AccountValidator validator;
 
     @Transactional
     public AccountOpeningStatusDTO getAccount(String applicationNo) {
@@ -127,7 +129,6 @@ public class AccountOpeningService {
     @Transactional
     public AccountOpeningResponseDTO openSavingAccount(AccountOpeningRequestDTO accountDto)
                     throws JsonProcessingException {
-
             AccountOpeningRequest accountOpeningRequestExist = repository.findByPanNo(
                             accountDto.getPanNo());
             if (accountOpeningRequestExist != null) {
@@ -285,10 +286,8 @@ public class AccountOpeningService {
     @Transactional
     public AccountOpeningResponseDTO openFixedDepositAccount(@Valid FixedDepositAccountRequestDTO accountDto)
             throws JsonProcessingException {
-        Account account = accountRepository.findByCustomerIdAndAccountNo(accountDto.getCustomerId(),
-                accountDto.getInstruction().getDebitAccountNumber());
-                
-                
+        Account account = validator.validateCustomerIdAndAccountNo(accountDto.getCustomerId(),
+                accountDto.getInstruction().getDebitAccountNumber());   
         if ((account.getAccountBalance().compareTo(accountDto.getInstruction().getAmount()) >= 0)
                 ||
                 (accountDto.getPaymentDetail().getAmount().compareTo(accountDto.getInstruction().getAmount()) >= 0)) {

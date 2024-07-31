@@ -1,0 +1,92 @@
+{
+    "type": "Saving",
+    "applicant": {
+        "prefix": "Mrs.",
+        "firstName": "Neha",
+        "lastName": "Upadhyay"
+    },
+    "nationality": "Indian",
+    "panNo": "${panNo}",
+    "aadhaarNo": "123456789087",
+    "consentToLinkAadhaarWithAccount": true,
+    "dateOfBirth": "1993-11-16",
+    "gender": "F",
+    "motherMaidenName": "Saroj Upadhyay",
+    "operatingInstruction": "Single",
+    "address": [
+        {
+            "addressType": "Mailing",
+            "line1": "403",
+            "line2": "403",
+            "line3": "403",
+            "city": "Mumbai",
+            "state": "MH",
+            "pinCode": 400075,
+            "country": "India"
+        },
+        {
+            "addressType": "Permanent",
+            "line1": "403",
+            "line2": "403",
+            "line3": "403",
+            "city": "Delhi",
+            "state": "MH",
+            "pinCode": "110075",
+            "country": "India"
+        }
+    ],
+    "contact": {
+        "residenceTelephone": "7219737402",
+        "officeTelephone": "7219737402",
+        "email": "neha.upadhyay727@gmail.com",
+        "mobileNumber": "7219737402",
+        "mobileNumberServiceProvider": "Airtel",
+        "instaAlert": true
+    },
+    "customerProfile": {
+        "occupation": "Salaried",
+        "salaried": {
+            "employedWith": "PvtLtd"
+        },
+        "sourceOfFunds": "Salary",
+        "grossAnnualIncome": 100000,
+        "residenceType": "RentedOrLeased"
+    },
+    "introducer": {
+        "name": "Man Hattan",
+        "customerId": "123213",
+        "accountOpeningDate": "2022-01-01"
+    },
+    "paymentDetail": {
+        "paymentMode": "Cheque",
+        "amount": 1000,
+        "chequeNo": "123456",
+        "chequeDate": "2024-03-03",
+        "bankName": "State Bank Of India",
+        "bankBranch": "Mumbai"
+    },
+    "debitCardDetail": {
+        "optForCard": true,
+        "cardType": "Regular"
+    },
+    "requiredAverageBalance": 1000,
+    "nominee": {
+        "optForNominee": true,
+        "name": "XYZ ABC",
+        "address": {
+            "addressType": "Permanent",
+            "line1": "Nominee 403",
+            "line2": "Nominee 403",
+            "line3": "Nominee 403",
+            "city": "Nominee403",
+            "state": "MH",
+            "pinCode": "400075",
+            "country": "India"
+        },
+        "residenceTelephone": "7219737402",
+        "relationWithApplicant": "mother",
+        "dateOfBirth": "1993-11-16",
+        "mobileNumber": "7219737402"
+    },
+    "productCode": "12345"
+}

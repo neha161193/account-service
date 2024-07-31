@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
 
 public class PaymentDetail {
     @NotNull

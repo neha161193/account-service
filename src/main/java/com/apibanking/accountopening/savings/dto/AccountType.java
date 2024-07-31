@@ -1,7 +1,7 @@
 package com.apibanking.accountopening.savings.dto;
 
 public enum AccountType {
-    Savings,
+    Saving,
     Current,
     FixedDeposit
 }

@@ -1,0 +1,50 @@
+{
+    "type": "FixedDeposit",
+    "applicant": {
+        "prefix": "Mrs.",
+        "firstName": "Neha",
+        "lastName": "Upadhyay"
+    },
+    "customerId": "${customerId}",
+    "operatingInstruction": "Single",
+    "paymentDetail": {
+        "paymentMode": "Cheque",
+        "amount": 10000,
+        "chequeNo": "123456",
+        "chequeDate": "2024-03-03",
+        "bankName": "State Bank Of India",
+        "bankBranch": "Mumbai"
+    },
+    "nominee": {
+        "optForNominee": true,
+        "name": "XYZ ABC",
+        "address": {
+            "addressType": "Permanent",
+            "line1": "Nominee 403 Authorised",
+            "line2": "Nominee 403",
+            "line3": "Nominee 403",
+            "city": "Nominee403",
+            "state": "MH",
+            "pinCode": "400075",
+            "country": "India"
+        },
+        "residenceTelephone": "7219737402",
+        "relationWithApplicant": "mother",
+        "dateOfBirth": "1993-11-16",
+        "mobileNumber": "7219737402"
+    },
+    "productCode": "12345",
+    "instruction":{
+        "amount":1000,
+        "tenure":{
+            "months":12,
+            "days":12
+        },
+        "rateOfInterest":"12",
+        "interestPayment":"Maturity",
+        "maturityInstruction":{
+            "renewPrincipalAndInterest":true
+        },
+        "debitAccountNumber":"${debitAccountNo}"
+    }
+}

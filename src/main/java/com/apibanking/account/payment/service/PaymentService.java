@@ -21,6 +21,7 @@ import com.apibanking.account.payment.dto.Status;
 import com.apibanking.account.payment.entity.Transaction;
 import com.apibanking.account.payment.repository.TransactionRepository;
 import com.apibanking.account.repository.AccountRepository;
+import com.apibanking.account.service.AccountValidator;
 import com.apibanking.exception.BusinessErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,9 +41,10 @@ public class PaymentService {
 
     @Inject
     TransactionRepository transactionRepository;
-
-    @Inject
+@   Inject
     AccountRepository accountRepository;
+    @Inject
+    AccountValidator validator;
     @Inject
     ModelMapper modelMapper;
     
@@ -51,7 +53,7 @@ public class PaymentService {
     @Transactional
     public Response processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
         try {
-            Account account = accountRepository.findByCustomerIdAndAccountNo(
+            Account account = validator.validateCustomerIdAndAccountNo(
                     paymentRequest.getToAccount().getCustomerId(),
                     paymentRequest.getToAccount().getAccountNo());
             ObjectMapper om = new ObjectMapper();

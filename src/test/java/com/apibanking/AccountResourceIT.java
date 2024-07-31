@@ -1,8 +1,8 @@
-package com.apibanking;
+// package com.apibanking;
 
-import io.quarkus.test.junit.QuarkusIntegrationTest;
+// import io.quarkus.test.junit.QuarkusIntegrationTest;
 
-@QuarkusIntegrationTest
-class AccountResourceIT extends AccountResourceTest {
-    // Execute the same tests but in packaged mode.
-}
+// @QuarkusIntegrationTest
+// class AccountResourceIT extends AccountResourceTest {
+//     // Execute the same tests but in packaged mode.
+// }

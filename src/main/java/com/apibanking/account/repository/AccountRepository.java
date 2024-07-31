@@ -1,7 +1,6 @@
 package com.apibanking.account.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.apibanking.account.entity.Account;
 
@@ -9,7 +8,6 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 
 @ApplicationScoped
 public class AccountRepository implements PanacheRepository<Account> {

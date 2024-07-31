@@ -1,0 +1,120 @@
+{
+    "type": "Current",
+    "applicant": {
+        "prefix": "Mrs.",
+        "firstName": "Neha",
+        "lastName": "Upadhyay"
+    },
+    "nationality": "Indian",
+    "panNo": "${panNo}",
+    "dateOfBirth": "1993-11-16",
+    "operatingInstruction": "Single",
+    "address": [
+        {
+            "addressType": "Mailing",
+            "line1": "403",
+            "line2": "403",
+            "line3": "403",
+            "city": "Mumbai",
+            "state": "MH",
+            "pinCode": 400075,
+            "country": "India"
+        },
+        {
+            "addressType": "Permanent",
+            "line1": "403",
+            "line2": "403",
+            "line3": "403",
+            "city": "Delhi",
+            "state": "MH",
+            "pinCode": "110075",
+            "country": "India"
+        }
+    ],
+    "contact": {
+        "telephoneNumber1": "7219737402",
+        "telephoneNumber2": "7219737402",
+        "email": "neha.upadhyay727@gmail.com",
+        "mobileNumber": "7219737402",
+        "mobileNumberServiceProvider": "Airtel",
+        "instaAlert": true
+    },
+    "customerProfile": {
+        "occupation": "SelfEmployed",
+        "selfEmployed":{
+            "selfEmployedSinceInYears":2,
+            "selfEmployedSinceInMonths":1,
+            "businessType":"ServiceProvider",
+            "dateOfIncorporation":"2020-01-01",
+            "annualTurnOverInLacs":189261386,
+            "firm":"SoleProprietorship"
+        },
+        "sourceOfFunds": "Salary",
+        "grossAnnualIncome": 100000,
+        "residenceType": "RentedOrLeased"
+    },
+    "introducer": {
+        "name": "Man Hattan",
+        "customerId": "123213",
+        "accountOpeningDate": "2022-01-01"
+    },
+    "paymentDetail": {
+        "paymentMode": "Cheque",
+        "amount": 1000,
+        "chequeNo": "123456",
+        "chequeDate": "2024-03-03",
+        "bankName": "State Bank Of India",
+        "bankBranch": "Mumbai"
+    },
+    "debitCardDetail": {
+        "optForCard": true,
+        "cardType": "Regular"
+    },
+    "requiredAverageBalance": 1000,
+    "nominee": {
+        "optForNominee": true,
+        "name": "XYZ ABC",
+        "address": {
+            "addressType": "Permanent",
+            "line1": "Nominee 403",
+            "line2": "Nominee 403",
+            "line3": "Nominee 403",
+            "city": "Nominee403",
+            "state": "MH",
+            "pinCode": "400075",
+            "country": "India"
+        },
+        "residenceTelephone": "7219737402",
+        "relationWithApplicant": "mother",
+        "dateOfBirth": "1993-11-16",
+        "mobileNumber": "7219737402"
+    },
+    "accountAuthorizedSignatory": [
+        {
+            "applicant": {
+                "prefix": "Mrs.",
+                "firstName": "Neha",
+                "lastName": "Upadhyay"
+            },
+            "address": {
+                "addressType": "Permanent",
+                "line1": "403",
+                "line2": "403",
+                "line3": "403",
+                "city": "Delhi",
+                "state": "MH",
+                "pinCode": "110075",
+                "country": "India"
+            },
+            "nationality": "Indian",
+            "panNo": "ADNPU4311N",
+            "dateOfBirth": "1993-11-16",
+            "gender": "F",
+            "customerId": "123123",
+            "email": "neha.upadhyay727@gmail.com",
+            "mobileNo": "7219737402",
+            "instaAlert": true
+        }
+    ],
+    "productCode": "12345"
+}

@@ -1,7 +1,6 @@
 package com.apibanking.accountopening.savings.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 public class Salaried {
     @NotNull

@@ -31,7 +31,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/api/vi/accountservice")
+@Path("/api/v1/accountservice")
 public class AccountOpeningResource {
 
     @Inject

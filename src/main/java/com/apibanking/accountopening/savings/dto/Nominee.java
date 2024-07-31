@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 public class Nominee {
     @NotNull
