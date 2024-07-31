@@ -1,0 +1,64 @@
+{
+    "aadhaarNo": "123456789087",
+    "accountBalance": 1000.00,
+    "accountHolderName": "Neha Upadhyay",
+    "accountNo": "${accountNo}",
+    "accountOpeningDate": "2024-07-28",
+    "type": "${accountType}",
+    "address": [
+        {
+            "addressType": "Mailing",
+            "city": "Mumbai",
+            "country": "India",
+            "line1": "new 403",
+            "line2": "new 403",
+            "line3": "new 403",
+            "pinCode": "400075",
+            "state": "MH"
+        },
+        {
+            "addressType": "Permanent",
+            "city": "NewDelhi",
+            "country": "India",
+            "line1": "NewP403",
+            "line2": "NewP403",
+            "line3": "NewP403",
+            "pinCode": "110075",
+            "state": "MH"
+        }
+    ],
+    "contact": {
+        "email": "${email}",
+        "instaAlert": true,
+        "mobileNumber": "${mobileNo}",
+        "mobileNumberServiceProvider": "Airtel",
+        "officeTelephone": "7219737402",
+        "residenceTelephone": "7219737402"
+    },
+    "customerId": "${customerId}",
+    "debitCardDetail": {
+        "cardType": "Regular",
+        "optForCard": true
+    },
+    "interestRate": "7",
+    "nomineeDetail": {
+        "address": {
+            "addressType": "Permanent",
+            "city": "New Delhi",
+            "country": "India",
+            "line1": "Nominee 403",
+            "line2": "Nominee 403",
+            "line3": "Nominee 403",
+            "pinCode": "400075",
+            "state": "MH"
+        },
+        "dateOfBirth": "1993-11-16",
+        "mobileNumber": "7219737402",
+        "name": "XYZ ABCNeha",
+        "optForNominee": true,
+        "relationWithApplicant": "mother",
+        "residenceTelephone": "7219737402"
+    },
+    "panNo": "DDNPU4311D",
+    "status": "Active"
+}
