@@ -23,6 +23,8 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
+    private String transactionReferenceNo;
+    @NotNull
     private LocalDateTime requestTimestamp;
     @NotNull
     private String fromAccountNo;
@@ -46,6 +48,9 @@ public class Transaction {
     @Column(columnDefinition = "json")
     @ColumnTransformer(write = "?::jsonb")
     private String requestPayload;
+    @JsonRawValue
+    @Column(columnDefinition = "json")
+    @ColumnTransformer(write = "?::jsonb")
     private String responsePayload;
     private LocalDateTime responseTimestamp;
 
@@ -126,6 +131,12 @@ public class Transaction {
     }
     public void setResponseTimestamp(LocalDateTime responseTimestamp) {
         this.responseTimestamp = responseTimestamp;
+    }
+    public String getTransactionReferenceNo() {
+        return transactionReferenceNo;
+    }
+    public void setTransactionReferenceNo(String transactionReferenceNo) {
+        this.transactionReferenceNo = transactionReferenceNo;
     }
     
 }

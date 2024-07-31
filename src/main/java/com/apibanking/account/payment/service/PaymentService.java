@@ -8,14 +8,15 @@ import jakarta.ws.rs.core.Response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 
 import com.apibanking.account.entity.Account;
 import com.apibanking.account.payment.dto.PaymentRequestDTO;
+import com.apibanking.account.payment.dto.PaymentResponseDTO;
 import com.apibanking.account.payment.dto.Status;
 import com.apibanking.account.payment.entity.Transaction;
 import com.apibanking.account.payment.repository.TransactionRepository;
@@ -70,21 +71,28 @@ public class PaymentService {
             if (paymentRequest.getAmount().compareTo(BigDecimal.ZERO) > 0) {
                 LOG.infof("Processing payment: Account=%s, Amount=%.2f", paymentRequest.getToAccount().getAccountNo(),
                         paymentRequest.getAmount());
-                transaction.setResponsePayload(successMessage);
                 transaction.setResponseTimestamp(LocalDateTime.now());
                 transaction.setStatus(Status.Success);
-                transactionRepository.persist(transaction);
+
+                PaymentResponseDTO response = buildResponse(successMessage, Status.Success);
+
+                transaction.setResponsePayload(ow.writeValueAsString(response));
+                transaction.setTransactionReferenceNo(response.getTransactionReferenceNo());
                 account.setAccountBalance(account.getAccountBalance().add(paymentRequest.getAmount()));
                 accountRepository.persist(account);
-                return Response.ok(successMessage).build();
+                transactionRepository.persist(transaction);
+                return Response.ok(response).build();
             } else {
                 LOG.warnf("Payment failed: Account=%s, Amount=%.2f", paymentRequest.getToAccount().getAccountNo(),
                         paymentRequest.getAmount());
                 transaction.setResponseTimestamp(LocalDateTime.now());
-                transaction.setResponsePayload(failureMessage);
                 transaction.setStatus(Status.Failed);
+
+                PaymentResponseDTO response = buildResponse(failureMessage, Status.Failed);
+                transaction.setResponsePayload(ow.writeValueAsString(response));
+                transaction.setTransactionReferenceNo(response.getTransactionReferenceNo());
                 transactionRepository.persist(transaction);
-                return Response.status(Response.Status.BAD_REQUEST).entity(failureMessage).build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
             }
         } catch (NoResultException ex) {
             throw new BusinessErrorException(
@@ -92,5 +100,13 @@ public class PaymentService {
                             + " and accountNo " + paymentRequest.getToAccount().getAccountNo(),
                     Response.Status.NOT_FOUND);
         }
+    }
+
+    private PaymentResponseDTO buildResponse(String remarks, Status status) {
+        PaymentResponseDTO response = new PaymentResponseDTO();
+        response.setRemarks(remarks);
+        response.setStatus(status);
+        response.setTransactionReferenceNo(String.valueOf(new Random().nextInt(100000)));
+        return response;
     }
 }
