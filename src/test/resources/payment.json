@@ -1,0 +1,15 @@
+{
+    "fromAccount": {
+        "accountHolderName": "Neha Upadhyay",
+        "accountNo": "19269812698128912",
+        "bankName": "Yes Bank",
+        "bankBranch": "Mumbai",
+        "ifscCode": "YESB0000659"
+    },
+    "toAccount": {
+        "accountNo": "${accountNo}",
+        "customerId": "${customerId}"
+    },
+    "amount": "${amount}",
+    "remarks": "Min balance maintain"
+}
