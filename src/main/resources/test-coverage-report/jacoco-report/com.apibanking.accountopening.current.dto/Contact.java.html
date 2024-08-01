@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Contact.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.current.dto</a> &gt; <span class="el_source">Contact.java</span></div><h1>Contact.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.current.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+<span class="fc" id="L6">public class Contact {</span>
+    @NotNull
+    @NotBlank
+    private String telephoneNumber1;
+    @NotNull
+    @NotBlank
+    private String telephoneNumber2;
+    @NotNull
+    @NotBlank
+    @Pattern(regexp = &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$&quot;)
+    private String email;
+    @Pattern(regexp = &quot;^\\d{1,14}$&quot;)
+    @NotNull
+    private String mobileNumber;
+    private boolean emailAlert;
+    private Frequency emailStatementFrequency;
+    public String getTelephoneNumber1() {
+<span class="fc" id="L23">        return telephoneNumber1;</span>
+    }
+    public void setTelephoneNumber1(String telephoneNumber1) {
+<span class="fc" id="L26">        this.telephoneNumber1 = telephoneNumber1;</span>
+<span class="fc" id="L27">    }</span>
+    public String getTelephoneNumber2() {
+<span class="fc" id="L29">        return telephoneNumber2;</span>
+    }
+    public void setTelephoneNumber2(String telephoneNumber2) {
+<span class="fc" id="L32">        this.telephoneNumber2 = telephoneNumber2;</span>
+<span class="fc" id="L33">    }</span>
+    public String getEmail() {
+<span class="fc" id="L35">        return email;</span>
+    }
+    public void setEmail(String email) {
+<span class="fc" id="L38">        this.email = email;</span>
+<span class="fc" id="L39">    }</span>
+    public String getMobileNumber() {
+<span class="fc" id="L41">        return mobileNumber;</span>
+    }
+    public void setMobileNumber(String mobileNumber) {
+<span class="fc" id="L44">        this.mobileNumber = mobileNumber;</span>
+<span class="fc" id="L45">    }</span>
+    public boolean isEmailAlert() {
+<span class="fc" id="L47">        return emailAlert;</span>
+    }
+    public void setEmailAlert(boolean emailAlert) {
+<span class="nc" id="L50">        this.emailAlert = emailAlert;</span>
+<span class="nc" id="L51">    }</span>
+    public Frequency getEmailStatementFrequency() {
+<span class="fc" id="L53">        return emailStatementFrequency;</span>
+    }
+    public void setEmailStatementFrequency(Frequency emailStatementFrequency) {
+<span class="nc" id="L56">        this.emailStatementFrequency = emailStatementFrequency;</span>
+<span class="nc" id="L57">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

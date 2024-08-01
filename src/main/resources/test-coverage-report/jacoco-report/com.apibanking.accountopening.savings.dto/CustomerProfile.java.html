@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerProfile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.savings.dto</a> &gt; <span class="el_source">CustomerProfile.java</span></div><h1>CustomerProfile.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.savings.dto;
+
+import java.math.BigDecimal;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+<span class="fc" id="L8">public class CustomerProfile {</span>
+    @NotNull
+    private OccupationType occupation;
+    @Valid
+    private Salaried salaried;
+    @NotNull
+    private FundSource sourceOfFunds;
+    @NotNull
+    private BigDecimal grossAnnualIncome;
+    @NotNull
+    private ResidenceType residenceType;
+    public OccupationType getOccupation() {
+<span class="fc" id="L20">        return occupation;</span>
+    }
+    public void setOccupation(OccupationType occupation) {
+<span class="fc" id="L23">        this.occupation = occupation;</span>
+<span class="fc" id="L24">    }</span>
+    public Salaried getSalaried() {
+<span class="fc" id="L26">        return salaried;</span>
+    }
+    public void setSalaried(Salaried salaried) {
+<span class="fc" id="L29">        this.salaried = salaried;</span>
+<span class="fc" id="L30">    }</span>
+    
+    public FundSource getSourceOfFunds() {
+<span class="fc" id="L33">        return sourceOfFunds;</span>
+    }
+    public void setSourceOfFunds(FundSource sourceOfFunds) {
+<span class="fc" id="L36">        this.sourceOfFunds = sourceOfFunds;</span>
+<span class="fc" id="L37">    }</span>
+    public BigDecimal getGrossAnnualIncome() {
+<span class="fc" id="L39">        return grossAnnualIncome;</span>
+    }
+    public void setGrossAnnualIncome(BigDecimal grossAnnualIncome) {
+<span class="fc" id="L42">        this.grossAnnualIncome = grossAnnualIncome;</span>
+<span class="fc" id="L43">    }</span>
+    public ResidenceType getResidenceType() {
+<span class="fc" id="L45">        return residenceType;</span>
+    }
+    public void setResidenceType(ResidenceType residenceType) {
+<span class="fc" id="L48">        this.residenceType = residenceType;</span>
+<span class="fc" id="L49">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

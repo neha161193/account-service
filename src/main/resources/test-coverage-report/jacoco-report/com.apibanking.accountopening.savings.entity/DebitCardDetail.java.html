@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DebitCardDetail.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.savings.entity</a> &gt; <span class="el_source">DebitCardDetail.java</span></div><h1>DebitCardDetail.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.savings.entity;
+
+import com.apibanking.accountopening.savings.dto.CardType;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+<span class="fc" id="L17">public class DebitCardDetail {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotNull
+    private boolean optForCard;
+    @Enumerated(EnumType.STRING)
+    private CardType cardType;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;accountOpeningRequest_id&quot;)
+    private AccountOpeningRequest accountOpeningRequest;
+    public Long getId() {
+<span class="fc" id="L29">        return id;</span>
+    }
+    public void setId(Long id) {
+<span class="fc" id="L32">        this.id = id;</span>
+<span class="fc" id="L33">    }</span>
+    public boolean isOptForCard() {
+<span class="fc" id="L35">        return optForCard;</span>
+    }
+    public void setOptForCard(boolean optForCard) {
+<span class="fc" id="L38">        this.optForCard = optForCard;</span>
+<span class="fc" id="L39">    }</span>
+    public CardType getCardType() {
+<span class="fc" id="L41">        return cardType;</span>
+    }
+    public void setCardType(CardType cardType) {
+<span class="fc" id="L44">        this.cardType = cardType;</span>
+<span class="fc" id="L45">    }</span>
+    public AccountOpeningRequest getAccountOpeningRequest() {
+<span class="nc" id="L47">        return accountOpeningRequest;</span>
+    }
+    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
+<span class="fc" id="L50">        this.accountOpeningRequest = accountOpeningRequest;</span>
+<span class="fc" id="L51">    }</span>
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

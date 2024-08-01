@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FixedDepositAccountRequestDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.fixeddeposit.dto</a> &gt; <span class="el_source">FixedDepositAccountRequestDTO.java</span></div><h1>FixedDepositAccountRequestDTO.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.fixeddeposit.dto;
+
+import com.apibanking.accountopening.savings.dto.AccountType;
+import com.apibanking.accountopening.savings.dto.Applicant;
+import com.apibanking.accountopening.savings.dto.Nominee;
+import com.apibanking.accountopening.savings.dto.OperatingType;
+import com.apibanking.accountopening.savings.dto.PaymentDetail;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+<span class="fc" id="L12">public class FixedDepositAccountRequestDTO {</span>
+    @NotNull
+    private AccountType type;
+    @NotNull
+    @Valid
+    private Applicant applicant;
+    @NotNull
+    private OperatingType operatingInstruction;
+    @NotNull
+    private String customerId;
+    @NotNull
+    @Valid
+    private PaymentDetail paymentDetail;
+    @NotNull
+    @Valid
+    private Nominee nominee;
+    private String productCode;
+    @NotNull
+    @Valid
+    private Instruction instruction;
+
+    public Instruction getInstruction() {
+<span class="fc" id="L34">        return instruction;</span>
+    }
+    public void setInstruction(Instruction instruction) {
+<span class="fc" id="L37">        this.instruction = instruction;</span>
+<span class="fc" id="L38">    }</span>
+    public AccountType getType() {
+<span class="fc" id="L40">        return type;</span>
+    }
+    public void setType(AccountType type) {
+<span class="fc" id="L43">        this.type = type;</span>
+<span class="fc" id="L44">    }</span>
+    public Applicant getApplicant() {
+<span class="fc" id="L46">        return applicant;</span>
+    }
+    public void setApplicant(Applicant applicant) {
+<span class="fc" id="L49">        this.applicant = applicant;</span>
+<span class="fc" id="L50">    }</span>
+    
+    public OperatingType getOperatingInstruction() {
+<span class="fc" id="L53">        return operatingInstruction;</span>
+    }
+    public void setOperatingInstruction(OperatingType operatingInstruction) {
+<span class="fc" id="L56">        this.operatingInstruction = operatingInstruction;</span>
+<span class="fc" id="L57">    }</span>
+    public String getCustomerId() {
+<span class="fc" id="L59">        return customerId;</span>
+    }
+    public void setCustomerId(String customerId) {
+<span class="fc" id="L62">        this.customerId = customerId;</span>
+<span class="fc" id="L63">    }</span>
+    
+    public PaymentDetail getPaymentDetail() {
+<span class="fc" id="L66">        return paymentDetail;</span>
+    }
+    public void setPaymentDetail(PaymentDetail paymentDetail) {
+<span class="fc" id="L69">        this.paymentDetail = paymentDetail;</span>
+<span class="fc" id="L70">    }</span>
+    
+    public Nominee getNominee() {
+<span class="fc" id="L73">        return nominee;</span>
+    }
+    public void setNominee(Nominee nominee) {
+<span class="fc" id="L76">        this.nominee = nominee;</span>
+<span class="fc" id="L77">    }</span>
+    
+    public String getProductCode() {
+<span class="fc" id="L80">        return productCode;</span>
+    }
+    public void setProductCode(String productCode) {
+<span class="fc" id="L83">        this.productCode = productCode;</span>
+<span class="fc" id="L84">    }</span>
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

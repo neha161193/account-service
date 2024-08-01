@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PaymentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.account.payment.service</a> &gt; <span class="el_source">PaymentService.java</span></div><h1>PaymentService.java</h1><pre class="source lang-java linenums">package com.apibanking.account.payment.service;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Random;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
+import org.modelmapper.ModelMapper;
+
+import com.apibanking.account.entity.Account;
+import com.apibanking.account.payment.dto.PaymentRequestDTO;
+import com.apibanking.account.payment.dto.PaymentResponseDTO;
+import com.apibanking.account.payment.dto.Status;
+import com.apibanking.account.payment.entity.Transaction;
+import com.apibanking.account.payment.repository.TransactionRepository;
+import com.apibanking.account.repository.AccountRepository;
+import com.apibanking.account.service.AccountValidator;
+import com.apibanking.exception.BusinessErrorException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+@ApplicationScoped
+<span class="fc" id="L33">public class PaymentService {</span>
+    @Inject
+    @ConfigProperty(name = &quot;mock.payment.gateway.success.message&quot;)
+    String successMessage;
+
+    @Inject
+    @ConfigProperty(name = &quot;mock.payment.gateway.failure.message&quot;)
+    String failureMessage;
+
+    @Inject
+    TransactionRepository transactionRepository;
+@   Inject
+    AccountRepository accountRepository;
+    @Inject
+    AccountValidator validator;
+    @Inject
+    ModelMapper modelMapper;
+    
+<span class="fc" id="L51">    private static final Logger LOG = Logger.getLogger(PaymentService.class);</span>
+
+    @Transactional
+    public Response processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
+        try {
+<span class="fc" id="L56">            Account account = validator.validateCustomerIdAndAccountNo(</span>
+<span class="fc" id="L57">                    paymentRequest.getToAccount().getCustomerId(),</span>
+<span class="fc" id="L58">                    paymentRequest.getToAccount().getAccountNo());</span>
+<span class="fc" id="L59">            ObjectMapper om = new ObjectMapper();</span>
+<span class="fc" id="L60">            om = JsonMapper.builder()</span>
+<span class="fc" id="L61">                    .addModule(new JavaTimeModule())</span>
+<span class="fc" id="L62">                    .build();</span>
+<span class="fc" id="L63">            ObjectWriter ow = om.writer().withDefaultPrettyPrinter();</span>
+<span class="fc" id="L64">            Transaction transaction = modelMapper.map(paymentRequest, Transaction.class);</span>
+<span class="fc" id="L65">            transaction.setFromAccountBankIFSC(paymentRequest.getFromAccount().getIfscCode());</span>
+<span class="fc" id="L66">            transaction.setFromAccountBankName(paymentRequest.getFromAccount().getBankName());</span>
+<span class="fc" id="L67">            transaction.setFromAccountNo(paymentRequest.getFromAccount().getAccountNo());</span>
+<span class="fc" id="L68">            transaction.setToAccountCustomerId(paymentRequest.getToAccount().getCustomerId());</span>
+<span class="fc" id="L69">            transaction.setToAccountNo(paymentRequest.getToAccount().getAccountNo());</span>
+<span class="fc" id="L70">            transaction.setRequestPayload(ow.writeValueAsString(paymentRequest));</span>
+<span class="fc" id="L71">            transaction.setRequestTimestamp(LocalDateTime.now());</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            if (paymentRequest.getAmount().compareTo(BigDecimal.ZERO) &gt; 0) {</span>
+<span class="fc" id="L74">                LOG.infof(&quot;Processing payment: Account=%s, Amount=%.2f&quot;, paymentRequest.getToAccount().getAccountNo(),</span>
+<span class="fc" id="L75">                        paymentRequest.getAmount());</span>
+<span class="fc" id="L76">                transaction.setResponseTimestamp(LocalDateTime.now());</span>
+<span class="fc" id="L77">                transaction.setStatus(Status.Success);</span>
+
+<span class="fc" id="L79">                PaymentResponseDTO response = buildResponse(successMessage, Status.Success);</span>
+
+<span class="fc" id="L81">                transaction.setResponsePayload(ow.writeValueAsString(response));</span>
+<span class="fc" id="L82">                transaction.setTransactionReferenceNo(response.getTransactionReferenceNo());</span>
+<span class="fc" id="L83">                account.setAccountBalance(account.getAccountBalance().add(paymentRequest.getAmount()));</span>
+<span class="fc" id="L84">                accountRepository.persist(account);</span>
+<span class="fc" id="L85">                transactionRepository.persist(transaction);</span>
+<span class="fc" id="L86">                return Response.ok(response).build();</span>
+            } else {
+<span class="fc" id="L88">                LOG.warnf(&quot;Payment failed: Account=%s, Amount=%.2f&quot;, paymentRequest.getToAccount().getAccountNo(),</span>
+<span class="fc" id="L89">                        paymentRequest.getAmount());</span>
+<span class="fc" id="L90">                transaction.setResponseTimestamp(LocalDateTime.now());</span>
+<span class="fc" id="L91">                transaction.setStatus(Status.Failed);</span>
+
+<span class="fc" id="L93">                PaymentResponseDTO response = buildResponse(failureMessage, Status.Failed);</span>
+<span class="fc" id="L94">                transaction.setResponsePayload(ow.writeValueAsString(response));</span>
+<span class="fc" id="L95">                transaction.setTransactionReferenceNo(response.getTransactionReferenceNo());</span>
+<span class="fc" id="L96">                transactionRepository.persist(transaction);</span>
+<span class="fc" id="L97">                return Response.status(Response.Status.BAD_REQUEST).entity(response).build();</span>
+            }
+<span class="nc" id="L99">        } catch (NoResultException ex) {</span>
+<span class="nc" id="L100">            throw new BusinessErrorException(</span>
+<span class="nc" id="L101">                    &quot;No Record Found for customerId &quot; + paymentRequest.getToAccount().getCustomerId()</span>
+<span class="nc" id="L102">                            + &quot; and accountNo &quot; + paymentRequest.getToAccount().getAccountNo(),</span>
+                    Response.Status.NOT_FOUND);
+        }
+    }
+
+    private PaymentResponseDTO buildResponse(String remarks, Status status) {
+<span class="fc" id="L108">        PaymentResponseDTO response = new PaymentResponseDTO();</span>
+<span class="fc" id="L109">        response.setRemarks(remarks);</span>
+<span class="fc" id="L110">        response.setStatus(status);</span>
+<span class="fc" id="L111">        response.setTransactionReferenceNo(String.valueOf(new Random().nextInt(100000)));</span>
+<span class="fc" id="L112">        return response;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

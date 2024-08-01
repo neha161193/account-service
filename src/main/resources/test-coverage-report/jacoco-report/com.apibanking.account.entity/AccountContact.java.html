@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountContact.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.account.entity</a> &gt; <span class="el_source">AccountContact.java</span></div><h1>AccountContact.java</h1><pre class="source lang-java linenums">package com.apibanking.account.entity;
+
+import java.io.Serializable;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+@Entity
+@Table(name=&quot;account_contact&quot;)
+<span class="fc" id="L19">public class AccountContact implements Serializable {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;   
+    @NotNull
+    @NotBlank
+    private String residenceTelephone;
+    @NotNull
+    @NotBlank
+    private String officeTelephone;
+    @NotNull
+    @NotBlank
+    @Pattern(regexp = &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$&quot;)
+    private String email;
+    @Pattern(regexp = &quot;^\\d{1,14}$&quot;)
+    @NotNull
+    private String mobileNumber;
+    private String mobileNumberServiceProvider;
+    private boolean instaAlert;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;account_id&quot;)
+    private Account account;
+
+    public Long getId() {
+<span class="fc" id="L43">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L47">        this.id = id;</span>
+<span class="fc" id="L48">    }</span>
+
+    public String getResidenceTelephone() {
+<span class="fc" id="L51">        return residenceTelephone;</span>
+    }
+
+    public void setResidenceTelephone(String residenceTelephone) {
+<span class="fc" id="L55">        this.residenceTelephone = residenceTelephone;</span>
+<span class="fc" id="L56">    }</span>
+
+    public String getOfficeTelephone() {
+<span class="fc" id="L59">        return officeTelephone;</span>
+    }
+
+    public void setOfficeTelephone(String officeTelephone) {
+<span class="fc" id="L63">        this.officeTelephone = officeTelephone;</span>
+<span class="fc" id="L64">    }</span>
+
+    public String getEmail() {
+<span class="fc" id="L67">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="fc" id="L71">        this.email = email;</span>
+<span class="fc" id="L72">    }</span>
+
+    public String getMobileNumber() {
+<span class="fc" id="L75">        return mobileNumber;</span>
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+<span class="fc" id="L79">        this.mobileNumber = mobileNumber;</span>
+<span class="fc" id="L80">    }</span>
+
+    public String getMobileNumberServiceProvider() {
+<span class="fc" id="L83">        return mobileNumberServiceProvider;</span>
+    }
+
+    public void setMobileNumberServiceProvider(String mobileNumberServiceProvider) {
+<span class="fc" id="L87">        this.mobileNumberServiceProvider = mobileNumberServiceProvider;</span>
+<span class="fc" id="L88">    }</span>
+
+    public boolean isInstaAlert() {
+<span class="fc" id="L91">        return instaAlert;</span>
+    }
+
+    public void setInstaAlert(boolean instaAlert) {
+<span class="fc" id="L95">        this.instaAlert = instaAlert;</span>
+<span class="fc" id="L96">    }</span>
+
+    public Account getAccount() {
+<span class="nc" id="L99">        return account;</span>
+    }
+
+    public void setAccount(Account account) {
+<span class="fc" id="L103">        this.account = account;</span>
+<span class="fc" id="L104">    }</span>
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

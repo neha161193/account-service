@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CurrentAccountRequestDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.current.dto</a> &gt; <span class="el_source">CurrentAccountRequestDTO.java</span></div><h1>CurrentAccountRequestDTO.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.current.dto;
+
+import com.apibanking.accountopening.savings.dto.OperatingType;
+import com.apibanking.accountopening.savings.dto.CustomerProfile;
+import com.apibanking.accountopening.savings.dto.DebitCardDetail;
+import com.apibanking.accountopening.savings.dto.Introducer;
+import com.apibanking.accountopening.savings.dto.PaymentDetail;
+import com.apibanking.accountopening.savings.dto.Nominee;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.apibanking.accountopening.savings.dto.AccountType;
+import com.apibanking.accountopening.savings.dto.Address;
+import com.apibanking.accountopening.savings.dto.Applicant;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+<span class="fc" id="L22">public class CurrentAccountRequestDTO {</span>
+    @NotNull
+    private AccountType type;
+    @NotNull
+    @Valid
+    private Applicant applicant;
+
+    @Pattern(regexp = &quot;[A-Z]{5}[0-9]{4}[A-Z]&quot;)
+    @NotNull
+    public String panNo;
+    public String aadhaarNo;
+    private String customerId;
+    @NotNull
+    @Valid
+    private Address[] address;
+    @NotNull
+    @Valid
+    private Contact contact;
+    @NotNull
+    @Valid
+    private CustomerProfile customerProfile;
+    @NotNull
+    private OperatingType operatingInstruction;
+    @NotNull
+    @Valid
+    private PaymentDetail paymentDetail;
+<span class="fc" id="L48">    @NotNull</span>
+    @Valid
+    private List&lt;AuthorizedSignatoryDetail&gt; accountAuthorizedSignatory  = new ArrayList&lt;&gt;();
+    @NotNull
+    @Valid
+    private DebitCardDetail debitCardDetail;
+    private Introducer introducer;
+    @NotNull
+    @Valid
+    private Nominee nominee;
+    @NotNull
+    private BigDecimal requiredAverageBalance;
+
+    public String getAadhaarNo() {
+<span class="fc" id="L62">        return aadhaarNo;</span>
+    }
+    public void setAadhaarNo(String aadhaarNo) {
+<span class="nc" id="L65">        this.aadhaarNo = aadhaarNo;</span>
+<span class="nc" id="L66">    }</span>
+    public BigDecimal getRequiredAverageBalance() {
+<span class="fc" id="L68">        return requiredAverageBalance;</span>
+    }
+    public void setRequiredAverageBalance(BigDecimal requiredAverageBalance) {
+<span class="fc" id="L71">        this.requiredAverageBalance = requiredAverageBalance;</span>
+<span class="fc" id="L72">    }</span>
+    public AccountType getType() {
+<span class="fc" id="L74">        return type;</span>
+    }
+    public void setType(AccountType type) {
+<span class="fc" id="L77">        this.type = type;</span>
+<span class="fc" id="L78">    }</span>
+    public String getPanNo() {
+<span class="fc" id="L80">        return panNo;</span>
+    }
+    public void setPanNo(String panNo) {
+<span class="fc" id="L83">        this.panNo = panNo;</span>
+<span class="fc" id="L84">    }</span>
+    public String getCustomerId() {
+<span class="fc" id="L86">        return customerId;</span>
+    }
+    public void setCustomerId(String customerId) {
+<span class="nc" id="L89">        this.customerId = customerId;</span>
+<span class="nc" id="L90">    }</span>
+    public Address[] getAddress() {
+<span class="fc" id="L92">        return address;</span>
+    }
+    public void setAddress(Address[] address) {
+<span class="fc" id="L95">        this.address = address;</span>
+<span class="fc" id="L96">    }</span>
+    public Contact getContact() {
+<span class="fc" id="L98">        return contact;</span>
+    }
+    public void setContact(Contact contact) {
+<span class="fc" id="L101">        this.contact = contact;</span>
+<span class="fc" id="L102">    }</span>
+    public CustomerProfile getCustomerProfile() {
+<span class="fc" id="L104">        return customerProfile;</span>
+    }
+    public void setCustomerProfile(CustomerProfile customerProfile) {
+<span class="fc" id="L107">        this.customerProfile = customerProfile;</span>
+<span class="fc" id="L108">    }</span>
+    public OperatingType getOperatingInstruction() {
+<span class="fc" id="L110">        return operatingInstruction;</span>
+    }
+    public void setOperatingInstruction(OperatingType operatingInstruction) {
+<span class="fc" id="L113">        this.operatingInstruction = operatingInstruction;</span>
+<span class="fc" id="L114">    }</span>
+    public PaymentDetail getPaymentDetail() {
+<span class="fc" id="L116">        return paymentDetail;</span>
+    }
+    public void setPaymentDetail(PaymentDetail paymentDetail) {
+<span class="fc" id="L119">        this.paymentDetail = paymentDetail;</span>
+<span class="fc" id="L120">    }</span>
+    public Introducer getIntroducer() {
+<span class="fc" id="L122">        return introducer;</span>
+    }
+    public void setIntroducer(Introducer introducer) {
+<span class="fc" id="L125">        this.introducer = introducer;</span>
+<span class="fc" id="L126">    }</span>
+    public Nominee getNominee() {
+<span class="fc" id="L128">        return nominee;</span>
+    }
+    public void setNominee(Nominee nominee) {
+<span class="fc" id="L131">        this.nominee = nominee;</span>
+<span class="fc" id="L132">    }</span>
+    public Applicant getApplicant() {
+<span class="fc" id="L134">        return applicant;</span>
+    }
+    public void setApplicant(Applicant applicant) {
+<span class="fc" id="L137">        this.applicant = applicant;</span>
+<span class="fc" id="L138">    }</span>
+    public DebitCardDetail getDebitCardDetail() {
+<span class="fc" id="L140">        return debitCardDetail;</span>
+    }
+    public void setDebitCardDetail(DebitCardDetail debitCardDetail) {
+<span class="fc" id="L143">        this.debitCardDetail = debitCardDetail;</span>
+<span class="fc" id="L144">    }</span>
+    public List&lt;AuthorizedSignatoryDetail&gt; getAccountAuthorizedSignatory() {
+<span class="fc" id="L146">        return accountAuthorizedSignatory;</span>
+    }
+    public void setAccountAuthorizedSignatory(List&lt;AuthorizedSignatoryDetail&gt; accountAuthorizedSignatory) {
+<span class="fc" id="L149">        this.accountAuthorizedSignatory = accountAuthorizedSignatory;</span>
+<span class="fc" id="L150">    } </span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

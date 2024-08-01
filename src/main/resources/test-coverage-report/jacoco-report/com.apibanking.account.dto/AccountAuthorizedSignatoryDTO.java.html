@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountAuthorizedSignatoryDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.account.dto</a> &gt; <span class="el_source">AccountAuthorizedSignatoryDTO.java</span></div><h1>AccountAuthorizedSignatoryDTO.java</h1><pre class="source lang-java linenums">package com.apibanking.account.dto;
+
+import java.time.LocalDate;
+
+import com.apibanking.accountopening.savings.dto.GenderType;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+<span class="nc" id="L11">public class AccountAuthorizedSignatoryDTO {</span>
+    @NotNull
+    private String applicantFirstName;
+    private String applicantMiddleName;
+    @NotNull
+    private String applicantLastName;
+    @NotNull
+    private AccountAddressDTO address;
+    @NotNull
+    @NotBlank
+    private String nationality;
+    @Pattern(regexp = &quot;[A-Z]{5}[0-9]{4}[A-Z]&quot;)
+    @NotNull
+    public String panNo;
+    @NotNull
+    private GenderType gender;
+    @NotNull
+    private String customerId;
+    @NotNull
+    private LocalDate dateOfBirth;
+    private String mobileNo;
+    private String email;
+    private boolean instaAlert;
+
+    public String getApplicantFirstName() {
+<span class="nc" id="L36">        return applicantFirstName;</span>
+    }
+
+    public void setApplicantFirstName(String applicantFirstName) {
+<span class="nc" id="L40">        this.applicantFirstName = applicantFirstName;</span>
+<span class="nc" id="L41">    }</span>
+
+    public String getApplicantMiddleName() {
+<span class="nc" id="L44">        return applicantMiddleName;</span>
+    }
+
+    public void setApplicantMiddleName(String applicantMiddleName) {
+<span class="nc" id="L48">        this.applicantMiddleName = applicantMiddleName;</span>
+<span class="nc" id="L49">    }</span>
+
+    public String getApplicantLastName() {
+<span class="nc" id="L52">        return applicantLastName;</span>
+    }
+
+    public void setApplicantLastName(String applicantLastName) {
+<span class="nc" id="L56">        this.applicantLastName = applicantLastName;</span>
+<span class="nc" id="L57">    }</span>
+
+    public String getNationality() {
+<span class="nc" id="L60">        return nationality;</span>
+    }
+
+    public void setNationality(String nationality) {
+<span class="nc" id="L64">        this.nationality = nationality;</span>
+<span class="nc" id="L65">    }</span>
+
+    public String getPanNo() {
+<span class="nc" id="L68">        return panNo;</span>
+    }
+
+    public void setPanNo(String panNo) {
+<span class="nc" id="L72">        this.panNo = panNo;</span>
+<span class="nc" id="L73">    }</span>
+
+    public GenderType getGender() {
+<span class="nc" id="L76">        return gender;</span>
+    }
+
+    public void setGender(GenderType gender) {
+<span class="nc" id="L80">        this.gender = gender;</span>
+<span class="nc" id="L81">    }</span>
+
+    public String getCustomerId() {
+<span class="nc" id="L84">        return customerId;</span>
+    }
+
+    public void setCustomerId(String customerId) {
+<span class="nc" id="L88">        this.customerId = customerId;</span>
+<span class="nc" id="L89">    }</span>
+
+    public LocalDate getDateOfBirth() {
+<span class="nc" id="L92">        return dateOfBirth;</span>
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+<span class="nc" id="L96">        this.dateOfBirth = dateOfBirth;</span>
+<span class="nc" id="L97">    }</span>
+
+    public String getMobileNo() {
+<span class="nc" id="L100">        return mobileNo;</span>
+    }
+
+    public void setMobileNo(String mobileNo) {
+<span class="nc" id="L104">        this.mobileNo = mobileNo;</span>
+<span class="nc" id="L105">    }</span>
+
+    public boolean isInstaAlert() {
+<span class="nc" id="L108">        return instaAlert;</span>
+    }
+
+    public void setInstaAlert(boolean instaAlert) {
+<span class="nc" id="L112">        this.instaAlert = instaAlert;</span>
+<span class="nc" id="L113">    }</span>
+
+    public String getEmail() {
+<span class="nc" id="L116">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="nc" id="L120">        this.email = email;</span>
+<span class="nc" id="L121">    }</span>
+
+    public AccountAddressDTO getAddress() {
+<span class="nc" id="L124">        return address;</span>
+    }
+
+    public void setAddress(AccountAddressDTO address) {
+<span class="nc" id="L128">        this.address = address;</span>
+<span class="nc" id="L129">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

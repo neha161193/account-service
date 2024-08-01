@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountOpeningStatusDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.savings.dto</a> &gt; <span class="el_source">AccountOpeningStatusDTO.java</span></div><h1>AccountOpeningStatusDTO.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.savings.dto;
+
+import jakarta.validation.constraints.NotNull;
+
+<span class="fc" id="L5">public class AccountOpeningStatusDTO {</span>
+    @NotNull
+    private AccountType type;
+    private String customerId;
+    private String accountNo;
+    @NotNull
+    private AccountStatus status;
+
+    public AccountType getType() {
+<span class="fc" id="L14">        return type;</span>
+    }
+    public void setType(AccountType type) {
+<span class="fc" id="L17">        this.type = type;</span>
+<span class="fc" id="L18">    }</span>
+    public String getCustomerId() {
+<span class="fc" id="L20">        return customerId;</span>
+    }
+    public void setCustomerId(String customerId) {
+<span class="fc" id="L23">        this.customerId = customerId;</span>
+<span class="fc" id="L24">    }</span>
+    public AccountStatus getStatus() {
+<span class="fc" id="L26">        return status;</span>
+    }
+    public void setStatus(AccountStatus status) {
+<span class="fc" id="L29">        this.status = status;</span>
+<span class="fc" id="L30">    }</span>
+    public String getAccountNo() {
+<span class="fc" id="L32">        return accountNo;</span>
+    }
+    public void setAccountNo(String accountNo) {
+<span class="fc" id="L35">        this.accountNo = accountNo;</span>
+<span class="fc" id="L36">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

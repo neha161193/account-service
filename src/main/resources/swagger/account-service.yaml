@@ -1,0 +1,939 @@
+---
+openapi: 3.0.3
+info:
+  title: Account Service
+  description: "Account Service will help users to open their saving, current and\
+    \ fixed deposit account. One user can have multiple account like one saving and\
+    \ multiple FDs or one current and multiple FDs. This service will also help you\
+    \ to make payments to your account from other bank account like initial deposit."
+  version: 1.0.0
+paths:
+  /api/v1/accountservice:
+    get:
+      tags:
+      - Account Opening Resource
+      summary: GetAccount
+      description: This API will be called by existing customers to check their account
+        info
+      parameters:
+      - name: accountNo
+        in: query
+        schema:
+          type: string
+      - name: customerId
+        in: query
+        required: true
+        schema:
+          pattern: \S
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AccountDTO"
+    patch:
+      tags:
+      - Account Opening Resource
+      summary: UpdateAccount
+      description: "This API will be called by existing customers to update their\
+        \ account info like nominee, address and contact"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountDTO"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountDTO"
+  /api/v1/accountservice/current:
+    post:
+      tags:
+      - Account Opening Resource
+      summary: OpenCurrentAccount
+      description: This API will help new customers to open their current account
+        by providing required info. And in reponse applicationNo will be received
+        which will be further used to check the application status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CurrentAccountRequestDTO"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountOpeningResponseDTO"
+  /api/v1/accountservice/fixeddeposit:
+    post:
+      tags:
+      - Account Opening Resource
+      summary: OpenFixedDepositAccount
+      description: This API will help existing customers to open their fixed deposit
+        account by providing required info.And in reponse applicationNo will be received
+        which will be further used to check the application status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FixedDepositAccountRequestDTO"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountOpeningResponseDTO"
+  /api/v1/accountservice/payment:
+    post:
+      tags:
+      - Payment Resource
+      summary: ProcessPayment
+      description: This API will be called by existing customers to transfer funds
+        to their savings or current account.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentRequestDTO"
+      responses:
+        "200":
+          description: OK
+  /api/v1/accountservice/saving:
+    post:
+      tags:
+      - Account Opening Resource
+      summary: OpenSavingAccount
+      description: This API will help new customers to open their saving account by
+        providing required info. And in reponse applicationNo will be received which
+        will be further used to check the application status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountOpeningRequestDTO"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountOpeningResponseDTO"
+  /api/v1/accountservice/webhook-update:
+    patch:
+      tags:
+      - Account Opening Resource
+      summary: UpdateAccountStatusWebhook
+      description: This webhook API will be called by backend team to update the account
+        opening status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAccountOpeningStatusDTO"
+      responses:
+        "200":
+          description: OK
+  /api/v1/accountservice/{applicationNo}:
+    get:
+      tags:
+      - Account Opening Resource
+      summary: GetAccountOpeningStatus
+      description: This API will help new /existing customers to check their account
+        opening status by providing application No.
+      parameters:
+      - name: applicationNo
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountOpeningStatusDTO"
+components:
+  schemas:
+    AccountAddressDTO:
+      required:
+      - addressType
+      - line1
+      - line2
+      - city
+      - pinCode
+      - state
+      - country
+      type: object
+      properties:
+        addressType:
+          $ref: "#/components/schemas/AddressType"
+        line1:
+          pattern: "^[a-zA-Z0-9\\s.,#-]*$"
+          type: string
+        line2:
+          pattern: "^[a-zA-Z0-9\\s.,#-]*$"
+          type: string
+        line3:
+          pattern: "^[a-zA-Z0-9\\s.,#-]*$"
+          type: string
+        city:
+          type: string
+        pinCode:
+          pattern: "^[1-9][0-9]{5}$"
+          type: string
+        state:
+          pattern: "^[a-zA-Z\\s-]*$"
+          type: string
+        country:
+          type: string
+    AccountAuthorizedSignatoryDTO:
+      required:
+      - applicantFirstName
+      - applicantLastName
+      - address
+      - nationality
+      - panNo
+      - gender
+      - customerId
+      - dateOfBirth
+      type: object
+      properties:
+        applicantFirstName:
+          type: string
+        applicantMiddleName:
+          type: string
+        applicantLastName:
+          type: string
+        address:
+          $ref: "#/components/schemas/AccountAddressDTO"
+        nationality:
+          pattern: \S
+          type: string
+        panNo:
+          pattern: "[A-Z]{5}[0-9]{4}[A-Z]"
+          type: string
+        gender:
+          $ref: "#/components/schemas/GenderType"
+        customerId:
+          type: string
+        dateOfBirth:
+          $ref: "#/components/schemas/LocalDate"
+        mobileNo:
+          type: string
+        email:
+          type: string
+        instaAlert:
+          type: boolean
+    AccountContactDTO:
+      required:
+      - residenceTelephone
+      - officeTelephone
+      - email
+      - mobileNumber
+      type: object
+      properties:
+        residenceTelephone:
+          pattern: \S
+          type: string
+        officeTelephone:
+          pattern: \S
+          type: string
+        email:
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          type: string
+        mobileNumber:
+          pattern: "^\\d{1,14}$"
+          type: string
+        mobileNumberServiceProvider:
+          type: string
+        instaAlert:
+          type: boolean
+    AccountDTO:
+      required:
+      - accountNo
+      - customerId
+      - panNo
+      - type
+      - accountHolderName
+      type: object
+      properties:
+        accountNo:
+          type: string
+        applicationNo:
+          type: string
+        customerId:
+          type: string
+        panNo:
+          type: string
+        aadhaarNo:
+          type: string
+        type:
+          $ref: "#/components/schemas/AccountType"
+        accountBalance:
+          type: number
+        accountMinimumBalance:
+          type: number
+        interestRate:
+          type: string
+        status:
+          $ref: "#/components/schemas/AccountStatus"
+        accountOpeningDate:
+          $ref: "#/components/schemas/LocalDate"
+        accountClosingDate:
+          $ref: "#/components/schemas/LocalDate"
+        accountHolderName:
+          type: string
+        address:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccountAddressDTO"
+        contact:
+          $ref: "#/components/schemas/AccountContactDTO"
+        nomineeDetail:
+          $ref: "#/components/schemas/AccountNomineeDTO"
+        debitCardDetail:
+          $ref: "#/components/schemas/AccountDebitCardDetailDTO"
+        accountAuthorizedSignatory:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccountAuthorizedSignatoryDTO"
+    AccountDebitCardDetailDTO:
+      required:
+      - optForCard
+      type: object
+      properties:
+        optForCard:
+          type: boolean
+        cardType:
+          $ref: "#/components/schemas/CardType"
+    AccountNomineeDTO:
+      required:
+      - optForNominee
+      - address
+      type: object
+      properties:
+        optForNominee:
+          type: boolean
+        name:
+          type: string
+        address:
+          $ref: "#/components/schemas/AccountAddressDTO"
+        residenceTelephone:
+          type: string
+        relationWithApplicant:
+          type: string
+        dateOfBirth:
+          $ref: "#/components/schemas/LocalDate"
+        mobileNumber:
+          type: string
+    AccountOpeningRequestDTO:
+      required:
+      - type
+      - applicant
+      - nationality
+      - panNo
+      - aadhaarNo
+      - consentToLinkAadhaarWithAccount
+      - dateOfBirth
+      - gender
+      - motherMaidenName
+      - operatingInstruction
+      - address
+      - contact
+      - customerProfile
+      - paymentDetail
+      - debitCardDetail
+      - nominee
+      - requiredAverageBalance
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/AccountType"
+        applicant:
+          $ref: "#/components/schemas/Applicant"
+        nationality:
+          pattern: \S
+          type: string
+        panNo:
+          pattern: "[A-Z]{5}[0-9]{4}[A-Z]"
+          type: string
+        aadhaarNo:
+          pattern: "\\d{12}"
+          type: string
+        consentToLinkAadhaarWithAccount:
+          type: boolean
+        dateOfBirth:
+          $ref: "#/components/schemas/LocalDate"
+        gender:
+          $ref: "#/components/schemas/GenderType"
+        motherMaidenName:
+          type: string
+        operatingInstruction:
+          $ref: "#/components/schemas/OperatingType"
+        customerId:
+          type: string
+        address:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+        contact:
+          $ref: "#/components/schemas/Contact"
+        customerProfile:
+          $ref: "#/components/schemas/CustomerProfile"
+        introducer:
+          $ref: "#/components/schemas/Introducer"
+        paymentDetail:
+          $ref: "#/components/schemas/PaymentDetail"
+        debitCardDetail:
+          $ref: "#/components/schemas/DebitCardDetail"
+        nominee:
+          $ref: "#/components/schemas/Nominee"
+        requiredAverageBalance:
+          type: number
+        productCode:
+          type: string
+    AccountOpeningResponseDTO:
+      required:
+      - applicationNo
+      - status
+      - type
+      type: object
+      properties:
+        customerId:
+          type: string
+        applicationNo:
+          type: string
+        status:
+          $ref: "#/components/schemas/AccountStatus"
+        type:
+          $ref: "#/components/schemas/AccountType"
+        productCode:
+          type: string
+    AccountOpeningStatusDTO:
+      required:
+      - type
+      - status
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/AccountType"
+        customerId:
+          type: string
+        accountNo:
+          type: string
+        status:
+          $ref: "#/components/schemas/AccountStatus"
+    AccountStatus:
+      enum:
+      - Active
+      - PendingActivation
+      - Inactive
+      - Dormant
+      - Frozen
+      - Closed
+      - Blocked
+      - Defaulted
+      - UnderInvestigation
+      - Restricted
+      - Overdrawn
+      type: string
+    AccountType:
+      enum:
+      - Saving
+      - Current
+      - FixedDeposit
+      type: string
+    Address:
+      required:
+      - addressType
+      - line1
+      - line2
+      - city
+      - pinCode
+      - state
+      - country
+      type: object
+      properties:
+        addressType:
+          $ref: "#/components/schemas/AddressType"
+        line1:
+          pattern: "^[a-zA-Z0-9\\s.,#-]*$"
+          type: string
+        line2:
+          pattern: "^[a-zA-Z0-9\\s.,#-]*$"
+          type: string
+        line3:
+          pattern: "^[a-zA-Z0-9\\s.,#-]*$"
+          type: string
+        city:
+          type: string
+        pinCode:
+          pattern: "^[1-9][0-9]{5}$"
+          type: string
+        state:
+          pattern: "^[a-zA-Z\\s-]*$"
+          type: string
+        country:
+          type: string
+    AddressType:
+      enum:
+      - Mailing
+      - Permanent
+      - RegisteredOffice
+      type: string
+    Applicant:
+      required:
+      - prefix
+      - firstName
+      - lastName
+      type: object
+      properties:
+        prefix:
+          pattern: ^(Mr\.|Mrs\.|Ms\.|Dr\.)$
+          type: string
+        firstName:
+          pattern: "^[a-zA-Z\\s'-]+$"
+          type: string
+        middleName:
+          pattern: "^[a-zA-Z\\s'-]+$"
+          type: string
+        lastName:
+          pattern: "^[a-zA-Z\\s'-]+$"
+          type: string
+    AuthorizedSignatoryDetail:
+      required:
+      - nationality
+      - panNo
+      - gender
+      - dateOfBirth
+      type: object
+      properties:
+        applicant:
+          $ref: "#/components/schemas/Applicant"
+        address:
+          $ref: "#/components/schemas/Address"
+        nationality:
+          pattern: \S
+          type: string
+        panNo:
+          pattern: "[A-Z]{5}[0-9]{4}[A-Z]"
+          type: string
+        gender:
+          $ref: "#/components/schemas/GenderType"
+        customerId:
+          type: string
+        dateOfBirth:
+          $ref: "#/components/schemas/LocalDate"
+        mobileNo:
+          type: string
+        email:
+          type: string
+        instaAlert:
+          type: boolean
+    CardType:
+      enum:
+      - Regular
+      - Platinum
+      - Others
+      type: string
+    Contact:
+      required:
+      - residenceTelephone
+      - officeTelephone
+      - email
+      - mobileNumber
+      type: object
+      properties:
+        residenceTelephone:
+          pattern: \S
+          type: string
+        officeTelephone:
+          pattern: \S
+          type: string
+        email:
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          type: string
+        mobileNumber:
+          pattern: "^\\d{1,14}$"
+          type: string
+        mobileNumberServiceProvider:
+          type: string
+        instaAlert:
+          type: boolean
+    Contact1:
+      required:
+      - telephoneNumber1
+      - telephoneNumber2
+      - email
+      - mobileNumber
+      type: object
+      properties:
+        telephoneNumber1:
+          pattern: \S
+          type: string
+        telephoneNumber2:
+          pattern: \S
+          type: string
+        email:
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          type: string
+        mobileNumber:
+          pattern: "^\\d{1,14}$"
+          type: string
+        emailAlert:
+          type: boolean
+        emailStatementFrequency:
+          $ref: "#/components/schemas/Frequency"
+    CurrentAccountRequestDTO:
+      required:
+      - type
+      - applicant
+      - panNo
+      - address
+      - contact
+      - customerProfile
+      - operatingInstruction
+      - paymentDetail
+      - accountAuthorizedSignatory
+      - debitCardDetail
+      - nominee
+      - requiredAverageBalance
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/AccountType"
+        applicant:
+          $ref: "#/components/schemas/Applicant"
+        panNo:
+          pattern: "[A-Z]{5}[0-9]{4}[A-Z]"
+          type: string
+        aadhaarNo:
+          type: string
+        customerId:
+          type: string
+        address:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+        contact:
+          $ref: "#/components/schemas/Contact1"
+        customerProfile:
+          $ref: "#/components/schemas/CustomerProfile"
+        operatingInstruction:
+          $ref: "#/components/schemas/OperatingType"
+        paymentDetail:
+          $ref: "#/components/schemas/PaymentDetail"
+        accountAuthorizedSignatory:
+          type: array
+          items:
+            $ref: "#/components/schemas/AuthorizedSignatoryDetail"
+        debitCardDetail:
+          $ref: "#/components/schemas/DebitCardDetail"
+        introducer:
+          $ref: "#/components/schemas/Introducer"
+        nominee:
+          $ref: "#/components/schemas/Nominee"
+        requiredAverageBalance:
+          type: number
+    CustomerProfile:
+      required:
+      - occupation
+      - sourceOfFunds
+      - grossAnnualIncome
+      - residenceType
+      type: object
+      properties:
+        occupation:
+          $ref: "#/components/schemas/OccupationType"
+        salaried:
+          $ref: "#/components/schemas/Salaried"
+        sourceOfFunds:
+          $ref: "#/components/schemas/FundSource"
+        grossAnnualIncome:
+          type: number
+        residenceType:
+          $ref: "#/components/schemas/ResidenceType"
+    DebitCardDetail:
+      required:
+      - optForCard
+      type: object
+      properties:
+        optForCard:
+          type: boolean
+        cardType:
+          $ref: "#/components/schemas/CardType"
+    FixedDepositAccountRequestDTO:
+      required:
+      - type
+      - applicant
+      - operatingInstruction
+      - customerId
+      - paymentDetail
+      - nominee
+      - instruction
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/AccountType"
+        applicant:
+          $ref: "#/components/schemas/Applicant"
+        operatingInstruction:
+          $ref: "#/components/schemas/OperatingType"
+        customerId:
+          type: string
+        paymentDetail:
+          $ref: "#/components/schemas/PaymentDetail"
+        nominee:
+          $ref: "#/components/schemas/Nominee"
+        productCode:
+          type: string
+        instruction:
+          $ref: "#/components/schemas/Instruction"
+    Frequency:
+      enum:
+      - Daily
+      - Weekly
+      - Fortnightly
+      - Monthly
+      type: string
+    FromAccountDTO:
+      required:
+      - accountHolderName
+      - accountNo
+      - bankName
+      - bankBranch
+      - ifscCode
+      type: object
+      properties:
+        accountHolderName:
+          type: string
+        accountNo:
+          type: string
+        bankName:
+          type: string
+        bankBranch:
+          type: string
+        ifscCode:
+          type: string
+    FundSource:
+      enum:
+      - Salary
+      - BusinessIncome
+      - Agriculture
+      - InvestmentIncome
+      - Others
+      type: string
+    GenderType:
+      enum:
+      - M
+      - F
+      type: string
+    Instruction:
+      required:
+      - amount
+      - tenure
+      - rateOfInterest
+      - interestPayment
+      - maturityInstruction
+      - debitAccountNumber
+      type: object
+      properties:
+        amount:
+          type: number
+        tenure:
+          $ref: "#/components/schemas/Tenure"
+        rateOfInterest:
+          type: string
+        interestPayment:
+          $ref: "#/components/schemas/InterestPaymentType"
+        maturityInstruction:
+          $ref: "#/components/schemas/MaturityInstruction"
+        debitAccountNumber:
+          type: string
+    InterestPaymentType:
+      enum:
+      - Monthly
+      - Quarterly
+      - Maturity
+      type: string
+    Introducer:
+      required:
+      - name
+      - customerId
+      - accountOpeningDate
+      type: object
+      properties:
+        name:
+          pattern: \S
+          type: string
+        customerId:
+          pattern: \S
+          type: string
+        accountOpeningDate:
+          $ref: "#/components/schemas/LocalDate"
+    LocalDate:
+      format: date
+      type: string
+      example: 2022-03-10
+    MaturityInstruction:
+      type: object
+      properties:
+        doNotRenew:
+          type: boolean
+        renewPrincipalAndInterest:
+          type: boolean
+        renewPrincipalAndPayInterest:
+          type: boolean
+    Nominee:
+      required:
+      - optForNominee
+      type: object
+      properties:
+        optForNominee:
+          type: boolean
+        name:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+        residenceTelephone:
+          type: string
+        relationWithApplicant:
+          type: string
+        dateOfBirth:
+          $ref: "#/components/schemas/LocalDate"
+        mobileNumber:
+          type: string
+    OccupationType:
+      enum:
+      - Salaried
+      - SelfEmployed
+      - Retired
+      - Housewife
+      - Politician
+      - Student
+      - Others
+      type: string
+    OperatingType:
+      enum:
+      - Single
+      - Joint
+      type: string
+    PaymentDetail:
+      required:
+      - paymentMode
+      - amount
+      type: object
+      properties:
+        paymentMode:
+          $ref: "#/components/schemas/PaymentMode"
+        amount:
+          type: number
+        chequeNo:
+          pattern: "^\\d{6,10}$"
+          type: string
+        chequeDate:
+          $ref: "#/components/schemas/LocalDate"
+        bankName:
+          pattern: "^[a-zA-Z0-9\\s.&'-]*$"
+          type: string
+        bankBranch:
+          pattern: "^[a-zA-Z0-9\\s.,'&()-]*$"
+          type: string
+    PaymentMode:
+      enum:
+      - Cheque
+      - FundTransfer
+      type: string
+    PaymentRequestDTO:
+      required:
+      - fromAccount
+      - toAccount
+      - amount
+      - remarks
+      type: object
+      properties:
+        fromAccount:
+          $ref: "#/components/schemas/FromAccountDTO"
+        toAccount:
+          $ref: "#/components/schemas/ToAccountDTO"
+        amount:
+          type: number
+        remarks:
+          type: string
+    ResidenceType:
+      enum:
+      - Owned
+      - RentedOrLeased
+      - AncestralOrFamily
+      - CompanyProvided
+      type: string
+    Salaried:
+      required:
+      - employedWith
+      type: object
+      properties:
+        employedWith:
+          $ref: "#/components/schemas/SalariedEmploymentType"
+    SalariedEmploymentType:
+      enum:
+      - PvtLtd
+      - Partnership
+      - Proprietorship
+      - PublicLimited
+      - PublicSector
+      - Government
+      - Multinational
+      - Others
+      type: string
+    Tenure:
+      type: object
+      properties:
+        months:
+          format: int32
+          type: integer
+        days:
+          format: int32
+          type: integer
+    ToAccountDTO:
+      required:
+      - accountNo
+      - customerId
+      type: object
+      properties:
+        accountNo:
+          type: string
+        customerId:
+          type: string
+    UpdateAccountOpeningStatusDTO:
+      required:
+      - type
+      - customerId
+      - accountNo
+      - status
+      - applicationNo
+      - interestRate
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/AccountType"
+        customerId:
+          type: string
+        accountNo:
+          type: string
+        status:
+          $ref: "#/components/schemas/AccountStatus"
+        applicationNo:
+          type: string
+        interestRate:
+          type: string

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountAuthorizedSignatory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.account.entity</a> &gt; <span class="el_source">AccountAuthorizedSignatory.java</span></div><h1>AccountAuthorizedSignatory.java</h1><pre class="source lang-java linenums">package com.apibanking.account.entity;
+
+import java.time.LocalDate;
+
+import com.apibanking.accountopening.savings.dto.GenderType;
+
+import jakarta.json.bind.annotation.JsonbTransient;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+@Entity
+@Table(name=&quot;account_authorizedsignatory&quot;)
+<span class="fc" id="L26">public class AccountAuthorizedSignatory {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotNull
+    private String applicantFirstName;
+    private String applicantMiddleName;
+    @NotNull
+    private String applicantLastName;
+    @OneToOne(mappedBy = &quot;accountAuthorizedSignatory&quot;, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonbTransient
+    @NotNull
+    private AccountAddress address;
+    @NotNull
+    @NotBlank
+    private String nationality;
+    @Pattern(regexp = &quot;[A-Z]{5}[0-9]{4}[A-Z]&quot;)
+    @NotNull
+    public String panNo;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private GenderType gender;
+    @NotNull
+    private String customerId;
+    @NotNull
+    private LocalDate dateOfBirth;
+    private String mobileNo;
+    private String email;
+    private boolean instaAlert;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;account_id&quot;)
+    private Account account;
+
+    public String getApplicantFirstName() {
+<span class="nc" id="L60">        return applicantFirstName;</span>
+    }
+
+    public void setApplicantFirstName(String applicantFirstName) {
+<span class="fc" id="L64">        this.applicantFirstName = applicantFirstName;</span>
+<span class="fc" id="L65">    }</span>
+
+    public String getApplicantMiddleName() {
+<span class="nc" id="L68">        return applicantMiddleName;</span>
+    }
+
+    public void setApplicantMiddleName(String applicantMiddleName) {
+<span class="fc" id="L72">        this.applicantMiddleName = applicantMiddleName;</span>
+<span class="fc" id="L73">    }</span>
+
+    public String getApplicantLastName() {
+<span class="nc" id="L76">        return applicantLastName;</span>
+    }
+
+    public void setApplicantLastName(String applicantLastName) {
+<span class="fc" id="L80">        this.applicantLastName = applicantLastName;</span>
+<span class="fc" id="L81">    }</span>
+
+    public String getNationality() {
+<span class="nc" id="L84">        return nationality;</span>
+    }
+
+    public void setNationality(String nationality) {
+<span class="fc" id="L88">        this.nationality = nationality;</span>
+<span class="fc" id="L89">    }</span>
+
+    public String getPanNo() {
+<span class="nc" id="L92">        return panNo;</span>
+    }
+
+    public void setPanNo(String panNo) {
+<span class="fc" id="L96">        this.panNo = panNo;</span>
+<span class="fc" id="L97">    }</span>
+
+    public GenderType getGender() {
+<span class="nc" id="L100">        return gender;</span>
+    }
+
+    public void setGender(GenderType gender) {
+<span class="fc" id="L104">        this.gender = gender;</span>
+<span class="fc" id="L105">    }</span>
+
+    public String getCustomerId() {
+<span class="nc" id="L108">        return customerId;</span>
+    }
+
+    public void setCustomerId(String customerId) {
+<span class="fc" id="L112">        this.customerId = customerId;</span>
+<span class="fc" id="L113">    }</span>
+
+    public LocalDate getDateOfBirth() {
+<span class="nc" id="L116">        return dateOfBirth;</span>
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+<span class="fc" id="L120">        this.dateOfBirth = dateOfBirth;</span>
+<span class="fc" id="L121">    }</span>
+
+    public String getMobileNo() {
+<span class="nc" id="L124">        return mobileNo;</span>
+    }
+
+    public void setMobileNo(String mobileNo) {
+<span class="fc" id="L128">        this.mobileNo = mobileNo;</span>
+<span class="fc" id="L129">    }</span>
+
+    public boolean isInstaAlert() {
+<span class="nc" id="L132">        return instaAlert;</span>
+    }
+
+    public void setInstaAlert(boolean instaAlert) {
+<span class="fc" id="L136">        this.instaAlert = instaAlert;</span>
+<span class="fc" id="L137">    }</span>
+
+    public String getEmail() {
+<span class="nc" id="L140">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="fc" id="L144">        this.email = email;</span>
+<span class="fc" id="L145">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L148">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L152">        this.id = id;</span>
+<span class="fc" id="L153">    }</span>
+
+    public Account getAccount() {
+<span class="nc" id="L156">        return account;</span>
+    }
+
+    public void setAccount(Account account) {
+<span class="fc" id="L160">        this.account = account;</span>
+<span class="fc" id="L161">    }</span>
+
+    public AccountAddress getAddress() {
+<span class="fc" id="L164">        return address;</span>
+    }
+
+    public void setAddress(AccountAddress address) {
+<span class="fc" id="L168">        this.address = address;</span>
+<span class="fc" id="L169">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

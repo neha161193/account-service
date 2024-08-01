@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Address.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.savings.entity</a> &gt; <span class="el_source">Address.java</span></div><h1>Address.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.savings.entity;
+
+import java.io.Serializable;
+
+import com.apibanking.accountopening.savings.dto.AddressType;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+@Entity
+<span class="fc" id="L21">public class Address implements Serializable {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AddressType addressType;
+    @NotNull
+    @Pattern(regexp = &quot;^[a-zA-Z0-9\\s.,#-]*$&quot;)
+    private String line1;
+    @NotNull
+    @Pattern(regexp = &quot;^[a-zA-Z0-9\\s.,#-]*$&quot;)
+    private String line2;
+    @Pattern(regexp = &quot;^[a-zA-Z0-9\\s.,#-]*$&quot;)
+    private String line3;
+    @NotNull
+    private String city;
+    @NotNull
+    @Pattern(regexp = &quot;^[1-9][0-9]{5}$&quot;)
+    private String pinCode;
+    @NotNull
+    @Pattern(regexp = &quot;^[a-zA-Z\\s-]*$&quot;)
+    private String state;
+    @NotNull
+    private String country;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;accountOpeningRequest_id&quot;)
+    private AccountOpeningRequest accountOpeningRequest;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;authorizedSignatoryDetail_id&quot;)
+    private AuthorizedSignatoryDetail authorizedSignatoryDetail;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;nominee_id&quot;)
+    private Nominee nominee;
+
+    public Long getId() {
+<span class="fc" id="L59">        return id;</span>
+    }
+    public void setId(Long id) {
+<span class="fc" id="L62">        this.id = id;</span>
+<span class="fc" id="L63">    }</span>
+    public AddressType getAddressType() {
+<span class="fc" id="L65">        return addressType;</span>
+    }
+    public void setAddressType(AddressType addressType) {
+<span class="fc" id="L68">        this.addressType = addressType;</span>
+<span class="fc" id="L69">    }</span>
+    public String getLine1() {
+<span class="fc" id="L71">        return line1;</span>
+    }
+    public void setLine1(String line1) {
+<span class="fc" id="L74">        this.line1 = line1;</span>
+<span class="fc" id="L75">    }</span>
+    public String getLine2() {
+<span class="fc" id="L77">        return line2;</span>
+    }
+    public void setLine2(String line2) {
+<span class="fc" id="L80">        this.line2 = line2;</span>
+<span class="fc" id="L81">    }</span>
+    public String getLine3() {
+<span class="fc" id="L83">        return line3;</span>
+    }
+    public void setLine3(String line3) {
+<span class="fc" id="L86">        this.line3 = line3;</span>
+<span class="fc" id="L87">    }</span>
+    public String getCity() {
+<span class="fc" id="L89">        return city;</span>
+    }
+    public void setCity(String city) {
+<span class="fc" id="L92">        this.city = city;</span>
+<span class="fc" id="L93">    }</span>
+    public String getPinCode() {
+<span class="fc" id="L95">        return pinCode;</span>
+    }
+    public void setPinCode(String pinCode) {
+<span class="fc" id="L98">        this.pinCode = pinCode;</span>
+<span class="fc" id="L99">    }</span>
+    public String getState() {
+<span class="fc" id="L101">        return state;</span>
+    }
+    public void setState(String state) {
+<span class="fc" id="L104">        this.state = state;</span>
+<span class="fc" id="L105">    }</span>
+    public String getCountry() {
+<span class="fc" id="L107">        return country;</span>
+    }
+    public void setCountry(String country) {
+<span class="fc" id="L110">        this.country = country;</span>
+<span class="fc" id="L111">    }</span>
+    public Nominee getNominee() {
+<span class="nc" id="L113">        return nominee;</span>
+    }
+    public void setNominee(Nominee nominee) {
+<span class="fc" id="L116">        this.nominee = nominee;</span>
+<span class="fc" id="L117">    }</span>
+    public AccountOpeningRequest getAccountOpeningRequest() {
+<span class="nc" id="L119">        return accountOpeningRequest;</span>
+    }
+    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
+<span class="fc" id="L122">        this.accountOpeningRequest = accountOpeningRequest;</span>
+<span class="fc" id="L123">    }</span>
+    public AuthorizedSignatoryDetail getAuthorizedSignatoryDetail() {
+<span class="nc" id="L125">        return authorizedSignatoryDetail;</span>
+    }
+    public void setAuthorizedSignatoryDetail(AuthorizedSignatoryDetail authorizedSignatoryDetail) {
+<span class="fc" id="L128">        this.authorizedSignatoryDetail = authorizedSignatoryDetail;</span>
+<span class="fc" id="L129">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

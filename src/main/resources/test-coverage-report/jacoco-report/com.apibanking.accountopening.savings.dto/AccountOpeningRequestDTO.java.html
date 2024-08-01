@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountOpeningRequestDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.savings.dto</a> &gt; <span class="el_source">AccountOpeningRequestDTO.java</span></div><h1>AccountOpeningRequestDTO.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.savings.dto;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+<span class="fc" id="L11">public class AccountOpeningRequestDTO {</span>
+    @NotNull
+    private AccountType type;
+    @NotNull
+    @Valid
+    private Applicant applicant;
+    
+    @NotNull
+    @NotBlank
+    private String nationality;
+
+    @Pattern(regexp = &quot;[A-Z]{5}[0-9]{4}[A-Z]&quot;)
+    @NotNull
+    public String panNo;
+
+    @Pattern(regexp = &quot;\\d{12}&quot;)
+    @NotNull
+    private String aadhaarNo;
+    @NotNull
+    private boolean consentToLinkAadhaarWithAccount;
+    @NotNull
+    private LocalDate dateOfBirth;
+    @NotNull
+    private GenderType gender;
+    @NotNull
+    private String motherMaidenName;
+    @NotNull
+    private OperatingType operatingInstruction;
+    private String customerId;
+    @NotNull
+    @Valid
+    private Address[] address;
+    @NotNull
+    @Valid
+    private Contact contact;
+    @NotNull
+    @Valid
+    private CustomerProfile customerProfile;
+    @Valid
+    private Introducer introducer;
+    @NotNull
+    @Valid
+    private PaymentDetail paymentDetail;
+    @NotNull
+    @Valid
+    private DebitCardDetail debitCardDetail;
+    @NotNull
+    @Valid
+    private Nominee nominee;
+    @NotNull
+    private BigDecimal requiredAverageBalance;
+    private String productCode;
+
+    public AccountType getType() {
+<span class="fc" id="L65">        return type;</span>
+    }
+    public void setType(AccountType type) {
+<span class="fc" id="L68">        this.type = type;</span>
+<span class="fc" id="L69">    }</span>
+    public Applicant getApplicant() {
+<span class="fc" id="L71">        return applicant;</span>
+    }
+    public void setApplicant(Applicant applicant) {
+<span class="fc" id="L74">        this.applicant = applicant;</span>
+<span class="fc" id="L75">    }</span>
+    public String getNationality() {
+<span class="fc" id="L77">        return nationality;</span>
+    }
+    public void setNationality(String nationality) {
+<span class="fc" id="L80">        this.nationality = nationality;</span>
+<span class="fc" id="L81">    }</span>
+    public String getPanNo() {
+<span class="fc" id="L83">        return panNo;</span>
+    }
+    public void setPanNo(String panNo) {
+<span class="fc" id="L86">        this.panNo = panNo;</span>
+<span class="fc" id="L87">    }</span>
+    public String getAadhaarNo() {
+<span class="fc" id="L89">        return aadhaarNo;</span>
+    }
+    public void setAadhaarNo(String aadhaarNo) {
+<span class="fc" id="L92">        this.aadhaarNo = aadhaarNo;</span>
+<span class="fc" id="L93">    }</span>
+    public boolean isConsentToLinkAadhaarWithAccount() {
+<span class="fc" id="L95">        return consentToLinkAadhaarWithAccount;</span>
+    }
+    public void setConsentToLinkAadhaarWithAccount(boolean consentToLinkAadhaarWithAccount) {
+<span class="fc" id="L98">        this.consentToLinkAadhaarWithAccount = consentToLinkAadhaarWithAccount;</span>
+<span class="fc" id="L99">    }</span>
+    public LocalDate getDateOfBirth() {
+<span class="fc" id="L101">        return dateOfBirth;</span>
+    }
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+<span class="fc" id="L104">        this.dateOfBirth = dateOfBirth;</span>
+<span class="fc" id="L105">    }</span>
+    public GenderType getGender() {
+<span class="fc" id="L107">        return gender;</span>
+    }
+    public void setGender(GenderType gender) {
+<span class="fc" id="L110">        this.gender = gender;</span>
+<span class="fc" id="L111">    }</span>
+    public String getMotherMaidenName() {
+<span class="fc" id="L113">        return motherMaidenName;</span>
+    }
+    public void setMotherMaidenName(String motherMaidenName) {
+<span class="fc" id="L116">        this.motherMaidenName = motherMaidenName;</span>
+<span class="fc" id="L117">    }</span>
+    public OperatingType getOperatingInstruction() {
+<span class="fc" id="L119">        return operatingInstruction;</span>
+    }
+    public void setOperatingInstruction(OperatingType operatingInstruction) {
+<span class="fc" id="L122">        this.operatingInstruction = operatingInstruction;</span>
+<span class="fc" id="L123">    }</span>
+    public String getCustomerId() {
+<span class="fc" id="L125">        return customerId;</span>
+    }
+    public void setCustomerId(String customerId) {
+<span class="nc" id="L128">        this.customerId = customerId;</span>
+<span class="nc" id="L129">    }</span>
+    public Address[] getAddress() {
+<span class="fc" id="L131">        return address;</span>
+    }
+    public void setAddress(Address[] address) {
+<span class="fc" id="L134">        this.address = address;</span>
+<span class="fc" id="L135">    }</span>
+    public Contact getContact() {
+<span class="fc" id="L137">        return contact;</span>
+    }
+    public void setContact(Contact contact) {
+<span class="fc" id="L140">        this.contact = contact;</span>
+<span class="fc" id="L141">    }</span>
+    public CustomerProfile getCustomerProfile() {
+<span class="fc" id="L143">        return customerProfile;</span>
+    }
+    public void setCustomerProfile(CustomerProfile customerProfile) {
+<span class="fc" id="L146">        this.customerProfile = customerProfile;</span>
+<span class="fc" id="L147">    }</span>
+    public Introducer getIntroducer() {
+<span class="fc" id="L149">        return introducer;</span>
+    }
+    public void setIntroducer(Introducer introducer) {
+<span class="fc" id="L152">        this.introducer = introducer;</span>
+<span class="fc" id="L153">    }</span>
+    public PaymentDetail getPaymentDetail() {
+<span class="fc" id="L155">        return paymentDetail;</span>
+    }
+    public void setPaymentDetail(PaymentDetail paymentDetail) {
+<span class="fc" id="L158">        this.paymentDetail = paymentDetail;</span>
+<span class="fc" id="L159">    }</span>
+    public DebitCardDetail getDebitCardDetail() {
+<span class="fc" id="L161">        return debitCardDetail;</span>
+    }
+    public void setDebitCardDetail(DebitCardDetail debitCardDetail) {
+<span class="fc" id="L164">        this.debitCardDetail = debitCardDetail;</span>
+<span class="fc" id="L165">    }</span>
+    public Nominee getNominee() {
+<span class="fc" id="L167">        return nominee;</span>
+    }
+    public void setNominee(Nominee nominee) {
+<span class="fc" id="L170">        this.nominee = nominee;</span>
+<span class="fc" id="L171">    }</span>
+    public BigDecimal getRequiredAverageBalance() {
+<span class="fc" id="L173">        return requiredAverageBalance;</span>
+    }
+    public void setRequiredAverageBalance(BigDecimal requiredAverageBalance) {
+<span class="fc" id="L176">        this.requiredAverageBalance = requiredAverageBalance;</span>
+<span class="fc" id="L177">    }</span>
+    public String getProductCode() {
+<span class="fc" id="L179">        return productCode;</span>
+    }
+    public void setProductCode(String productCode) {
+<span class="fc" id="L182">        this.productCode = productCode;</span>
+<span class="fc" id="L183">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

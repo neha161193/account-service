@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Nominee.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.savings.entity</a> &gt; <span class="el_source">Nominee.java</span></div><h1>Nominee.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.savings.entity;
+
+import java.time.LocalDate;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+<span class="fc" id="L16">public class Nominee {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;    
+    @NotNull
+    private boolean optForNominee;
+    private String name;
+    @NotNull
+    @OneToOne(mappedBy = &quot;nominee&quot;, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Address address;
+    private String residenceTelephone;
+    private String relationWithApplicant;
+    private LocalDate dateOfBirth;
+    private String mobileNumber;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;accountOpeningRequest_id&quot;)
+    private AccountOpeningRequest accountOpeningRequest;
+
+    public Long getId() {
+<span class="fc" id="L35">        return id;</span>
+    }
+    public void setId(Long id) {
+<span class="fc" id="L38">        this.id = id;</span>
+<span class="fc" id="L39">    }</span>
+    public boolean isOptForNominee() {
+<span class="fc" id="L41">        return optForNominee;</span>
+    }
+    public void setOptForNominee(boolean optForNominee) {
+<span class="fc" id="L44">        this.optForNominee = optForNominee;</span>
+<span class="fc" id="L45">    }</span>
+    public String getName() {
+<span class="fc" id="L47">        return name;</span>
+    }
+    public void setName(String name) {
+<span class="fc" id="L50">        this.name = name;</span>
+<span class="fc" id="L51">    }</span>
+    public Address getAddress() {
+<span class="fc" id="L53">        return address;</span>
+    }
+    public void setAddress(Address address) {
+<span class="fc" id="L56">        this.address = address;</span>
+<span class="fc" id="L57">    }</span>
+    public String getResidenceTelephone() {
+<span class="fc" id="L59">        return residenceTelephone;</span>
+    }
+    public void setResidenceTelephone(String residenceTelephone) {
+<span class="fc" id="L62">        this.residenceTelephone = residenceTelephone;</span>
+<span class="fc" id="L63">    }</span>
+    public String getRelationWithApplicant() {
+<span class="fc" id="L65">        return relationWithApplicant;</span>
+    }
+    public void setRelationWithApplicant(String relationWithApplicant) {
+<span class="fc" id="L68">        this.relationWithApplicant = relationWithApplicant;</span>
+<span class="fc" id="L69">    }</span>
+    public LocalDate getDateOfBirth() {
+<span class="fc" id="L71">        return dateOfBirth;</span>
+    }
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+<span class="fc" id="L74">        this.dateOfBirth = dateOfBirth;</span>
+<span class="fc" id="L75">    }</span>
+    public String getMobileNumber() {
+<span class="fc" id="L77">        return mobileNumber;</span>
+    }
+    public void setMobileNumber(String mobileNumber) {
+<span class="fc" id="L80">        this.mobileNumber = mobileNumber;</span>
+<span class="fc" id="L81">    }</span>
+    public AccountOpeningRequest getAccountOpeningRequest() {
+<span class="nc" id="L83">        return accountOpeningRequest;</span>
+    }
+    public void setAccountOpeningRequest(AccountOpeningRequest accountOpeningRequest) {
+<span class="fc" id="L86">        this.accountOpeningRequest = accountOpeningRequest;</span>
+<span class="fc" id="L87">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

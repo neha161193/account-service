@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountOpeningRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking.accountopening.savings.entity</a> &gt; <span class="el_source">AccountOpeningRequest.java</span></div><h1>AccountOpeningRequest.java</h1><pre class="source lang-java linenums">package com.apibanking.accountopening.savings.entity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.hibernate.annotations.ColumnTransformer;
+
+import com.apibanking.accountopening.savings.dto.AccountStatus;
+import com.apibanking.accountopening.savings.dto.AccountType;
+import com.apibanking.accountopening.savings.dto.GenderType;
+import com.apibanking.accountopening.savings.dto.OperatingType;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+
+import jakarta.json.bind.annotation.JsonbTransient;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Index;
+import jakarta.validation.constraints.NotNull;
+
+/**
+ * Store saving account opening request and get application number in return
+ * inquire your account opening request with application no
+ * update your contact, using account opening PATCH api, for account status
+ * ACTIVE
+ * webhook to update the account status as ACTIVE from PendingActivation and put
+ * record into master account
+ */
+@Entity
+@Table(name = &quot;AccountOpeningRequest&quot;, indexes = {
+    @Index(name = &quot;idx_applicationNo&quot;, columnList = &quot;applicationNo&quot;)
+})
+<span class="fc" id="L45">public class AccountOpeningRequest implements Serializable {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String applicationNo;
+    @NotNull
+    private String applicantFirstName;
+    private String applicantMiddleName;
+    @NotNull
+    private String applicantLastName;
+    @NotNull
+    private String panNo;
+    private String aadhaarNo;
+    private String customerId;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AccountType type;
+    private String accountNo;
+<span class="fc" id="L63">    @NotNull</span>
+<span class="fc" id="L64">    private LocalDateTime requestTimestamp = LocalDateTime.now();</span>
+    private LocalDateTime responseTimestamp;
+    @NotNull
+    @JsonRawValue
+    @Column(columnDefinition = &quot;json&quot;)
+    @ColumnTransformer(write = &quot;?::jsonb&quot;)
+    private String requestPayload;
+    @JsonRawValue
+    @Column(columnDefinition = &quot;json&quot;)
+    @ColumnTransformer(write = &quot;?::jsonb&quot;)
+    private String responsePayload;
+    private LocalDate dateOfBirth;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
+    @Enumerated(EnumType.STRING)
+    private GenderType gender;
+    private String motherMaidenName;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private OperatingType operatingInstruction;
+    @JsonbTransient
+    @NotNull
+    @OneToMany(mappedBy = &quot;accountOpeningRequest&quot;, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List&lt;Address&gt; address;
+    @JsonbTransient
+    @NotNull
+    @OneToOne(mappedBy = &quot;accountOpeningRequest&quot;, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Contact contact;
+    @JsonbTransient
+    @NotNull
+    @OneToOne(mappedBy = &quot;accountOpeningRequest&quot;, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private DebitCardDetail debitCardDetail;
+    @JsonbTransient
+    @NotNull
+    @OneToOne(mappedBy = &quot;accountOpeningRequest&quot;, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Nominee nominee;
+    @JsonbTransient
+    @OneToMany(mappedBy = &quot;accountOpeningRequest&quot;, cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
+    private List&lt;AuthorizedSignatoryDetail&gt; accountAuthorizedSignatory;
+    @NotNull
+    private BigDecimal requiredAverageBalance;
+
+    public String getApplicationNo() {
+<span class="fc" id="L108">        return applicationNo;</span>
+    }
+
+    public void setApplicationNo(String applicationNo) {
+<span class="fc" id="L112">        this.applicationNo = applicationNo;</span>
+<span class="fc" id="L113">    }</span>
+
+    public String getApplicantFirstName() {
+<span class="fc" id="L116">        return applicantFirstName;</span>
+    }
+
+    public void setApplicantFirstName(String applicantFirstName) {
+<span class="fc" id="L120">        this.applicantFirstName = applicantFirstName;</span>
+<span class="fc" id="L121">    }</span>
+
+    public String getApplicantMiddleName() {
+<span class="nc" id="L124">        return applicantMiddleName;</span>
+    }
+
+    public void setApplicantMiddleName(String applicantMiddleName) {
+<span class="nc" id="L128">        this.applicantMiddleName = applicantMiddleName;</span>
+<span class="nc" id="L129">    }</span>
+
+    public String getApplicantLastName() {
+<span class="fc" id="L132">        return applicantLastName;</span>
+    }
+
+    public void setApplicantLastName(String applicantLastName) {
+<span class="fc" id="L136">        this.applicantLastName = applicantLastName;</span>
+<span class="fc" id="L137">    }</span>
+
+    public String getPanNo() {
+<span class="fc" id="L140">        return panNo;</span>
+    }
+
+    public void setPanNo(String panNo) {
+<span class="fc" id="L144">        this.panNo = panNo;</span>
+<span class="fc" id="L145">    }</span>
+
+    public String getAadhaarNo() {
+<span class="fc" id="L148">        return aadhaarNo;</span>
+    }
+
+    public void setAadhaarNo(String aadhaarNo) {
+<span class="fc" id="L152">        this.aadhaarNo = aadhaarNo;</span>
+<span class="fc" id="L153">    }</span>
+
+    public String getCustomerId() {
+<span class="fc" id="L156">        return customerId;</span>
+    }
+
+    public void setCustomerId(String customerId) {
+<span class="fc" id="L160">        this.customerId = customerId;</span>
+<span class="fc" id="L161">    }</span>
+
+    public LocalDateTime getRequestTimestamp() {
+<span class="nc" id="L164">        return requestTimestamp;</span>
+    }
+
+    public void setRequestTimestamp(LocalDateTime requestTimestamp) {
+<span class="nc" id="L168">        this.requestTimestamp = requestTimestamp;</span>
+<span class="nc" id="L169">    }</span>
+
+    public LocalDateTime getResponseTimestamp() {
+<span class="nc" id="L172">        return responseTimestamp;</span>
+    }
+
+    public void setResponseTimestamp(LocalDateTime responseTimestamp) {
+<span class="fc" id="L176">        this.responseTimestamp = responseTimestamp;</span>
+<span class="fc" id="L177">    }</span>
+
+    public String getRequestPayload() {
+<span class="nc" id="L180">        return requestPayload;</span>
+    }
+
+    public void setRequestPayload(String requestPayload) {
+<span class="fc" id="L184">        this.requestPayload = requestPayload;</span>
+<span class="fc" id="L185">    }</span>
+
+    public String getResponsePayload() {
+<span class="nc" id="L188">        return responsePayload;</span>
+    }
+
+    public void setResponsePayload(String responsePayload) {
+<span class="fc" id="L192">        this.responsePayload = responsePayload;</span>
+<span class="fc" id="L193">    }</span>
+
+    public LocalDate getDateOfBirth() {
+<span class="nc" id="L196">        return dateOfBirth;</span>
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+<span class="fc" id="L200">        this.dateOfBirth = dateOfBirth;</span>
+<span class="fc" id="L201">    }</span>
+
+    public GenderType getGender() {
+<span class="nc" id="L204">        return gender;</span>
+    }
+
+    public void setGender(GenderType gender) {
+<span class="fc" id="L208">        this.gender = gender;</span>
+<span class="fc" id="L209">    }</span>
+
+    public String getMotherMaidenName() {
+<span class="nc" id="L212">        return motherMaidenName;</span>
+    }
+
+    public void setMotherMaidenName(String motherMaidenName) {
+<span class="fc" id="L216">        this.motherMaidenName = motherMaidenName;</span>
+<span class="fc" id="L217">    }</span>
+
+    public OperatingType getOperatingInstruction() {
+<span class="nc" id="L220">        return operatingInstruction;</span>
+    }
+
+    public void setOperatingInstruction(OperatingType operatingInstruction) {
+<span class="fc" id="L224">        this.operatingInstruction = operatingInstruction;</span>
+<span class="fc" id="L225">    }</span>
+
+    public List&lt;Address&gt; getAddress() {
+<span class="fc" id="L228">        return address;</span>
+    }
+
+    public void setAddress(List&lt;Address&gt; address) {
+<span class="fc" id="L232">        this.address = address;</span>
+<span class="fc" id="L233">    }</span>
+
+    public Contact getContact() {
+<span class="fc" id="L236">        return contact;</span>
+    }
+
+    public void setContact(Contact contact) {
+<span class="fc" id="L240">        this.contact = contact;</span>
+<span class="fc" id="L241">    }</span>
+
+    public BigDecimal getRequiredAverageBalance() {
+<span class="fc" id="L244">        return requiredAverageBalance;</span>
+    }
+
+    public void setRequiredAverageBalance(BigDecimal requiredAverageBalance) {
+<span class="fc" id="L248">        this.requiredAverageBalance = requiredAverageBalance;</span>
+<span class="fc" id="L249">    }</span>
+
+    public DebitCardDetail getDebitCardDetail() {
+<span class="fc" id="L252">        return debitCardDetail;</span>
+    }
+
+    public void setDebitCardDetail(DebitCardDetail debitCardDetail) {
+<span class="fc" id="L256">        this.debitCardDetail = debitCardDetail;</span>
+<span class="fc" id="L257">    }</span>
+
+    public Nominee getNominee() {
+<span class="fc" id="L260">        return nominee;</span>
+    }
+
+    public void setNominee(Nominee nominee) {
+<span class="fc" id="L264">        this.nominee = nominee;</span>
+<span class="fc" id="L265">    }</span>
+
+    public AccountStatus getStatus() {
+<span class="fc" id="L268">        return status;</span>
+    }
+
+    public void setStatus(AccountStatus status) {
+<span class="fc" id="L272">        this.status = status;</span>
+<span class="fc" id="L273">    }</span>
+
+    public Integer getId() {
+<span class="fc" id="L276">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="fc" id="L280">        this.id = id;</span>
+<span class="fc" id="L281">    }</span>
+
+    public String getAccountNo() {
+<span class="fc" id="L284">        return accountNo;</span>
+    }
+
+    public void setAccountNo(String accountNo) {
+<span class="fc" id="L288">        this.accountNo = accountNo;</span>
+<span class="fc" id="L289">    }</span>
+
+    public List&lt;AuthorizedSignatoryDetail&gt; getAccountAuthorizedSignatory() {
+<span class="fc" id="L292">        return accountAuthorizedSignatory;</span>
+    }
+
+    public void setAccountAuthorizedSignatory(List&lt;AuthorizedSignatoryDetail&gt; accountAuthorizedSignatory) {
+<span class="fc" id="L296">        this.accountAuthorizedSignatory = accountAuthorizedSignatory;</span>
+<span class="fc" id="L297">    }</span>
+
+    public AccountType getType() {
+<span class="fc" id="L300">        return type;</span>
+    }
+
+    public void setType(AccountType type) {
+<span class="fc" id="L304">        this.type = type;</span>
+<span class="fc" id="L305">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

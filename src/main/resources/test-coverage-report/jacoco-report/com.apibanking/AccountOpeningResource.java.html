@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountOpeningResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">AccountOpeningResourceTest (QuarkusTest)</a> &gt; <a href="index.source.html" class="el_package">com.apibanking</a> &gt; <span class="el_source">AccountOpeningResource.java</span></div><h1>AccountOpeningResource.java</h1><pre class="source lang-java linenums">package com.apibanking;
+
+import java.util.List;
+
+import org.eclipse.microprofile.openapi.annotations.Operation;
+
+import com.apibanking.account.dto.AccountDTO;
+import com.apibanking.accountopening.current.dto.CurrentAccountRequestDTO;
+import com.apibanking.accountopening.fixeddeposit.dto.FixedDepositAccountRequestDTO;
+import com.apibanking.accountopening.savings.dto.AccountOpeningStatusDTO;
+import com.apibanking.accountopening.savings.dto.AccountOpeningRequestDTO;
+import com.apibanking.accountopening.savings.dto.AccountOpeningResponseDTO;
+import com.apibanking.accountopening.savings.dto.UpdateAccountOpeningStatusDTO;
+import com.apibanking.accountopening.savings.repository.SavingAccountRequestRepository;
+import com.apibanking.accountopening.service.AccountOpeningService;
+import com.apibanking.accountopening.service.AccountService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+@Path(&quot;/api/v1/accountservice&quot;)
+<span class="fc" id="L35">public class AccountOpeningResource {</span>
+
+    @Inject
+    SavingAccountRequestRepository repository;
+    @Inject
+    AccountOpeningService service;
+    @Inject
+    AccountService accountService;
+
+    @POST
+    @Path(&quot;/saving&quot;)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = &quot;OpenSavingAccount&quot;, description = &quot;This API will help new customers to open their saving account by providing required info. And in reponse applicationNo will be received which will be further used to check the application status&quot;)
+    public AccountOpeningResponseDTO openSavingAccountRequest(@Valid AccountOpeningRequestDTO accountDto)
+            throws JsonProcessingException {
+<span class="fc" id="L51">        return service.openSavingAccount(accountDto);</span>
+    }
+
+    @POST
+    @Path(&quot;/current&quot;)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+        summary = &quot;OpenCurrentAccount&quot;,
+        description = &quot;This API will help new customers to open their current account by providing required info. And in reponse applicationNo will be received which will be further used to check the application status&quot;
+    )
+    public AccountOpeningResponseDTO openCurrentAccountRequest(@Valid CurrentAccountRequestDTO accountDto)
+            throws JsonProcessingException {
+<span class="fc" id="L64">        return service.openCurrentAccount(accountDto);</span>
+    }
+
+    @POST
+    @Path(&quot;/fixeddeposit&quot;)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+        summary = &quot;OpenFixedDepositAccount&quot;,
+        description = &quot;This API will help existing customers to open their fixed deposit account by providing required info.And in reponse applicationNo will be received which will be further used to check the application status&quot;
+    )
+    public AccountOpeningResponseDTO openFixedDepositAccountRequest(@Valid FixedDepositAccountRequestDTO accountDto)
+            throws JsonProcessingException {
+<span class="fc" id="L77">        return service.openFixedDepositAccount(accountDto);</span>
+    }
+
+    @GET
+    @Path(&quot;/{applicationNo}&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+        summary = &quot;GetAccountOpeningStatus&quot;,
+        description = &quot;This API will help new /existing customers to check their account opening status by providing application No.&quot;
+    )
+    public AccountOpeningStatusDTO getAccountRequest(@PathParam(&quot;applicationNo&quot;) String applicationNo) {
+<span class="fc" id="L88">        return service.getAccount(applicationNo);</span>
+    }
+
+    @PATCH
+
+    @Path(&quot;/webhook-update&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(
+        summary = &quot;UpdateAccountStatusWebhook&quot;,
+        description = &quot;This webhook API will be called by backend team to update the account opening status&quot;
+    )
+    public Response updateAccountRequest(@Valid UpdateAccountOpeningStatusDTO accountStatusDto) {
+<span class="fc" id="L101">         service.updateAccount(accountStatusDto);</span>
+<span class="fc" id="L102">         return Response.status(Response.Status.ACCEPTED).build();</span>
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+        summary = &quot;GetAccount&quot;,
+        description = &quot;This API will be called by existing customers to check their account info&quot;
+    )
+    public List&lt;AccountDTO&gt; getAccount(@NotNull @NotBlank @QueryParam(&quot;customerId&quot;) String customerId, @QueryParam(&quot;accountNo&quot;) String accountNo) {
+<span class="fc" id="L112">        return accountService.getAllAccounts(customerId, accountNo);</span>
+    }
+
+    @PATCH
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+        summary = &quot;UpdateAccount&quot;,
+        description = &quot;This API will be called by existing customers to update their account info like nominee, address and contact&quot;
+    )
+    public AccountDTO updateAccountByCustomerIdAndAccountNo(@Valid AccountDTO accountDTO) {
+<span class="fc" id="L122">        return accountService.updateAccount(accountDTO);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
