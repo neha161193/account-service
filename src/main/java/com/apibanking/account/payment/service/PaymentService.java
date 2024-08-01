@@ -52,6 +52,7 @@ public class PaymentService {
 
     @Transactional
     public Response processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
+        LOG.info("Processing payment....." + LocalDateTime.now());
         try {
             Account account = validator.validateCustomerIdAndAccountNo(
                     paymentRequest.getToAccount().getCustomerId(),

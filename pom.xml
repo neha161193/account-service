@@ -35,6 +35,10 @@
             <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-fault-tolerance</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <scope>test</scope>
@@ -57,12 +61,12 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5</artifactId>
+            <artifactId>quarkus-junit5</artifactId> 
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId> 
+            <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -74,12 +78,12 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-validator</artifactId>
         </dependency>
-        <dependency>
+                <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm-panache</artifactId>
             <version>3.12.3</version>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm</artifactId>
         </dependency>
@@ -98,20 +102,20 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.17.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.13.0</version>
-        </dependency>
 <dependency>
-  <groupId>io.quarkus</groupId>
-  <artifactId>quarkus-jacoco</artifactId>
-  <scope>test</scope>
+  <groupId>com.fasterxml.jackson.datatype</groupId>
+  <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.0</version>
 </dependency>
         <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-jacoco</artifactId> 
+    <scope>test</scope>
+</dependency>
+<dependency>
     <groupId>org.mockito</groupId>
     <artifactId>mockito-core</artifactId>
-    <version>5.0.0</version> 
+    <version>5.0.0</version>
     <scope>test</scope>
 </dependency>
 <dependency>
@@ -120,12 +124,12 @@
     <version>5.0.0</version>
     <scope>test</scope>
 </dependency>
-<dependency>
-    <groupId>org.assertj</groupId>
-    <artifactId>assertj-core</artifactId>
-    <version>3.24.2</version>
-    <scope>test</scope>
-</dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.24.2</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
     <build>

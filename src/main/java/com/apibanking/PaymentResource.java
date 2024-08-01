@@ -1,9 +1,14 @@
 package com.apibanking;
 
+import java.io.IOException;
+import java.time.temporal.ChronoUnit;
+
+import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import com.apibanking.account.payment.dto.PaymentRequestDTO;
 import com.apibanking.account.payment.service.PaymentService;
+import com.apibanking.exception.BusinessErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.inject.Inject;
@@ -28,6 +33,7 @@ public class PaymentResource {
         summary = "ProcessPayment",
         description = "This API will be called by existing customers to transfer funds to their savings or current account."
     )
+    @Retry(delayUnit = ChronoUnit.SECONDS, maxRetries = 3, delay = 5, retryOn= BusinessErrorException.class)
     public Response processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
             return paymentService.processPayment(paymentRequest);
     }
