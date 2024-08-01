@@ -5,11 +5,15 @@ import jakarta.validation.constraints.NotNull;
 public class UpdateAccountOpeningStatusDTO {
     @NotNull
     private AccountType type;
+    @NotNull
     private String customerId;
+    @NotNull
     private String accountNo;
     @NotNull
     private AccountStatus status;
+    @NotNull
     private String applicationNo;
+    @NotNull
     private String interestRate;
 
     public AccountType getType() {

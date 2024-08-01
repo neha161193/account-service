@@ -129,6 +129,7 @@ public class AccountOpeningService {
     @Transactional
     public AccountOpeningResponseDTO openSavingAccount(AccountOpeningRequestDTO accountDto)
                     throws JsonProcessingException {
+
             AccountOpeningRequest accountOpeningRequestExist = repository.findByPanNo(
                             accountDto.getPanNo());
             if (accountOpeningRequestExist != null) {

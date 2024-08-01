@@ -10,8 +10,6 @@ import com.apibanking.account.dto.AccountDTO;
 import com.apibanking.account.entity.Account;
 import com.apibanking.account.entity.AccountAddress;
 import com.apibanking.account.repository.AccountAddressRepository;
-import com.apibanking.account.repository.AccountContactRepository;
-import com.apibanking.account.repository.AccountNomineeRepository;
 import com.apibanking.account.repository.AccountRepository;
 import com.apibanking.account.service.AccountValidator;
 
@@ -27,10 +25,6 @@ public class AccountService {
     AccountValidator validator;
     @Inject
     AccountAddressRepository accountAddressRepository;
-    @Inject
-    AccountContactRepository accountContactRepository;
-    @Inject
-    AccountNomineeRepository accountNomineeRepository;
     @Inject
     ModelMapper modelMapper;
 

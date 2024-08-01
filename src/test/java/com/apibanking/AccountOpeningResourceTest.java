@@ -6,6 +6,7 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
 import com.apibanking.accountopening.savings.dto.AccountType;
+import com.apibanking.accountopening.service.AccontHelper;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,8 +17,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 
@@ -117,23 +116,14 @@ class AccountOpeningResourceTest {
 
     }
 
-    private String getCustomerId(){
-        return UUID.randomUUID().toString().replace("-", "").toString();
-    }
-    private String getAccountNo(){
-        return String.valueOf(1000000 + new Random().nextInt(9000000)) + String.valueOf(100000000 + new Random().nextInt(900000000));
-    }
-    private String getPanNo(){
-        return "BHJKM" + String.valueOf(1000 + new Random().nextInt(9000)) + "P";
-    }
     @Test
     public void testSavingAccountSuccess() {
-        openAccount("saving-request.json", getPanNo(), getAccountNo(), null,getCustomerId(), AccountType.Saving.name());
+        openAccount("saving-request.json", AccontHelper.getPanNo(), AccontHelper.getAccountNo(), null,AccontHelper.getCustomerId(), AccountType.Saving.name());
     }
 
     @Test
     public void testCurrentAccountSuccess() {
-        openAccount("current-request.json", getPanNo(),getAccountNo(),  null, getCustomerId(), AccountType.Current.name());
+        openAccount("current-request.json", AccontHelper.getPanNo(),AccontHelper.getAccountNo(),  null, AccontHelper.getCustomerId(), AccountType.Current.name());
     }
 
     @Test
@@ -152,10 +142,10 @@ class AccountOpeningResourceTest {
 
     @Test
     public void testFixedDepositAccountWithValidAccountNoAndCustomerId() {
-        String accountNo = getAccountNo();
-        String customerId = getCustomerId();
-        openAccount("saving-request.json", getPanNo(), accountNo, null, customerId, AccountType.Saving.name());
-        openAccount("fixeddeposit-request.json", null, getAccountNo(), accountNo, customerId, AccountType.FixedDeposit.name());
+        String accountNo = AccontHelper.getAccountNo();
+        String customerId = AccontHelper.getCustomerId();
+        openAccount("saving-request.json", AccontHelper.getPanNo(), accountNo, null, customerId, AccountType.Saving.name());
+        openAccount("fixeddeposit-request.json", null, AccontHelper.getAccountNo(), accountNo, customerId, AccountType.FixedDeposit.name());
     }
 
     @Test
@@ -170,8 +160,8 @@ class AccountOpeningResourceTest {
 
     @Test
     public void testGetAccountWithGoodCustomerId() {
-        String customerId = getCustomerId();
-        openAccount("saving-request.json", getPanNo(), getAccountNo(), null,customerId, AccountType.Saving.name());
+        String customerId = AccontHelper.getCustomerId();
+        openAccount("saving-request.json", AccontHelper.getPanNo(), AccontHelper.getAccountNo(), null,customerId, AccountType.Saving.name());
 
         given()
                 .queryParam("customerId", customerId)
@@ -186,10 +176,10 @@ class AccountOpeningResourceTest {
 
     @Test
     public void testGetAccountWithGoodCustomerIdAndGoodAccountNo() {
-        String customerId = getCustomerId();
-        String accountNo = getAccountNo();
+        String customerId = AccontHelper.getCustomerId();
+        String accountNo = AccontHelper.getAccountNo();
 
-        openAccount("saving-request.json", getPanNo(), accountNo, null,customerId, AccountType.Saving.name());
+        openAccount("saving-request.json", AccontHelper.getPanNo(), accountNo, null,customerId, AccountType.Saving.name());
 
         given()
                 .queryParam("customerId", customerId)
@@ -204,10 +194,10 @@ class AccountOpeningResourceTest {
     }
     @Test
     public void testUpdateAccountStatus() {
-        String customerId = getCustomerId();
-        String accountNo = getAccountNo();
+        String customerId = AccontHelper.getCustomerId();
+        String accountNo = AccontHelper.getAccountNo();
 
-        openAccount("saving-request.json", getPanNo(), accountNo, null,customerId, AccountType.Saving.name());
+        openAccount("saving-request.json", AccontHelper.getPanNo(), accountNo, null,customerId, AccountType.Saving.name());
         Map<String, String> replacements = new HashMap<String, String>();
         replacements.put("${accountNo}", accountNo);
         replacements.put("${accountType}", AccountType.Saving.name());
@@ -237,11 +227,11 @@ class AccountOpeningResourceTest {
 
     @Test
     public void testGetAccountWithGoodCustomerIdAndBadAccountNo() {
-        String customerId = getCustomerId();
-        openAccount("saving-request.json", getPanNo(), getAccountNo(), null,customerId, AccountType.Saving.name());
+        String customerId = AccontHelper.getCustomerId();
+        openAccount("saving-request.json", AccontHelper.getPanNo(), AccontHelper.getAccountNo(), null,customerId, AccountType.Saving.name());
         given()
                 .queryParam("customerId", customerId)
-                .queryParam("accountNo", getAccountNo())
+                .queryParam("accountNo", AccontHelper.getAccountNo())
                 .when().get("/api/v1/accountservice")
                 .then()
                 .statusCode(404);
