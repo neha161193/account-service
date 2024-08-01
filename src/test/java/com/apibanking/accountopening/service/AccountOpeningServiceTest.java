@@ -19,44 +19,30 @@ import com.apibanking.accountopening.savings.entity.AccountOpeningRequest;
 import com.apibanking.accountopening.savings.repository.SavingAccountRequestRepository;
 import com.apibanking.accountopening.savings.entity.Address;
 import com.apibanking.accountopening.savings.entity.AuthorizedSignatoryDetail;
-import com.apibanking.accountopening.savings.entity.Contact;
-import com.apibanking.accountopening.savings.entity.DebitCardDetail;
-import com.apibanking.accountopening.savings.entity.Nominee;
-import com.apibanking.exception.BusinessErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import io.quarkus.test.junit.QuarkusTest;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.validation.constraints.NotNull;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
-import org.mockito.Mockito;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.lang.reflect.Type;
 
 import static org.assertj.core.api.Assertions.assertThat;

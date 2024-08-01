@@ -13,7 +13,7 @@ public class FromAccountDTO {
     private String bankBranch;
     @NotNull
     private String ifscCode;
-    
+
     public String getAccountNo() {
         return accountNo;
     }
