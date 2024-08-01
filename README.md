@@ -15,9 +15,18 @@ You can run your application in dev mode that enables live coding using:
 ./mvnw compile quarkus:dev
 ```
 
+## Code Coverage
 
+Code coverage can be generated using below command:
+```shell script
+./mvnw verify
+```
+Coverage report will be generated to /account-service/target/jacoco-report/index.html , which can be viewed in browser
 
+## Documentation
 
-Endpoint documentaion can be seen after running this project at http://localhost:8080/q/swagger-ui/
+Endpoint documentaion can be seen in 2 ways
+# 1. After running this project, it will be visible http://localhost:8080/q/swagger-ui/ 
+# 2. Or copy the src/main/resources/swagger/account-service.yaml to https://editor.swagger.io/ to see..
 
 Postman Collection can also be found at /src/main/resources/postman_collection/AccountService.postman_collection.json
