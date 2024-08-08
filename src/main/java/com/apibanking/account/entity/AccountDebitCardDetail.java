@@ -5,7 +5,6 @@ import com.apibanking.accountopening.savings.dto.CardType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,7 +23,7 @@ public class AccountDebitCardDetail {
     private boolean optForCard;
     @Enumerated(EnumType.STRING)
     private CardType cardType;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
     public Long getId() {

@@ -25,13 +25,13 @@ public class AccountNominee {
     private String name;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountNominee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountNominee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AccountAddress address;
     private String residenceTelephone;
     private String relationWithApplicant;
     private LocalDate dateOfBirth;
     private String mobileNumber;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
 

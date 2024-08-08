@@ -1,8 +1,6 @@
 package com.apibanking;
 
-import java.io.IOException;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.CompletableFuture;
 
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -34,14 +32,6 @@ public class PaymentResource {
     @Operation(summary = "ProcessPayment", description = "This API will be called by existing customers to transfer funds to their savings or current account.")
     @Retry(delayUnit = ChronoUnit.SECONDS, maxRetries = 3, delay = 5, retryOn = BusinessErrorException.class)
     public Uni<Response> processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
-            try {
-                return paymentService.processPayment(paymentRequest);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }));
+        return paymentService.processPayment(paymentRequest);
     }
 }

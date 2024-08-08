@@ -2,15 +2,14 @@ package com.apibanking.account.repository;
 
 import com.apibanking.account.entity.AccountAddress;
 
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.hibernate.reactive.panache.PanacheRepositoryBase;
+import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
+import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
-public class AccountAddressRepository implements PanacheRepository<AccountAddress> {
-    @Transactional
-    public void deleteByAccountId(Long accountId) {
-        deleteByAccountId(accountId);
-    }
+public class AccountAddressRepository implements PanacheRepositoryBase<AccountAddress, Long> {
+    
  
 }

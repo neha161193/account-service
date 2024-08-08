@@ -29,6 +29,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
+import io.smallrye.mutiny.Uni;
+
 @ApplicationScoped
 public class PaymentService {
     @Inject
@@ -50,13 +53,14 @@ public class PaymentService {
     
     private static final Logger LOG = Logger.getLogger(PaymentService.class);
 
-    @Transactional
-    public Response processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
+    @WithTransaction
+    public Uni<Response> processPayment(PaymentRequestDTO paymentRequest) throws JsonProcessingException {
         LOG.info("Processing payment....." + LocalDateTime.now());
-        try {
-            Account account = validator.validateCustomerIdAndAccountNo(
+        
+        return validator.validateCustomerIdAndAccountNo(
                     paymentRequest.getToAccount().getCustomerId(),
-                    paymentRequest.getToAccount().getAccountNo());
+                    paymentRequest.getToAccount().getAccountNo())
+                    .onItem().transformToUni(account -> {
             ObjectMapper om = new ObjectMapper();
             om = JsonMapper.builder()
                     .addModule(new JavaTimeModule())
@@ -68,7 +72,11 @@ public class PaymentService {
             transaction.setFromAccountNo(paymentRequest.getFromAccount().getAccountNo());
             transaction.setToAccountCustomerId(paymentRequest.getToAccount().getCustomerId());
             transaction.setToAccountNo(paymentRequest.getToAccount().getAccountNo());
-            transaction.setRequestPayload(ow.writeValueAsString(paymentRequest));
+            try {
+                transaction.setRequestPayload(ow.writeValueAsString(paymentRequest));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             transaction.setRequestTimestamp(LocalDateTime.now());
 
             if (paymentRequest.getAmount().compareTo(BigDecimal.ZERO) > 0) {
@@ -79,12 +87,27 @@ public class PaymentService {
 
                 PaymentResponseDTO response = buildResponse(successMessage, Status.Success);
 
-                transaction.setResponsePayload(ow.writeValueAsString(response));
+                try {
+                    transaction.setResponsePayload(ow.writeValueAsString(response));
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
                 transaction.setTransactionReferenceNo(response.getTransactionReferenceNo());
                 account.setAccountBalance(account.getAccountBalance().add(paymentRequest.getAmount()));
-                accountRepository.persist(account);
-                transactionRepository.persist(transaction);
-                return Response.ok(response).build();
+
+                // Asynchronously update the account balance and persist the transaction
+                return accountRepository.persist(account)
+                    .onItem().transformToUni(ignored -> transactionRepository.persist(transaction)
+                        .onItem().transform(ignored2 -> Response.ok(response).build())
+                        .onFailure().recoverWithItem(ex -> {
+                            LOG.error("Failed to persist transaction", ex);
+                            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                        })
+                    )
+                    .onFailure().recoverWithItem(ex -> {
+                        LOG.error("Failed to update account balance", ex);
+                        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                    });
             } else {
                 LOG.warnf("Payment failed: Account=%s, Amount=%.2f", paymentRequest.getToAccount().getAccountNo(),
                         paymentRequest.getAmount());
@@ -92,18 +115,23 @@ public class PaymentService {
                 transaction.setStatus(Status.Failed);
 
                 PaymentResponseDTO response = buildResponse(failureMessage, Status.Failed);
-                transaction.setResponsePayload(ow.writeValueAsString(response));
+                try {
+                    transaction.setResponsePayload(ow.writeValueAsString(response));
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
                 transaction.setTransactionReferenceNo(response.getTransactionReferenceNo());
-                transactionRepository.persist(transaction);
-                return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+                return transactionRepository.persist(transaction)
+                .onItem().transform(ignored -> Response.status(Response.Status.BAD_REQUEST).entity(response).build())
+                    .onFailure().recoverWithItem(ex -> {
+                        LOG.error("Failed to persist failed transaction", ex);
+                        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                    });
+
             }
-        } catch (NoResultException ex) {
-            throw new BusinessErrorException(
-                    "No Record Found for customerId " + paymentRequest.getToAccount().getCustomerId()
-                            + " and accountNo " + paymentRequest.getToAccount().getAccountNo(),
-                    Response.Status.NOT_FOUND);
-        }
-    }
+        
+    });
+}
 
     private PaymentResponseDTO buildResponse(String remarks, Status status) {
         PaymentResponseDTO response = new PaymentResponseDTO();

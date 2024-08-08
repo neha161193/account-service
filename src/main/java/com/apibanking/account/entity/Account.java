@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.apibanking.accountopening.savings.dto.AccountStatus;
 import com.apibanking.accountopening.savings.dto.AccountType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.CascadeType;
@@ -55,25 +56,24 @@ public class Account implements Serializable {
     private String accountHolderName;
     @JsonbTransient
     @NotNull
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AccountAddress> address  = new ArrayList<AccountAddress>();
 
     @JsonbTransient
     @NotNull
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AccountAuthorizedSignatory> accountAuthorizedSignatory  = new ArrayList<AccountAuthorizedSignatory>();
-
     @JsonbTransient
     @NotNull
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AccountContact contact;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AccountNominee nomineeDetail;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AccountDebitCardDetail debitCardDetail;
   
     public String getApplicationNo() {
@@ -180,15 +180,6 @@ public class Account implements Serializable {
         this.accountNo = accountNo;
     }
 
-    public void addAddress(AccountAddress address) {
-        this.address.add(address);
-        address.setAccount(this);
-    }
-
-    public void removeAddress(AccountAddress address) {
-        this.address.remove(address);
-        address.setAccount(null);
-    }
     public List<AccountAuthorizedSignatory> getAccountAuthorizedSignatory() {
         return accountAuthorizedSignatory;
     }

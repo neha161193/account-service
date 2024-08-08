@@ -45,9 +45,10 @@
     <version>3.0.1</version>
 </dependency>
 <dependency>
- <groupId>io.quarkus</groupId>
+    <groupId>io.quarkus</groupId>
     <artifactId>quarkus-rest-jackson</artifactId>
 </dependency>
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-fault-tolerance</artifactId>
@@ -65,10 +66,13 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jdbc-postgresql</artifactId>
-        </dependency>
+
+<!-- https://mvnrepository.com/artifact/io.quarkus/quarkus-reactive-pg-client -->
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-reactive-pg-client</artifactId>
+</dependency>
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId> 
@@ -83,15 +87,11 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-validator</artifactId>
         </dependency>
-                <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-orm-panache</artifactId>
-            <version>3.12.3</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-orm</artifactId>
-        </dependency>
+<dependency>
+<groupId>io.quarkus</groupId>
+<artifactId>quarkus-hibernate-reactive-panache</artifactId>
+<version>3.13.0</version>
+</dependency>
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>

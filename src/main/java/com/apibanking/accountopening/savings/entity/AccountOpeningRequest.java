@@ -84,22 +84,22 @@ public class AccountOpeningRequest implements Serializable {
     private OperatingType operatingInstruction;
     @JsonbTransient
     @NotNull
-    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Address> address;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Contact contact;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private DebitCardDetail debitCardDetail;
     @JsonbTransient
     @NotNull
-    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Nominee nominee;
     @JsonbTransient
-    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "accountOpeningRequest", cascade = CascadeType.ALL,  fetch = FetchType.EAGER)
     private List<AuthorizedSignatoryDetail> accountAuthorizedSignatory;
     @NotNull
     private BigDecimal requiredAverageBalance;

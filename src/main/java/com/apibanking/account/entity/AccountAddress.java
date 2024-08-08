@@ -7,7 +7,6 @@ import com.apibanking.accountopening.savings.dto.AddressType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -45,14 +44,14 @@ public class AccountAddress implements Serializable {
     private String state;
     @NotNull
     private String country;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "nominee_id")
     private AccountNominee accountNominee;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "accountAuthorizedSignatory_id")
     private AccountAuthorizedSignatory accountAuthorizedSignatory;
     

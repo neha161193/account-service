@@ -21,7 +21,7 @@ public class Nominee {
     private boolean optForNominee;
     private String name;
     @NotNull
-    @OneToOne(mappedBy = "nominee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "nominee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Address address;
     private String residenceTelephone;
     private String relationWithApplicant;

@@ -3,7 +3,6 @@ package com.apibanking.account.entity;
 import java.io.Serializable;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,7 +34,7 @@ public class AccountContact implements Serializable {
     private String mobileNumber;
     private String mobileNumberServiceProvider;
     private boolean instaAlert;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
 

@@ -32,7 +32,7 @@ public class AccountAuthorizedSignatory {
     private String applicantMiddleName;
     @NotNull
     private String applicantLastName;
-    @OneToOne(mappedBy = "accountAuthorizedSignatory", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "accountAuthorizedSignatory", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonbTransient
     @NotNull
     private AccountAddress address;
@@ -52,7 +52,7 @@ public class AccountAuthorizedSignatory {
     private String mobileNo;
     private String email;
     private boolean instaAlert;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 

@@ -1,7 +1,6 @@
 package com.apibanking;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
@@ -50,15 +49,7 @@ public class AccountOpeningResource {
     @Operation(summary = "OpenSavingAccount", description = "This API will help new customers to open their saving account by providing required info. And in reponse applicationNo will be received which will be further used to check the application status")
     public Uni<AccountOpeningResponseDTO> openSavingAccountRequest(@Valid AccountOpeningRequestDTO accountDto)
             throws JsonProcessingException {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
-            try {
                 return service.openSavingAccount(accountDto);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }));
     }
 
     @POST
@@ -66,16 +57,8 @@ public class AccountOpeningResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "OpenCurrentAccount", description = "This API will help new customers to open their current account by providing required info. And in reponse applicationNo will be received which will be further used to check the application status")
-    public Uni<AccountOpeningResponseDTO> openCurrentAccountRequest(@Valid CurrentAccountRequestDTO accountDto) {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
-            try {
-                return service.openCurrentAccount(accountDto);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }));
+    public Uni<AccountOpeningResponseDTO> openCurrentAccountRequest(@Valid CurrentAccountRequestDTO accountDto) throws JsonProcessingException {
+        return service.openCurrentAccount(accountDto);
     }
 
     @POST
@@ -84,17 +67,8 @@ public class AccountOpeningResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "OpenFixedDepositAccount", description = "This API will help existing customers to open their fixed deposit account by providing required info.And in reponse applicationNo will be received which will be further used to check the application status")
     public Uni<AccountOpeningResponseDTO> openFixedDepositAccountRequest(
-            @Valid FixedDepositAccountRequestDTO accountDto) {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
-            try {
-                return service.openFixedDepositAccount(accountDto);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }));
-
+            @Valid FixedDepositAccountRequestDTO accountDto) throws JsonProcessingException {
+        return service.openFixedDepositAccount(accountDto);
     }
 
     @GET
@@ -102,10 +76,7 @@ public class AccountOpeningResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "GetAccountOpeningStatus", description = "This API will help new /existing customers to check their account opening status by providing application No.")
     public Uni<AccountOpeningStatusDTO> getAccountRequest(@PathParam("applicationNo") String applicationNo) {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
             return service.getAccount(applicationNo);
-        }));
     }
 
     @PATCH
@@ -115,11 +86,12 @@ public class AccountOpeningResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "UpdateAccountStatusWebhook", description = "This webhook API will be called by backend team to update the account opening status")
     public Uni<Response> updateAccountRequest(@Valid UpdateAccountOpeningStatusDTO accountStatusDto) {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
-            service.updateAccount(accountStatusDto);
-            return Response.status(Response.Status.ACCEPTED).build();
-        }));
+        return service.updateAccount(accountStatusDto)
+        .onItem().transform(ignored -> Response.status(Response.Status.ACCEPTED).build())
+        .onFailure().recoverWithItem(ex -> {
+            System.out.println(ex);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        });
     }
 
     @GET
@@ -127,19 +99,13 @@ public class AccountOpeningResource {
     @Operation(summary = "GetAccount", description = "This API will be called by existing customers to check their account info")
     public Uni<List<AccountDTO>> getAccount(@NotNull @NotBlank @QueryParam("customerId") String customerId,
             @QueryParam("accountNo") String accountNo) {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
-            return accountService.getAllAccounts(customerId, accountNo);
-        }));
+        return accountService.getAllAccounts(customerId, accountNo);
     }
 
     @PATCH
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "UpdateAccount", description = "This API will be called by existing customers to update their account info like nominee, address and contact")
-    public Uni<AccountDTO> updateAccountByCustomerIdAndAccountNo(@Valid AccountDTO accountDTO) {
-        return Uni.createFrom().completionStage(() -> CompletableFuture.supplyAsync(() -> {
-            // Perform JTA transaction or other blocking operations
-            return accountService.updateAccount(accountDTO);
-        }));
+    public Uni<AccountDTO> updateAccountByCustomerIdAndAccountNo(@Valid AccountDTO accountDTO) {   
+        return accountService.updateAccount(accountDTO);
     }
 }
